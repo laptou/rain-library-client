@@ -1,0 +1,86 @@
+@import "../../sass/base";
+
+#view
+{
+    background:
+    {
+        image: url("../../img/rain.jpg");
+        size: cover;
+        position: center center;
+    }
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#banner
+{
+    background:
+    {
+        color: $accent-dark;
+        image: url("../../img/wordmark-small.png");
+        size: auto 10pt;
+        repeat: no-repeat;
+        position: 48pt center;
+    }
+
+    color: white;
+    height: 16pt;
+}
+
+article
+{
+    background:
+    {
+        repeat: repeat-x;
+        position: 0 0;
+        image: url("../../img/pattern-1.png");
+        color: rgba(255, 255, 255, 0.8);
+        size: 250pt;
+        blend-mode: multiply;
+        clip: border-box;
+    }
+
+    box-shadow: 0 0 5pt transparentize(black, 0.51);
+    width: 500pt;
+    padding-top: 48pt;
+    padding-left: 48pt;
+
+    #status
+    {
+        font-weight: bold;
+        font-size: 14pt;
+        color: transparentize(black, 0.51);
+        text-transform: uppercase;
+    }
+
+    h2
+    {
+        color: $accent-dark;
+        font-size: 20pt;
+        text-transform: uppercase;
+        line-height: 1.5em;
+    }
+
+    #name
+    {
+        color: $accent-light;
+        font-size: 32pt;
+    }
+
+    #books-authored
+    {
+        ul
+        {
+            list-style: none;
+        }
+    }
+
+    position: fixed;
+    top: 16pt;
+    bottom: 0;
+    left: 0;
+}
