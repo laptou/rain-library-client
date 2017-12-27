@@ -1,8 +1,10 @@
 import Vue from "vue";
 import HomePage from "./component/home/home.vue";
-/// <reference types="model" />
-var model = require("model");
-var b = new model.Book(null, null, null);
+
+if(module.hot) {
+    module.hot.accept();
+    console.log("it's a 100 degrees :)");
+}
 
 new Vue(
     {
