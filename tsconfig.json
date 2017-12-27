@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
+    "outDir": "./dist/",
     "module": "commonjs",
     "target": "es2017",
     "sourceMap": true,
-    "strict": true,
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "noImplicitThis": false,
-    "strictNullChecks": false
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["node_modules/@types", "src/typings"]
   },
   "exclude": [
     "node_modules"
