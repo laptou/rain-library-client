@@ -1,17 +1,46 @@
-#background
-{
+%background {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
 
-    opacity: 0.8;
-    animation: @fade-in;
+    opacity: 0;
+    transition-duration: 1.5s;
+    transition-property: opacity;
+
+    &.loaded {
+        opacity: 0.8;
+    }
 
     perspective: 2px;
     background-size: 100%;
     z-index: -1;
+}
+
+#root {
+    padding: 0;
+    margin: 0;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+}
+
+#background
+{
+    @extend %background;
+    background: linear-gradient(to bottom, dodgerblue 0%, blue 100%);
+}
+
+#old-background
+{
+    @extend %background;
+}
+
+#background-attribution {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 1em;
 }
 
 #title-container
@@ -20,21 +49,63 @@
 
     h1
     {
-        color: #b3b3b3;
         font-family: "Roboto Condensed", sans-serif;
         font-weight: bold;
-        font-size: 32pt;
+        font-size: 48pt;
         display: inline-block;
         text-align: left;
-
-        &.light-text
-        {
-            mix-blend-mode: color-dodge;
-        }
-
-        &.dark-text
-        {
-            mix-blend-mode: color-burn;
-        }
     }
+}
+
+.text-dark
+{
+    mix-blend-mode: color-dodge;
+    color: hsl(0, 0, 20);
+}
+
+.text-light
+{
+    mix-blend-mode: color-burn;
+    color: hsl(0, 0, 80);
+}
+
+.block-dark
+{
+    a {
+        color: dodgerblue;
+    }
+
+    background-color: hsla(0, 0, 10, 0.5);
+    color: white;
+}
+
+.block-colorful
+{
+    a {
+        color: blue;
+    }
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+}
+
+.block-light
+{
+    a {
+        color: blue;
+    }
+
+    background-color: hsla(0, 0, 90, 0.5);
+    color: black;
+}
+
+.text-colorful
+{
+    color: dodgerblue;
+    mix-blend-mode: exclusion;
+}
+
+a {
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
 }

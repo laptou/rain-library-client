@@ -1,9 +1,19 @@
 <template>
     <div id="root">
-        <div id="background" v-bind:style="{ 'background-image': images }">
+        <div id="background"
+             :style="{ 'background-image': background.image }"
+             :class="[ background.loaded ? 'loaded' : null ]">
+
         </div>
+        <div id="old-background"
+             :style="{ 'background-image': background.oldImage }"
+             :class="[ !background.loaded ? 'loaded' : null ]">
+        </div>
+        <span id="background-attribution" v-if="background.author" v-bind:class="`block-${theme}`">
+            Photo by <a :href="background.author.url">{{ background.author.name }}</a>
+        </span>
         <div id="title-container">
-            <h1 id="title" v-bind:class="textStyle">
+            <h1 id="title" v-bind:class="`text-${theme}`">
                 RAIN <br/>
                 INSTITUTE <br/>
                 LIBRARY
@@ -19,17 +29,43 @@
     import * as vue from "av-ts";
     import Unsplash, { toJson } from "unsplash-js";
     import Vue from "vue";
+    import axios, { AxiosResponse } from "axios";
     import * as colors from "color-convert";
+    import { color_info } from "../../lib/brightness";
+
+    enum Theme
+    {
+        Colorful = "colorful",
+        Dark = "dark",
+        Light = "light"
+    }
 
     @vue.Component
     export default class Home extends Vue
     {
-        images = "";
-        textStyle = "text-dodge";
+        background: {
+            image: string | null;
+            oldImage: string | null;
+            loaded: boolean,
+            author: { name: string, url: string } | null
+        } = { image: null, oldImage: null, loaded: false, author: null };
+
+        theme: Theme | null = null;
 
         @vue.Lifecycle
-        beforeCreate ()
+        created ()
         {
+            {
+                const background = localStorage.getItem("home::background");
+                const theme = localStorage.getItem("home::theme");
+
+                if (background && theme)
+                {
+                    this.background.oldImage = `${background}`;
+                    this.theme = <Theme>theme;
+                }
+            }
+
             (async () =>
             {
                 const unsplash = new Unsplash(
@@ -39,23 +75,55 @@
                         callbackUrl: "urn:ietf:wg:oauth:2.0:oob"
                     });
 
+                let width = window.innerWidth;
                 let bgData: any = await toJson(await unsplash.photos.getRandomPhoto(
                     {
-                        width: 1920, query: "rain", orientation: "landscape"
+                        width: width, query: "rain", orientation: "landscape"
                     }));
 
-                var color = colors.hex.hsl.raw(bgData.color);
+                let response: AxiosResponse<Blob> = await axios.get(
+                    bgData.urls.custom,
+                    {
+                        method: "GET",
+                        responseType: "blob"
+                    });
+                const blob = response.data;
+                const reader = new FileReader();
+                const data = await new Promise((resolve, reject) =>
+                                               {
+                                                   reader.onerror = () => reject(reader.error);
+                                                   reader.onloadend = () => resolve(reader.result);
+                                                   reader.readAsDataURL(blob);
+                                               });
 
-                console.log(bgData.color);
-                console.log(color);
+                this.background.image = `url(${data})`;
 
-                if (color[0] < 60) this.textStyle = "light-text";
-                else this.textStyle = "dark-text";
+                try
+                {
+                    const height = width / bgData.width * bgData.height;
+                    const info = await color_info(blob, width, height);
 
-                this.images = `url("${bgData.urls.custom}"), ` +
-                              `url("${bgData.urls.regular}"), ` +
-                              `url("${bgData.urls.small}"), ` +
-                              `url("${bgData.urls.thumb}")`;
+                    console.log(`color_info returned ${JSON.stringify(info)}`);
+
+                    if (info.saturation < -0.9) this.theme = Theme.Colorful;
+                    else if (info.brightness < -0.3) this.theme = Theme.Dark;
+                    else if (info.brightness > 0.3) this.theme = Theme.Light;
+                    else this.theme = Theme.Colorful;
+                }
+                catch
+                {
+                    const color = colors.hex.hsl.raw(bgData.color);
+
+                    if (color[1] < 10) this.theme = Theme.Colorful;
+                    else if (color[2] < 40) this.theme = Theme.Dark;
+                    else this.theme = Theme.Light;
+                }
+
+                localStorage.setItem("home::background", this.background.image);
+                localStorage.setItem("home::theme", this.theme);
+
+                this.background.author = { name: bgData.user.name, url: bgData.user.links.html };
+                this.background.loaded = true;
             })();
         }
     };
