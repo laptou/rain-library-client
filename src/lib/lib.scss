@@ -1,0 +1,7 @@
+@mixin outset($dist)
+{
+    top: $dist;
+    left: $dist;
+    right: $dist;
+    bottom: $dist;
+}

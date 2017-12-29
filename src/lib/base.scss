@@ -1,0 +1,56 @@
+.text-dark
+{
+    mix-blend-mode: color-dodge;
+    color: hsl(0, 0, 20);
+}
+
+.text-light
+{
+    mix-blend-mode: color-burn;
+    color: hsl(0, 0, 80);
+}
+
+.text-colorful
+{
+    color: dodgerblue;
+    mix-blend-mode: exclusion;
+}
+
+.block-dark
+{
+    a
+    {
+        color: dodgerblue;
+    }
+
+    background-color: hsla(0, 0, 10, 0.5);
+    color: white;
+}
+
+.block-colorful
+{
+    a
+    {
+        color: blue;
+    }
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+}
+
+.block-light
+{
+    a
+    {
+        color: blue;
+    }
+
+    background-color: hsla(0, 0, 90, 0.5);
+    color: black;
+}
+
+a
+{
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
+}

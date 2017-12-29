@@ -2,14 +2,28 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "module": "es2015",
-    "target": "es2017",
+    "target": "es2015",
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "typeRoots": ["node_modules/@types", "src/typings"]
+    "baseUrl": ".",
+    "paths": {
+      "@lib/*": [
+        "src/lib/*"
+      ],
+      "@component/*": [
+        "src/component/*"
+      ],
+      "@page/*": [
+        "src/component/page/*"
+      ],
+      "@control/*": [
+        "src/component/control/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"
