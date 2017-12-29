@@ -16,7 +16,7 @@
 
         <div id="logo-container">
             <div id="logo-box">
-                <acrylic :background="background.image">
+                <acrylic :background="background.image" :mode="image">
                     <div id="logo-border" :class="`text-${theme}`"></div>
                 </acrylic>
                 <div id="title-container">
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-    import Acrylic from "@control/acrylic.vue";
+    import Acrylic from "@control/acrylic/acrylic.vue";
     import * as blobTools from "@lib/blob-tools";
     import * as vue from "av-ts";
     import axios from "axios";
@@ -54,7 +54,6 @@
         Dark = "dark",
         Light = "light"
     }
-
 
     @vue.Component({ components: { Acrylic } })
     export default class Home extends Vue

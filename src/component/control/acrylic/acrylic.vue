@@ -1,7 +1,8 @@
 <template>
     <div class="acrylic">
         <div id="acrylic-background-blank"></div>
-        <div id="acrylic-background" :style="{ 'background-image': background }"></div>
+        <div id="acrylic-background" :style="style">
+        </div>
         <div id="acrylic-content">
             <slot/>
         </div>
@@ -12,10 +13,24 @@
     import * as vue from "av-ts";
     import Vue from "vue";
 
+    export enum Mode
+    {
+        Image = "image",
+        Color = "color"
+    }
+
     @vue.Component
     export default class Acrylic extends Vue
     {
         @vue.Prop background = vue.p(String);
+        @vue.Prop mode: string | Mode = vue.p(String) || Mode.Image; // underlying type of enum is number
+
+        get style ()
+        {
+            return this.mode == Mode.Color
+                ? { "background-color": this.background }
+                : { "background-image": this.background };
+        }
     }
 </script>
 
@@ -24,6 +39,7 @@
     {
         overflow: hidden;
         position: relative;
+        transition-duration: 0.15s;
     }
 
     @mixin outset($dist)
@@ -52,8 +68,8 @@
     #acrylic-background
     {
         @extend %background;
-        @include outset(-1em);
-        filter: blur(1em);
+        @include outset(-0.5em);
+        filter: blur(0.5em);
         opacity: 0.8;
     }
 

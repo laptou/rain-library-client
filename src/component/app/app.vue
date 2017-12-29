@@ -1,5 +1,8 @@
 <template>
-    <router-view/>
+    <div>
+        <router-view/>
+
+    </div>
 </template>
 
 <script lang="ts">
@@ -10,9 +13,11 @@
     export default class App extends Vue
     {
 
-    };
+    }
 </script>
 
-<style scoped>
-
+<style>
+    /*noinspection CssUnknownTarget*/
+    @import url("https://fonts.googleapis.com/css?family=Noto+Serif|Roboto|Roboto+Condensed:700");
 </style>
+<style src="@lib/base.scss" lang="sass"></style>

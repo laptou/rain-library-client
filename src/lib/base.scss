@@ -12,7 +12,7 @@
 
 .text-colorful
 {
-    color: dodgerblue;
+    color: white;
     mix-blend-mode: exclusion;
 }
 
@@ -53,4 +53,15 @@ a
     color: blue;
     font-weight: bold;
     text-decoration: none;
+}
+
+body
+{
+    font-family: "Roboto";
+    height: 100vh;
+    margin: 0;
+    overflow: auto;
+    padding: 0;
+    width: 100vw;
+    perspective: 4000px;
 }
