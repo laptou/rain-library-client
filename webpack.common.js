@@ -11,7 +11,7 @@ const plugins = [
             inject: true,
             template: "src/index.html"
         }),
-    new CleanWebpackPlugin(["dist"], { verbose: process.env.NODE_ENV === "development" })
+    new CleanWebpackPlugin(["dist"], { verbose: false })
 ];
 
 module.exports = {
@@ -36,9 +36,7 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: {
-                    loader: "ts-loader", options: {
-                        appendTsSuffixTo: [/\.vue$/]
-                    }
+                    loader: "ts-loader", options: { appendTsSuffixTo: [/\.vue$/], silent: true }
                 },
                 exclude: /node_modules/
             },
@@ -52,7 +50,7 @@ module.exports = {
                 loader: "vue-loader",
                 options: {
                     loaders: {
-                        scss: "vue-style-loader!css-loader!sass-loader"
+                        scss: "cache-loader!css-loader!sass-loader"
                     }
                 }
             }

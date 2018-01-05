@@ -19,7 +19,6 @@
     {
         opacity: 0.8;
     }
-    perspective: 2px;
 }
 
 #root
@@ -108,40 +107,14 @@
 #content-container
 {
     @include scut-center-block(80%);
+}
 
-    #search-container
+#search-container
+{
+    text-align: center;
+
+    .autocomplete
     {
-        text-align: center;
-
-        input
-        {
-            background-image: linear-gradient(to top, hsla(0, 0%, 93%, 1), white);
-            border: 1px solid grey;
-            border-radius: 4pt;
-            box-shadow: 0 0 5pt 0 rgba(0, 0, 0, 0.5);
-            font-family: Roboto, sans-serif;
-            font-size: 20pt;
-            height: 2.5em;
-            outline: none;
-            text-align: center;
-            transition-duration: 0.15s;
-            width: 100%;
-
-            &:focus
-            {
-                box-shadow: 0 0 15pt 0 rgba(0, 0, 0, 0.5);
-                transform: translateZ(20px);
-
-                &::placeholder
-                {
-                    opacity: 0;
-                }
-            }
-
-            &::placeholder
-            {
-                transition-duration: 0.15s;
-            }
-        }
+        margin-bottom: 5em;
     }
 }

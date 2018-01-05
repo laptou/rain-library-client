@@ -1,13 +1,13 @@
 .text-dark
 {
-    mix-blend-mode: color-dodge;
     color: hsl(0, 0, 20);
+    mix-blend-mode: color-dodge;
 }
 
 .text-light
 {
-    mix-blend-mode: color-burn;
     color: hsl(0, 0, 80);
+    mix-blend-mode: color-burn;
 }
 
 .text-colorful
@@ -18,34 +18,32 @@
 
 .block-dark
 {
+    background-color: hsla(0, 0, 10, 0.5);
+    color: white;
     a
     {
         color: dodgerblue;
     }
-
-    background-color: hsla(0, 0, 10, 0.5);
-    color: white;
 }
 
 .block-colorful
 {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
     a
     {
         color: blue;
     }
-    background-color: rgba(255, 255, 255, 0.5);
-    color: black;
 }
 
 .block-light
 {
+    background-color: hsla(0, 0, 90, 0.5);
+    color: black;
     a
     {
         color: blue;
     }
-
-    background-color: hsla(0, 0, 90, 0.5);
-    color: black;
 }
 
 a
@@ -55,13 +53,18 @@ a
     text-decoration: none;
 }
 
+html
+{
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
 body
 {
-    font-family: "Roboto";
-    height: 100vh;
-    margin: 0;
+    @extend html;
+    font-family: "Roboto", sans-serif;
     overflow: auto;
-    padding: 0;
-    width: 100vw;
     perspective: 4000px;
 }

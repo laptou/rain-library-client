@@ -1,12 +1,12 @@
 <template>
     <div class="root">
         <div id="background"
-             :style="{ 'background-image': background.image }"
+             :style="{ 'background-image': image }"
              :class="[ background.loaded ? 'loaded' : null ]">
 
         </div>
         <div id="old-background"
-             :style="{ 'background-image': background.oldImage }"
+             :style="{ 'background-image': oldImage }"
              :class="[ !background.loaded ? 'loaded' : null ]">
         </div>
 
@@ -16,7 +16,7 @@
 
         <div id="logo-container">
             <div id="logo-box">
-                <acrylic :background="background.image" :mode="image">
+                <acrylic :background="image || oldImage" :mode="'image'">
                     <div id="logo-border" :class="`text-${theme}`"></div>
                 </acrylic>
                 <div id="title-container">
@@ -30,9 +30,14 @@
         </div>
         <div id="content-container">
             <div id="search-container">
-                <input id="search-box" placeholder="search for books, authors, and more!"
-                       v-model.trim="query"/>
-                {{ suggestions }}
+                <autocomplete :itemsSource="suggestions"
+                              :itemLabelSelector="(item) => item.name"
+                              :itemDescriptionSelector="(item) => printInfo(item)"
+                              :placeholder="'search for books, authors, and more!'"
+                              :acrylic-background="image || oldImage"
+                              @querychanged="onQueryChanged">
+
+                </autocomplete>
             </div>
         </div>
     </div>
@@ -40,8 +45,10 @@
 
 <script lang="ts">
     import Acrylic from "@control/acrylic/acrylic.vue";
+    import Autocomplete from "@control/autocomplete/autocomplete.vue";
     import * as blobTools from "@lib/blob-tools";
     import * as vue from "av-ts";
+
     import axios from "axios";
     import * as colors from "color-convert";
 
@@ -55,21 +62,19 @@
         Light = "light"
     }
 
-    @vue.Component({ components: { Acrylic } })
+    @vue.Component({ components: { Acrylic, Autocomplete } })
     export default class Home extends Vue
     {
         background: {
-            image: string | null;
-            oldImage: string | null;
             loaded: boolean,
             author: { name: string, url: string } | null
-        } = { image: null, oldImage: null, loaded: false, author: null };
+        } = { loaded: false, author: null };
 
-        theme: Theme | null = null;
+        image: string = "";
+        oldImage: string = "";
+        theme: Theme = Theme.Dark;
 
         suggestions: any[] = [];
-
-        query: string = "";
 
         @vue.Lifecycle
         created ()
@@ -78,26 +83,37 @@
             this.refreshBackground();
         }
 
-        @vue.Watch("query")
         onQueryChanged (newVal: string, oldVal: string)
         {
-            this.suggestions = [];
-
-            if (this.query)
+            if (newVal)
             {
                 (async () =>
                 {
+                    let suggestions = [];
                     try
                     {
-                        let res = await axios.get("/api/book/find/title:" + this.query);
-                        this.suggestions.push(... res.data);
+                        let res = await axios.get("/api/book/find/title:" + newVal);
+                        suggestions.push(... res.data);
                     }
                     catch
                     {
                         // do nothing for now
                     }
+
+                    this.suggestions = suggestions;
                 })();
             }
+            else this.suggestions = [];
+        }
+
+        printInfo (item: any): string
+        {
+            let info = "";
+            if (item.authors)
+            {
+                info += item.authors.map((a: any) => a.name.first + " " + a.name.last).join(" ");
+            }
+            return info;
         }
 
         retrieveBackground ()
@@ -107,7 +123,7 @@
 
             if (background && theme)
             {
-                this.background.oldImage = `url(${background})`;
+                this.oldImage = `url(${background})`;
                 this.theme = <Theme>theme;
             }
         }
@@ -130,7 +146,7 @@
 
             const imgData = await blobTools.getURLAsBlob(bgData.urls.custom);
 
-            this.background.image = `url(${blobTools.getBlobAsObjectURL(imgData)})`;
+            this.image = `url(${blobTools.getBlobAsObjectURL(imgData)})`;
 
             try
             {
@@ -161,5 +177,5 @@
     };
 </script>
 
-<style src='@lib/base.scss' lang="sass"></style>
-<style scoped src="./home.scss" lang="sass"></style>
+<style src='@lib/base.scss' lang="scss"></style>
+<style scoped src="./home.scss" lang="scss"></style>

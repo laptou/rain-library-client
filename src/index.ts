@@ -15,6 +15,6 @@ new Vue(
         router: new VueRouter({ routes: require("./routes").routes }),
         template: "<div><App /></div>",
         components: {
-            App
+            App 
         }
     });
