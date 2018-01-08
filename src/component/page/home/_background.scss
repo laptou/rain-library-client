@@ -1,0 +1,30 @@
+%background
+{
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    transition-duration: 1.5s;
+    transition-property: opacity;
+    width: 100%;
+    z-index: -1;
+
+    &.loaded
+    {
+        opacity: 0.8;
+    }
+}
+
+#background
+{
+    @extend %background;
+    background-image: linear-gradient(to bottom, dodgerblue 0%, blue 100%);
+}
+
+#old-background
+{
+    @extend %background;
+}

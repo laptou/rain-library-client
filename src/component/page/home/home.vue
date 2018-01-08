@@ -12,12 +12,12 @@
             </div>
 
             <span id="attribution-container" v-if="background.author" v-bind:class="`block-${theme}`">
-            Photo by <a :href="background.author.url">{{ background.author.name }}</a>
-        </span>
+                Photo by <a :href="background.author.url">{{ background.author.name }}</a>
+            </span>
 
             <span v-if="user" id="user-container" v-bind:class="`block-${theme}`">
-            Welcome, {{ user.name.first + " " + user.name.last }}
-        </span>
+                Welcome, {{ user.name.first + " " + user.name.last }}
+            </span>
 
             <div id="logo-container">
                 <div id="logo-box">
@@ -116,14 +116,17 @@
         @vue.Lifecycle
         created ()
         {
-            this.retrieveBackground();
-            this.refreshBackground();
 
-            (async () =>
-            {
-                console.log(await auth.login("reeraa", "ahh"));
-                this.user = await auth.getCurrentUser();
-            })();
+
+            setTimeout(async () =>
+                       {
+                           // authentication
+                           this.user = await auth.getCurrentUser();
+
+                           // aesthetics
+                           this.retrieveBackground();
+                           await this.refreshBackground();
+                       }, 0);
         }
 
         onQueryChanged (newVal: string, oldVal: string)
@@ -221,5 +224,5 @@
 
 
 <style src='@lib/base.scss' lang="scss"></style>
-<style scoped src="./home.scss" lang="scss"></style>
+<style src="./home.scss" lang="scss"></style>
 

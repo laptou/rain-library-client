@@ -1,28 +1,6 @@
 @import "~scut";
-
-@region background styles
-{
-}
-
-%background
-{
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-    left: 0;
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    transition-duration: 1.5s;
-    transition-property: opacity;
-    width: 100%;
-    z-index: -1;
-
-    &.loaded
-    {
-        opacity: 0.8;
-    }
-}
+@import "_background";
+@import "_content";
 
 #root
 {
@@ -34,94 +12,13 @@
     padding: 0;
 }
 
-#background
-{
-    @extend %background;
-    background-image: linear-gradient(to bottom, dodgerblue 0%, blue 100%);
-}
-
-#old-background
-{
-    @extend %background;
-}
-
-#logo-container
-{
-    text-align: center;
-
-    .acrylic
-    {
-        bottom: 0;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-
-    #logo-box
-    {
-        display: inline-block;
-        margin: 4em 0 4em 0;
-        position: relative;
-        &::before
-        {
-            content: "";
-            display: block;
-            float: left;
-            padding-bottom: 100%;
-        }
-
-        mix-blend-mode: normal;
-    }
-
-    #logo-border
-    {
-        border: 0.5em solid currentColor;
-        bottom: 0;
-        box-sizing: border-box;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-
-    #title-container
-    {
-        padding: 1em;
-    }
-
-    #title
-    {
-        display: block;
-        font-family: "Roboto Condensed", sans-serif;
-        font-size: 48pt;
-        font-weight: bold;
-        margin: 12pt 12pt 0;
-        text-align: left;
-    }
-}
-
-#content-container
-{
-    @include scut-center-block(80%);
-}
-
-#search-container
-{
-    text-align: center;
-
-    .autocomplete
-    {
-        margin-bottom: 5em;
-    }
-}
-
 #user-container
 {
     padding: 0.5em;
     position: fixed;
     right: 1em;
     top: 1em;
+    border-radius: 0.5em;
 }
 
 #attribution-container
@@ -130,4 +27,35 @@
     padding: 0.5em;
     position: fixed;
     right: 1em;
+    border-radius: 0.5em;
+}
+
+.vb
+{
+    .vb-dragger
+    {
+        z-index: 5;
+        width: 12px;
+        right: 0;
+
+        .vb-dragger-styler
+        {
+            transition-duration: 0.15s;
+            transition-property: background-color;
+            background-color: rgba(255, 255, 255, .1);
+            mix-blend-mode: exclusion;
+            margin: 5px 5px 5px 0;
+            border-radius: 20px;
+            height: calc(100% - 10px);
+            display: block;
+        }
+    }
+
+    &.vb-scrolling-phantom, &.vb-dragging
+    {
+        .vb-dragger-styler
+        {
+            background-color: rgba(255, 255, 255, .5);
+        }
+    }
 }
