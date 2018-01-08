@@ -4,6 +4,7 @@ const webpack = require("webpack");
 
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HappyPack = require("happypack");
 
 module.exports = merge(common, {
     plugins: [
@@ -24,6 +25,27 @@ module.exports = merge(common, {
         new webpack.DefinePlugin(
             {
                 "process.env.NODE_ENV": JSON.stringify("production")
-            })
-    ]
+            }),
+        new HappyPack({
+                          loaders: ["cache-loader", {
+                              loader: "vue-loader",
+                              options: {
+                                  loaders: {
+                                      scss: "cache-loader!vue-style-loader!css-loader!sass-loader"
+                                  },
+                                  extractCSS: true
+                              }
+                          }],
+                          verbose: false
+                      })
+    ],
+    module:
+        {
+            rules: [
+                {
+                    test: /\.vue$/,
+                    loader: "happypack/loader"
+                }
+            ]
+        }
 });

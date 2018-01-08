@@ -3,8 +3,10 @@ const webpack = require("webpack");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const HappyPack = require("happypack");
+const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 
+
+const extractor = new ExtractTextWebpackPlugin("bundle-[contenthash].css");
 const plugins = [
     // Generate skeleton HTML file
     new HtmlWebpackPlugin(
@@ -13,9 +15,7 @@ const plugins = [
             template: "src/index.html"
         }),
     new CleanWebpackPlugin(["dist"], { verbose: false }),
-    new HappyPack({
-                      loaders: ["cache-loader", "vue-loader"]
-                  })
+    extractor
 ];
 
 module.exports = {
@@ -30,13 +30,12 @@ module.exports = {
         rules: [
             {
                 test: /\.scss$/,
-                use: [
-                    "cache-loader",
-                    "postcss-loader",
-                    "css-loader",
-                    "resolve-url-loader",
-                    "sass-loader"
-                ]
+                use: extractor.extract([
+                                           "cache-loader",
+                                           "css-loader",
+                                           "resolve-url-loader",
+                                           "sass-loader"
+                                       ])
             },
             {
                 test: /\.ts$/,
@@ -49,15 +48,6 @@ module.exports = {
                 test: /\.(png|svg|jpg|gif)$/,
                 loader: "file-loader",
                 options: { name: "[name].[ext]?[hash]" }
-            },
-            {
-                test: /\.vue$/,
-                loader: "happypack/loader",
-                options: {
-                    loaders: {
-                        scss: "cache-loader!css-loader!sass-loader"
-                    }
-                }
             }
         ]
     },

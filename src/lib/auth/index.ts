@@ -1,4 +1,4 @@
-import Cookies from "js-cookie";
+import axios from "axios";
 
 export interface Person
 {
@@ -11,12 +11,24 @@ export interface User extends Person
     username: string;
 }
 
-export function getCurrentUser (): User | null
+export async function getCurrentUser (): Promise<User | null>
 {
-    let base64 = Cookies.get("koa:sess");
+    try
+    {
+        
+        let res = await axios.get("/auth/me");
+        if (res.status === 200)
+            return <User>res.data;
+    }
+    catch
+    {
+    }
     
-    if (!base64) return null;
-    
-    let json = atob(base64);
-    return <User>JSON.parse(json);
+    return null;
+}
+
+export async function login (username: string, password: string)
+{
+    let res = await axios.post("/auth/login", { username, password });
+    return res.status === 200;
 }

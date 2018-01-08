@@ -13,5 +13,18 @@ module.exports = merge(common, {
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
-    ]
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: "vue-loader",
+                options: {
+                    loaders: {
+                        scss: "vue-style-loader!css-loader!sass-loader"
+                    }
+                }
+            }
+        ]
+    }
 });

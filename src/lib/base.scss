@@ -59,12 +59,12 @@ html
     padding: 0;
     margin: 0;
     width: 100%;
+    overflow: hidden;
 }
 
 body
 {
     @extend html;
     font-family: "Roboto", sans-serif;
-    overflow: auto;
     perspective: 4000px;
 }

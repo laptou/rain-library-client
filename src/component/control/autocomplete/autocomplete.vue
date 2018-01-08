@@ -7,7 +7,7 @@
         </acrylic>
         <div class="autocomplete-suggestions-container">
             <ul class="autocomplete-suggestions" :class="{ focused: focused }">
-                <li v-bind:is="itemTemplateSelector()" v-for="item in itemsSource"
+                <li :is="itemTemplateSelector()" v-for="item in itemsSource"
                     :content="item"
                     :label="itemLabelSelector(item)"
                     :description="itemDescriptionSelector(item)">
@@ -22,7 +22,7 @@
     import * as vue from "av-ts";
     import Vue from "vue";
 
-    const AutocompleteItem = require("./autocomplete-item.vue");
+    const AutocompleteItem = require("./autocomplete-item.vue").default;
 
     @vue.Component({ components: { Acrylic } })
     export default class Autocomplete extends Vue
@@ -36,14 +36,17 @@
 
         // templating
         @vue.Prop itemsSource = vue.p(Array);
+
         @vue.Prop itemTemplateSelector = vue.p({
                                                    type: Function,
                                                    defaultFunc: () => AutocompleteItem
                                                });
+
         @vue.Prop itemLabelSelector = vue.p({
                                                 type: Function,
                                                 defaultFunc: (item: any) => item
                                             });
+
         @vue.Prop itemDescriptionSelector = vue.p({
                                                       type: Function,
                                                       defaultFunc: (item: any) => item

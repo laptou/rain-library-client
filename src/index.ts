@@ -1,13 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Vuebar from "vuebar";
 import Vuex from "vuex";
 import App from "./component/app/app.vue";
 
-if(module.hot) {
+if (module.hot)
+{
     module.hot.accept();
-    console.log("it's a 100 degrees :)");
 }
 
+Vue.use(Vuebar);
 Vue.use(Vuex);
 Vue.use(VueRouter);
 
@@ -17,6 +19,6 @@ new Vue(
         router: new VueRouter({ routes: require("./routes").routes }),
         template: "<div><App /></div>",
         components: {
-            App 
+            App
         }
     });
