@@ -14,6 +14,10 @@
             Photo by <a :href="background.author.url">{{ background.author.name }}</a>
         </span>
 
+        <span v-if="user" class="user-container" v-bind:class="`block-${theme}`">
+            Welcome, {{ user.name.first + " " + user.name.last }}
+        </span>
+
         <div id="logo-container">
             <div id="logo-box">
                 <acrylic :background="image || oldImage" :mode="'image'">
@@ -46,12 +50,12 @@
 <script lang="ts">
     import Acrylic from "@control/acrylic/acrylic.vue";
     import Autocomplete from "@control/autocomplete/autocomplete.vue";
-    import * as blobTools from "@lib/blob-tools";
-    import * as vue from "av-ts";
+    import * as auth from "@lib/auth";
+    import * as blob from "@lib/util/blob";
 
+    import * as vue from "av-ts";
     import axios from "axios";
     import * as colors from "color-convert";
-
     import Unsplash, { toJson } from "unsplash-js";
     import Vue from "vue";
 
@@ -75,12 +79,15 @@
         theme: Theme = Theme.Dark;
 
         suggestions: any[] = [];
+        user: auth.User | null;
 
         @vue.Lifecycle
         created ()
         {
             this.retrieveBackground();
             this.refreshBackground();
+
+            this.user = auth.getCurrentUser();
         }
 
         onQueryChanged (newVal: string, oldVal: string)
@@ -144,14 +151,14 @@
                     width: width, query: "rain", orientation
                 }));
 
-            const imgData = await blobTools.getURLAsBlob(bgData.urls.custom);
+            const imgData = await blob.getURLAsBlob(bgData.urls.custom);
 
-            this.image = `url(${blobTools.getBlobAsObjectURL(imgData)})`;
+            this.image = `url(${blob.getBlobAsObjectURL(imgData)})`;
 
             try
             {
                 const height = width / bgData.width * bgData.height;
-                const info = await blobTools.colorInfo(imgData, width, height);
+                const info = await blob.colorInfo(imgData, width, height);
 
                 if (info.saturation < -0.9 ||
                     Math.abs(info.saturation * info.brightness) < 0.1) this.theme = Theme.Colorful;
@@ -168,7 +175,7 @@
                 else this.theme = Theme.Light;
             }
 
-            localStorage.setItem("home::background", await blobTools.getBlobAsDataURL(imgData));
+            localStorage.setItem("home::background", await blob.getBlobAsDataURL(imgData));
             localStorage.setItem("home::theme", <string>this.theme);
 
             this.background.author = { name: bgData.user.name, url: bgData.user.links.html };

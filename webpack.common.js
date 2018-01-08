@@ -3,6 +3,7 @@ const webpack = require("webpack");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const HappyPack = require("happypack");
 
 const plugins = [
     // Generate skeleton HTML file
@@ -11,7 +12,10 @@ const plugins = [
             inject: true,
             template: "src/index.html"
         }),
-    new CleanWebpackPlugin(["dist"], { verbose: false })
+    new CleanWebpackPlugin(["dist"], { verbose: false }),
+    new HappyPack({
+                      loaders: ["cache-loader", "vue-loader"]
+                  })
 ];
 
 module.exports = {
@@ -27,10 +31,11 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
+                    "cache-loader",
+                    "postcss-loader",
                     "css-loader",
                     "resolve-url-loader",
-                    "sass-loader",
-                    "postcss-loader"
+                    "sass-loader"
                 ]
             },
             {
@@ -47,7 +52,7 @@ module.exports = {
             },
             {
                 test: /\.vue$/,
-                loader: "vue-loader",
+                loader: "happypack/loader",
                 options: {
                     loaders: {
                         scss: "cache-loader!css-loader!sass-loader"

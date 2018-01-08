@@ -19,4 +19,4 @@
     /*noinspection CssUnknownTarget*/
     @import url("https://fonts.googleapis.com/css?family=Noto+Serif|Roboto|Roboto+Condensed:700");
 </style>
-<style src="@lib/base.scss" lang="sass"></style>
+<style src="@lib/base.scss" lang="scss"></style>

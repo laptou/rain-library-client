@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Vuex from "vuex";
 import App from "./component/app/app.vue";
 
 if(module.hot) {
@@ -7,6 +8,7 @@ if(module.hot) {
     console.log("it's a 100 degrees :)");
 }
 
+Vue.use(Vuex);
 Vue.use(VueRouter);
 
 new Vue(
