@@ -1,27 +1,22 @@
 <template>
     <div id="root" v-bar>
         <div>
-            <div id="background"
-                 :style="{ 'background-image': image }"
-                 :class="[ background.loaded ? 'loaded' : null ]">
-
-            </div>
-            <div id="old-background"
-                 :style="{ 'background-image': oldImage }"
-                 :class="[ !background.loaded ? 'loaded' : null ]">
-            </div>
-
-            <span id="attribution-container" v-if="background.author" v-bind:class="`block-${theme}`">
-                Photo by <a :href="background.author.url">{{ background.author.name }}</a>
+            <span id="attribution-container" v-if="backgroundInfo.author" v-bind:class="`block-${theme}`">
+                Photo by <a :href="backgroundInfo.author.url">{{ backgroundInfo.author.name }}</a>
             </span>
 
-            <span v-if="user" id="user-container" v-bind:class="`block-${theme}`">
-                Welcome, {{ user.name.first + " " + user.name.last }}
+            <span id="user-container" v-bind:class="`block-${theme}`">
+                <span v-if="user">
+                    Welcome, {{ user.name.first + " " + user.name.last }}
+                </span>
+                <router-link v-if="!user" to="/login">
+                    Log in
+                </router-link>
             </span>
 
             <div id="logo-container">
                 <div id="logo-box">
-                    <acrylic :background="image || oldImage" :mode="'image'">
+                    <acrylic :background="`url(${background})`" :mode="'image'">
                         <div id="logo-border" :class="`text-${theme}`"></div>
                     </acrylic>
                     <div id="title-container">
@@ -39,7 +34,7 @@
                                   :itemLabelSelector="(item) => item.name"
                                   :itemDescriptionSelector="(item) => printInfo(item)"
                                   :placeholder="'search for books, authors, and more!'"
-                                  :acrylic-background="image || oldImage"
+                                  :acrylic-background="`url(${background})`"
                                   @querychanged="onQueryChanged">
 
                     </autocomplete>
@@ -83,75 +78,63 @@
     import Autocomplete from "@control/autocomplete/autocomplete.vue";
     import { Api, Book } from "@lib/api";
     import * as auth from "@lib/auth";
-    import * as blobTools from "@lib/util/blob";
 
     import * as vue from "av-ts";
 
-    import * as colors from "color-convert";
-    import Unsplash, { toJson } from "unsplash-js";
     import Vue from "vue";
-
-    enum Theme
-    {
-        Colorful = "colorful",
-        Dark = "dark",
-        Light = "light"
-    }
+    import { Theme } from "../../../lib/ui";
 
     @vue.Component({ components: { Acrylic, Autocomplete } })
     export default class Home extends Vue
     {
-        background: {
-            loaded: boolean,
-            author: { name: string, url: string } | null
-        } = { loaded: false, author: null };
-
-        image: string = "";
-        oldImage: string = "";
-        theme: Theme = Theme.Dark;
-
         suggestions: any[] = [];
         user: auth.User | null = null;
+
+        get background (): string
+        {
+            return this.$store.getters["ui/background/url"];
+        }
+
+        get backgroundInfo ()
+        {
+            return this.$store.state.ui.background.info;
+        }
+
+        get theme (): Theme
+        {
+            return this.$store.state.ui.theme;
+        }
 
         @vue.Lifecycle
         created ()
         {
-
-
             setTimeout(async () =>
                        {
                            // authentication
                            this.user = await auth.getCurrentUser();
-
-                           // aesthetics
-                           this.retrieveBackground();
-                           await this.refreshBackground();
                        }, 0);
         }
 
-        onQueryChanged (newVal: string, oldVal: string)
+        async onQueryChanged (newVal: string)
         {
             if (newVal)
             {
-                (async () =>
+                let suggestions: Book[] = [];
+                try
                 {
-                    let suggestions: Book[] = [];
-                    try
-                    {
-                        suggestions.push(... await Api.searchBooksByTitle(newVal));
-                    }
-                    catch
-                    {
-                        // do nothing for now
-                    }
+                    suggestions.push(... await Api.searchBooksByTitle(newVal));
+                }
+                catch
+                {
+                    // do nothing for now
+                }
 
-                    this.suggestions = suggestions;
-                })();
+                this.suggestions = suggestions;
             }
             else this.suggestions = [];
         }
 
-        printInfo (item: any): string
+        static printInfo (item: any): string
         {
             let info = "";
             if (item.authors)
@@ -159,65 +142,6 @@
                 info += item.authors.map((a: any) => a.name.first + " " + a.name.last).join(" ");
             }
             return info;
-        }
-
-        retrieveBackground ()
-        {
-            const background = localStorage.getItem("home::background");
-            const theme = localStorage.getItem("home::theme");
-
-            if (background && theme)
-            {
-                this.oldImage = `url(${background})`;
-                this.theme = <Theme>theme;
-            }
-        }
-
-        async refreshBackground ()
-        {
-            const unsplash = new Unsplash(
-                {
-                    applicationId: "52fb1b97ba5a2853f124e0c23a6e4a8856beb527a41e776ae00efb84a4468b5c",
-                    secret: "cffc16665cb4f8d0c1a4d7d812fffd0d1def0cd2137b7a8073831ad38f020ca4",
-                    callbackUrl: "urn:ietf:wg:oauth:2.0:oob"
-                });
-
-            let width = window.innerWidth;
-            let orientation = window.innerHeight < width ? "landscape" : "portrait";
-            let bgData: any = await toJson(await unsplash.photos.getRandomPhoto(
-                {
-                    width: width, query: "rain", orientation
-                }));
-
-            const imgData = await blobTools.getURLAsBlob(bgData.urls.custom);
-
-            this.image = `url(${blobTools.getBlobAsObjectURL(imgData)})`;
-
-            try
-            {
-                const height = width / bgData.width * bgData.height;
-                const info = await blobTools.colorInfo(imgData, width, height);
-
-                if (info.saturation < -0.9 ||
-                    Math.abs(info.saturation * info.brightness) < 0.1) this.theme = Theme.Colorful;
-                else if (info.brightness < -0.3) this.theme = Theme.Dark;
-                else if (info.brightness > 0.3) this.theme = Theme.Light;
-                else this.theme = Theme.Colorful;
-            }
-            catch
-            {
-                const color = colors.hex.hsl.raw(bgData.color);
-
-                if (color[1] < 10) this.theme = Theme.Colorful;
-                else if (color[2] < 40) this.theme = Theme.Dark;
-                else this.theme = Theme.Light;
-            }
-
-            localStorage.setItem("home::background", await blobTools.getBlobAsDataURL(imgData));
-            localStorage.setItem("home::theme", <string>this.theme);
-
-            this.background.author = { name: bgData.user.name, url: bgData.user.links.html };
-            this.background.loaded = true;
         }
     };
 </script>

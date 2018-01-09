@@ -15,8 +15,8 @@ export async function getCurrentUser (): Promise<User | null>
 {
     try
     {
-        
-        let res = await axios.get("/auth/me");
+    
+        let res = await axios.get("/auth/me", { responseType: "application/json" });
         if (res.status === 200)
             return <User>res.data;
     }

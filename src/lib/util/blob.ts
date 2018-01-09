@@ -43,7 +43,7 @@ export async function colorInfo (image: Blob, width: number, height: number, mar
     return { brightness: dl_diff, saturation: averageSaturation * 2 - 1 };
 }
 
-export async function getURLAsBlob (url: string): Promise<Blob>
+export async function getRemoteURLAsBlob (url: string): Promise<Blob>
 {
     const response = await axios.get(url, { responseType: "blob" });
     return response.data;
