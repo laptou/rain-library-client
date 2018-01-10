@@ -17,7 +17,7 @@
 
             <div id="logo-container">
                 <div id="logo-box">
-                    <acrylic :background="`url(${background})`" :mode="'image'">
+                    <acrylic :background="background" :mode="'image'">
                         <div id="logo-border" :class="`text-${theme}`"></div>
                     </acrylic>
                     <div id="title-container">
@@ -35,7 +35,7 @@
                                   :itemLabelSelector="(item) => item.name"
                                   :itemDescriptionSelector="(item) => printInfo(item)"
                                   :placeholder="'search for books, authors, and more!'"
-                                  :acrylic-background="`url(${background})`"
+                                  :acrylic-background="background"
                                   @querychanged="onQueryChanged">
 
                     </autocomplete>

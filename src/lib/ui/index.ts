@@ -142,7 +142,7 @@ export namespace Background
             url: (state: VuexState) =>
             {
                 if (state.info)
-                    return blobTools.getBlobAsObjectURL(state.info.data);
+                    return `url(${blobTools.getBlobAsObjectURL(state.info.data)})`;
                 
                 return null;
             }

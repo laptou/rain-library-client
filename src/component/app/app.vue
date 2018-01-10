@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="background"
-             :style="{ 'background-image': `url(${urls.current})` }"
+             :style="{ 'background-image': urls.current }"
              :class="[ urls.current ? 'loaded' : null ]">
 
         </div>

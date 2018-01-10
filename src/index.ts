@@ -25,7 +25,7 @@ new Vue(
     {
         el: "#app",
         router: new VueRouter({ routes: require("./routes").routes }),
-        template: "<div><App /></div>",
+        template: "<div id='app'><App /></div>",
         store,
         components: {
             App
