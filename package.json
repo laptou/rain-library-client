@@ -58,6 +58,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
+    "dataurl-to-blob": "0.0.1",
     "happypack": "^4.0.0",
     "universal-cookie": "^2.1.2",
     "vue-style-loader": "^3.0.3",

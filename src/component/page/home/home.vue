@@ -1,3 +1,4 @@
+<!--suppress JSMethodCanBeStatic -->
 <template>
     <div id="root" v-bar>
         <div>
@@ -134,7 +135,7 @@
             else this.suggestions = [];
         }
 
-        static printInfo (item: any): string
+        printInfo (item: any): string
         {
             let info = "";
             if (item.authors)
