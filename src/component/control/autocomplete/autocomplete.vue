@@ -5,7 +5,7 @@
                    :placeholder="placeholder" v-model="query"
                    @focus="onFocus" @blur="onBlur"/>
         </acrylic>
-        <div class="autocomplete-suggestions-container">
+        <div class="autocomplete-suggestions-container" v-bar>
             <ul class="autocomplete-suggestions" :class="{ focused }">
                 <li :is="itemTemplateSelector()" v-for="item in itemsSource"
                     :content="item"

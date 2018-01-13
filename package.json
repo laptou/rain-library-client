@@ -35,6 +35,7 @@
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "latest",
     "fork-ts-checker-webpack-plugin": "^0.2.10",
+    "hard-source-webpack-plugin": "^0.5.15",
     "html-webpack-plugin": "^2.30.1",
     "js-cookie": "^2.2.0",
     "node-sass": "^4.7.2",

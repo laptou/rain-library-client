@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HappyPack = require("happypack");
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 
 const plugins = [
     // Generate skeleton HTML file
@@ -25,7 +26,8 @@ const plugins = [
                           }
                       }],
                       verbose: false
-                  })
+                  }),
+    new HardSourceWebpackPlugin()
 ];
 
 module.exports = {
