@@ -1,0 +1,47 @@
+.text-dark
+{
+    color: hsl(0, 0, 20);
+    mix-blend-mode: color-dodge;
+}
+
+.text-light
+{
+    color: hsl(0, 0, 80);
+    mix-blend-mode: color-burn;
+}
+
+.text-colorful
+{
+    color: white;
+    mix-blend-mode: exclusion;
+}
+
+.block-dark
+{
+    background-color: hsla(0, 0, 10, 0.5);
+    color: white;
+    a
+    {
+        color: dodgerblue;
+    }
+}
+
+.block-colorful
+{
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    a
+    {
+        color: blue;
+    }
+}
+
+.block-light
+{
+    background-color: hsla(0, 0, 90, 0.5);
+    color: black;
+    a
+    {
+        color: blue;
+    }
+}

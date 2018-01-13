@@ -29,7 +29,6 @@
 <script lang="ts">
     import Acrylic from "@control/acrylic/acrylic.vue";
     import * as vue from "av-ts";
-    import axios, { AxiosResponse } from "axios";
     import Vue from "vue";
 
     @vue.Component({ components: { Acrylic } })
@@ -47,31 +46,25 @@
                 return;
             }
 
-            try
-            {
-                const res: AxiosResponse = await axios.post(
-                    "/auth/login",
-                    {
-                        username: this.username, password: this.password
-                    },
-                    {
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    });
+            const response = await this.$store.dispatch("auth/login", {
+                username: this.username,
+                password: this.password
+            });
 
-                if (res.status === 200)
-                    this.$router.back();
-            }
-            catch (err)
+            switch (response)
             {
-                if (err.response.status === 401)
+                case 200:
+                    this.$router.back();
+                    break;
+                case 401:
                     this.error = "Invalid username or password.";
-                else
+                    break;
+                default:
                     this.error = "An error occurred. Check your internet connection.";
+                    break;
             }
         }
     }
 </script>
 
-<style src="./login.scss" lang="scss"></style>
+<style src="./login.scss" lang="scss" scoped></style>

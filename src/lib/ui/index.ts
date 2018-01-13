@@ -2,6 +2,7 @@ import * as blobTools from "@lib/util/blob";
 import * as colors from "color-convert";
 import * as dtob from "dataurl-to-blob";
 import Unsplash, { toJson } from "unsplash-js";
+import { Vue } from "vue/types/vue";
 import * as Vuex from "vuex";
 
 export enum Theme
@@ -132,9 +133,7 @@ export namespace Background
         info: BackgroundInfo | null;
     }
     
-    export let vuexModule: Vuex.Module<VuexState, object>;
-    
-    vuexModule = {
+    export let vuexModule: Vuex.Module<VuexState, object> = {
         state: {
             info: getBackground()
         },
@@ -195,4 +194,9 @@ export const vuexModule: Vuex.Module<VuexState, object> = {
     modules: {
         "background": Background.vuexModule
     }
+};
+
+export const vueInit = async function (vue: Vue)
+{
+
 };

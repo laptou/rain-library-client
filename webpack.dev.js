@@ -18,12 +18,13 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.vue$/,
-                loader: "vue-loader",
-                options: {
-                    loaders: {
-                        scss: "vue-style-loader!css-loader!sass-loader"
-                    }
-                }
+                loader: "happypack/loader"
+                // loader: "vue-loader",
+                // options: {
+                //     loaders: {
+                //         scss: "vue-style-loader!css-loader!sass-loader"
+                //     }
+                // }
             }
         ]
     }

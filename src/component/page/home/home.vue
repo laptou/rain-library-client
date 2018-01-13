@@ -1,19 +1,22 @@
 <!--suppress JSMethodCanBeStatic -->
 <template>
-    <div id="root" v-bar>
+    <div id="root">
         <div>
-            <span id="attribution-container" v-if="backgroundInfo.author" v-bind:class="`block-${theme}`">
+            <span id="attribution-container" v-if="backgroundInfo.author">
                 Photo by <a :href="backgroundInfo.author.url">{{ backgroundInfo.author.name }}</a>
             </span>
 
-            <span id="user-container" v-bind:class="`block-${theme}`">
-                <span v-if="user">
+            <ul id="user-container">
+                <li v-if="user">
                     Welcome, {{ user.name.first + " " + user.name.last }}
-                </span>
-                <router-link v-if="!user" to="/login">
-                    Log in
+                </li>
+                <li v-if="user">
+                    <a href="#" @click="$store.dispatch('auth/logout')">Log out</a>
+                </li>
+                <router-link tag="li" v-if="!user" to="/login">
+                    <a>Log in</a>
                 </router-link>
-            </span>
+            </ul>
 
             <div id="logo-container">
                 <div id="logo-box">
@@ -32,43 +35,42 @@
             <div id="content-container">
                 <div id="search-container">
                     <autocomplete :itemsSource="suggestions"
-                                  :itemLabelSelector="(item) => item.name"
-                                  :itemDescriptionSelector="(item) => printInfo(item)"
+                                  :itemLabelSelector="label"
+                                  :itemDescriptionSelector="describe"
+                                  :itemTagSelector="tag"
                                   :placeholder="'search for books, authors, and more!'"
                                   :acrylic-background="background"
                                   @querychanged="onQueryChanged">
 
                     </autocomplete>
                 </div>
-                <p>
-                    Lorem ipsum dolor sit amet, id imperdiet interpretaris sed, natum appetere salutatus ei sit. Unum
-                    posse
-                    facilis has cu, ea sanctus menandri mea, et vis mazim everti lobortis. Inermis maiorum ius ex, esse
-                    idque cu eos. Solet mentitum lobortis ius id.
-
-                    Sit saperet platonem evertitur ea, te congue nostrum eum. Usu wisi verear reprehendunt in, sea ea
-                    nonumes disputando, eum meliore deleniti consequuntur ne. Duo sapientem accusamus adipiscing in, has
-                    omnium nonumes forensibus an. Omittam consetetur eu vim, pro ut primis luptatum conceptam, sea ad
-                    erat
-                    repudiandae. Ea nullam fabellas sea, denique quaerendum dissentiet ea vis.
-
-                    Verterem atomorum constituto ea sed. Eam ne movet melius, omnesque appareat et duo, usu ei ubique
-                    persius. At apeirian senserit cum, putant lobortis pericula cu mel. Ei libris denique per, et pri
-                    facilisis forensibus. Et esse solet suscipit has, eos labitur argumentum in.
-
-                    Eu ius maiorum alienum periculis. In ius offendit consulatu, eros putant inciderint his et. Eos
-                    option
-                    detraxit voluptatum ea, eirmod appareat ne ius. Ei est pericula intellegat. Vis novum commune
-                    accusamus
-                    ut, ei his minim melius maluisset, sed no labore similique. Te mollis cetero perfecto eos, cum ad
-                    latine
-                    dissentiet, sed id vero modus illum.
-
-                    Postea minimum mea ne, simul viderer delicata ea mei, zril qualisque torquatos ad vix. No ullum
-                    scaevola
-                    antiopam sed, an tempor labore aliquam sed, eum cu pertinax praesent efficiantur. Nec accumsan
-                    moderatius ei, an dicta detraxit mei, labore labitur oportere eu eum. Mea diam graece ad.
-                </p>
+                <section id="info-container" v-if="user">
+                    <h2>Checked out</h2>
+                    <ul>
+                        <li v-for="checkout in checkedOut" class="checkout"
+                            :class="[ Date.parse(checkout.due) <= new Date() ? 'overdue' : null ]">
+                            <span class="checkout-book-name">{{ checkout.book.name }}</span>
+                            &ensp;
+                            <span class="checkout-book-authors">
+                                <span v-for="author in checkout.book.authors">
+                                    {{ author.name | name }}
+                                </span>
+                            </span>
+                            <span>&nbsp;|&nbsp;</span>
+                            <span class="checkout-book-genre">
+                                <span v-for="genre in checkout.book.genre">{{ genre }}</span>
+                            </span>
+                            <span class="checkout-due"
+                                  v-if="Date.parse(checkout.due) > new Date()">
+                                due {{ checkout.due | relative-time }}
+                            </span>
+                            <span class="checkout-due"
+                                  v-if="Date.parse(checkout.due) <= new Date()">
+                                overdue
+                            </span>
+                        </li>
+                    </ul>
+                </section>
             </div>
         </div>
     </div>
@@ -77,19 +79,23 @@
 <script lang="ts">
     import Acrylic from "@control/acrylic/acrylic.vue";
     import Autocomplete from "@control/autocomplete/autocomplete.vue";
-    import { Api, Book } from "@lib/api";
-    import * as auth from "@lib/auth";
+    import { Api, Book, Person } from "@lib/api";
+    import { Theme } from "@lib/ui";
 
     import * as vue from "av-ts";
-
     import Vue from "vue";
-    import { Theme } from "../../../lib/ui";
+
 
     @vue.Component({ components: { Acrylic, Autocomplete } })
     export default class Home extends Vue
     {
         suggestions: any[] = [];
-        user: auth.User | null = null;
+        checkedOut: Book[] = [];
+
+        get user (): Person | null
+        {
+            return this.$store.state.auth.user;
+        }
 
         get background (): string
         {
@@ -111,8 +117,7 @@
         {
             setTimeout(async () =>
                        {
-                           // authentication
-                           this.user = await auth.getCurrentUser();
+                           this.checkedOut = await Api.getCheckedOut();
                        }, 0);
         }
 
@@ -123,7 +128,7 @@
                 let suggestions: Book[] = [];
                 try
                 {
-                    suggestions.push(... await Api.searchBooksByTitle(newVal));
+                    suggestions.push(... await Api.searchBooks(newVal, 7));
                 }
                 catch
                 {
@@ -135,19 +140,30 @@
             else this.suggestions = [];
         }
 
-        printInfo (item: any): string
+        label (item: any): string
         {
-            let info = "";
+            if (item.title) return item.title;
+            if (typeof item.name === "string") return item.name;
+            return item.name.first + " " + item.name.last;
+        }
+
+        describe (item: any): string
+        {
             if (item.authors)
             {
-                info += item.authors.map((a: any) => a.name.first + " " + a.name.last).join(" ");
+                let book = <Book>item;
+                let authors = <Person[]>book.authors;
+                let info = authors.map((a: Person) => a.name.first + " " + a.name.last)
+                                  .join(", ");
+                info += " | ";
+                info += book.genre.join(", ");
+                return info;
             }
-            return info;
+
+            return "";
         }
     };
 </script>
 
-
-<style src='@lib/base.scss' lang="scss"></style>
-<style src="./home.scss" lang="scss"></style>
+<style src="./home.scss" lang="scss" scoped></style>
 

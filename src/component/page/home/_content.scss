@@ -68,3 +68,87 @@
         margin-bottom: 5em;
     }
 }
+
+#info-container
+{
+    background: transparent linear-gradient(to top, hsla(0, 0%, 93%, 0.8), hsla(0, 0%, 100%, 0.8));
+    border-radius: 4pt;
+    box-sizing: border-box;
+    padding: 1em;
+
+    h2
+    {
+        border-bottom: 1px solid grey;
+        display: block;
+        font-family: "Roboto Condensed";
+        font-size: 1em;
+        margin: -1em;
+        margin-bottom: 0;
+        padding: 1em;
+        text-transform: uppercase;
+    }
+
+    ul
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li
+        {
+            margin: 0 -1em;
+            padding: 1em 1em 1em 1em;
+
+            .checkout-book-name
+            {
+                font-family: "Noto Serif";
+            }
+
+            .checkout-book-genre
+            {
+                font-size: 0.8em;
+
+                span:not(:last-child)::after
+                {
+                    content: "•";
+                    margin: 0 4pt;
+                    opacity: 0.7;
+                }
+            }
+
+            .checkout-book-authors
+            {
+                display: inline-block;
+                font-size: 0.8em;
+                list-style: none;
+
+                span:not(:last-child)::after
+                {
+                    content: "•";
+                    margin: 0 4pt;
+                    opacity: 0.7;
+                }
+            }
+
+            .checkout-due
+            {
+                float: right;
+            }
+
+            &.overdue
+            {
+                background: rgba(255, 10, 10, 0.2);
+
+                .checkout-due
+                {
+                    color: red;
+                }
+            }
+        }
+    }
+}
+
+.autocomplete .autocomplete-item-label
+{
+    font-family: "Noto Serif";
+}

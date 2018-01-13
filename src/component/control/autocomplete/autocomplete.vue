@@ -6,7 +6,7 @@
                    @focus="onFocus" @blur="onBlur"/>
         </acrylic>
         <div class="autocomplete-suggestions-container">
-            <ul class="autocomplete-suggestions" :class="{ focused: focused }">
+            <ul class="autocomplete-suggestions" :class="{ focused }">
                 <li :is="itemTemplateSelector()" v-for="item in itemsSource"
                     :content="item"
                     :label="itemLabelSelector(item)"

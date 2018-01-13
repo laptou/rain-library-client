@@ -1,4 +1,5 @@
 import store from "@lib/state";
+import * as moment from "moment";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuebar from "vuebar";
@@ -6,13 +7,29 @@ import App from "./component/app/app.vue";
 
 Vue.use(Vuebar);
 Vue.use(VueRouter);
+Vue.filter("name", function (value: string | { first: string; last: string })
+{
+    if (!value) return "";
+    
+    if (value instanceof String)
+        return value;
+    else
+        return value.first + " " + value.last;
+});
+
+Vue.filter("relative-time", function (time: string | Date)
+{
+    if (!time) return "";
+    
+    return moment(time).fromNow();
+});
 
 if (module.hot)
 {
     module.hot.accept(["./lib/state"], () =>
     {
         const newStore = require("./lib/state");
-        // swap in the new actions and mutations
+        // swap in the new actions and mutationsa
         store.hotUpdate({
                             modules: newStore.modules
                         });
@@ -29,5 +46,10 @@ new Vue(
         store,
         components: {
             App
+        },
+        created ()
+        {
+            require("@lib/ui").vueInit(this);
+            require("@lib/auth").vueInit(this);
         }
     });

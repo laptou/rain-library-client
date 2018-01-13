@@ -12,9 +12,10 @@
     @vue.Component({ name: "autocomplete-item" })
     export default class AutocompleteItem extends Vue
     {
-        @vue.Prop content = vue.p({ required: true });
-        @vue.Prop label = vue.p({ type: String, required: true });
-        @vue.Prop description = vue.p({ type: String });
+        @vue.Prop content: any | undefined = vue.p({ required: true });
+        @vue.Prop label: string | undefined = vue.p({ type: String, required: true });
+        @vue.Prop description: string | undefined = vue.p({ type: String });
+        @vue.Prop tags: any[] | undefined = vue.p({ type: Array });
     }
 </script>
 
@@ -23,5 +24,10 @@
     {
         opacity: 0.7;
         font-size: 0.7em;
+    }
+
+    .autocomplete-item-label
+    {
+        font-family: "Noto Serif";
     }
 </style>

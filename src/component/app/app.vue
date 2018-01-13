@@ -11,7 +11,11 @@
              :class="[ !urls.current ? 'loaded' : null ]">
         </div>
 
-        <router-view :background="background"/>
+        <div id="scroll-root" v-bar>
+            <div>
+                <router-view/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -44,9 +48,4 @@
     }
 </script>
 
-<style>
-    /*noinspection CssUnknownTarget*/
-    @import url("https://fonts.googleapis.com/css?family=Noto+Serif|Roboto|Roboto+Condensed:700");
-</style>
-<style src="@lib/base.scss" lang="scss"></style>
-<style src="./_background.scss" lang="scss"></style>
+<style src="./app.scss" lang="scss"></style>

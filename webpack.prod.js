@@ -6,6 +6,10 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HappyPack = require("happypack");
 
+const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
+
+const extractor = new ExtractTextWebpackPlugin("bundle-[contenthash].css");
+
 module.exports = merge(common, {
     plugins: [
         // Minify JavaScript
@@ -26,6 +30,7 @@ module.exports = merge(common, {
             {
                 "process.env.NODE_ENV": JSON.stringify("production")
             }),
+        extractor,
         new HappyPack({
                           loaders: ["cache-loader", {
                               loader: "vue-loader",
@@ -42,6 +47,15 @@ module.exports = merge(common, {
     module:
         {
             rules: [
+                {
+                    test: /\.scss$/,
+                    use: extractor.extract([
+                                               "cache-loader",
+                                               "css-loader",
+                                               "resolve-url-loader",
+                                               "sass-loader"
+                                           ])
+                },
                 {
                     test: /\.vue$/,
                     loader: "happypack/loader"

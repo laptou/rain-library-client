@@ -1,24 +1,16 @@
+import { Person } from "@lib/api";
 import axios from "axios";
+import Vue from "vue";
+import * as Vuex from "vuex";
 
-export interface Person
-{
-    name: { first: string, last: string }
-    id: string;
-}
-
-export interface User extends Person
-{
-    username: string;
-}
-
-export async function getCurrentUser (): Promise<User | null>
+async function getCurrentUser (): Promise<Person | null>
 {
     try
     {
-    
+        
         let res = await axios.get("/auth/me", { responseType: "application/json" });
         if (res.status === 200)
-            return <User>res.data;
+            return <Person>res.data;
     }
     catch
     {
@@ -27,8 +19,70 @@ export async function getCurrentUser (): Promise<User | null>
     return null;
 }
 
-export async function login (username: string, password: string)
+async function login (username: string, password: string): Promise<number>
 {
-    let res = await axios.post("/auth/login", { username, password });
-    return res.status === 200;
+    try
+    {
+        let res = await axios.post("/auth/login", { username, password });
+        return res.status;
+    }
+    catch (err)
+    {
+        return err.response.status;
+    }
 }
+
+async function logout (): Promise<boolean>
+{
+    try
+    {
+        let res = await axios.get("/auth/logout");
+        return res.status === 200;
+    }
+    catch
+    {
+        return false;
+    }
+}
+
+interface VuexState
+{
+    user: Person | null;
+}
+
+export const vuexModule: Vuex.Module<VuexState, object> = {
+    state: { user: null },
+    mutations: {
+        setUser: (state: VuexState, payload: Person) =>
+        {
+            state.user = payload;
+        }
+    },
+    namespaced: true,
+    actions: {
+        update: async ctx =>
+        {
+            ctx.commit("setUser", await getCurrentUser());
+        },
+        login: async (ctx, { username, password }) =>
+        {
+            const response = await login(username, password);
+            if (response === 200)
+                ctx.commit("setUser", await getCurrentUser());
+            
+            return response;
+        },
+        logout: async ctx =>
+        {
+            if (ctx.state.user)
+            {
+                await logout();
+                ctx.commit("setUser", null);
+            }
+        }
+    }
+};
+export const vueInit = async function (vue: Vue)
+{
+    vue.$store.dispatch("auth/update");
+};

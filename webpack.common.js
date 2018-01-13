@@ -3,19 +3,29 @@ const webpack = require("webpack");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
+const HappyPack = require("happypack");
 
-
-const extractor = new ExtractTextWebpackPlugin("bundle-[contenthash].css");
 const plugins = [
     // Generate skeleton HTML file
+    new webpack.optimize.CommonsChunkPlugin({ async: true }),
     new HtmlWebpackPlugin(
         {
             inject: true,
             template: "src/index.html"
         }),
     new CleanWebpackPlugin(["dist"], { verbose: false }),
-    extractor
+    new HappyPack({
+                      loaders: ["cache-loader", {
+                          loader: "vue-loader",
+                          options: {
+                              loaders: {
+                                  scss: "cache-loader!vue-style-loader!css-loader!sass-loader"
+                              },
+                              extractCSS: true
+                          }
+                      }],
+                      verbose: false
+                  })
 ];
 
 module.exports = {
@@ -24,18 +34,18 @@ module.exports = {
     plugins,
     output: {
         path: path.join(__dirname, "dist"),
-        filename: "bundle-[hash].js"
+        filename: "bundle.js"
     },
     module: {
         rules: [
             {
                 test: /\.scss$/,
-                use: extractor.extract([
-                                           "cache-loader",
-                                           "css-loader",
-                                           "resolve-url-loader",
-                                           "sass-loader"
-                                       ])
+                loaders: [
+                    "cache-loader",
+                    "css-loader",
+                    "resolve-url-loader",
+                    "sass-loader"
+                ]
             },
             {
                 test: /\.ts$/,
