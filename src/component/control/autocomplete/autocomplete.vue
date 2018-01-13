@@ -1,16 +1,17 @@
 <template>
-    <div class="autocomplete">
+    <div class="autocomplete" @focusin="onFocus" @focusout="onBlur">
         <acrylic :background="acrylicBackground">
             <input class="autocomplete-input" title="title"
                    :placeholder="placeholder" v-model="query"
-                   @focus="onFocus" @blur="onBlur"/>
+            />
         </acrylic>
-        <div class="autocomplete-suggestions-container" v-bar>
+        <div class="autocomplete-suggestions-container" v-bar="{ preventParentScroll: true }">
             <ul class="autocomplete-suggestions" :class="{ focused }">
-                <li :is="itemTemplateSelector()" v-for="item in itemsSource"
+                <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource"
                     :content="item"
                     :label="itemLabelSelector(item)"
-                    :description="itemDescriptionSelector(item)">
+                    :description="itemDescriptionSelector(item)"
+                    :tabindex="index">
                 </li>
             </ul>
         </div>

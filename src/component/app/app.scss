@@ -97,32 +97,3 @@ button
     mix-blend-mode: multiply;
 }
 
-.vb
-{
-    .vb-dragger
-    {
-        right: 0;
-        width: 12px;
-        z-index: 5;
-
-        .vb-dragger-styler
-        {
-            background-color: rgba(255, 255, 255, .1);
-            border-radius: 20px;
-            display: block;
-            height: calc(100% - 10px);
-            margin: 5px 5px 5px 0;
-            transition-duration: 0.15s;
-            transition-property: background-color;
-            mix-blend-mode: exclusion;
-        }
-    }
-
-    &.vb-scrolling-phantom, &.vb-dragging
-    {
-        .vb-dragger-styler
-        {
-            background-color: rgba(255, 255, 255, .5);
-        }
-    }
-}
