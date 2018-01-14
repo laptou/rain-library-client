@@ -119,16 +119,7 @@
 
             .checkout-book-authors
             {
-                display: inline-block;
                 font-size: 0.8em;
-                list-style: none;
-
-                span:not(:last-child)::after
-                {
-                    content: "•";
-                    margin: 0 4pt;
-                    opacity: 0.7;
-                }
             }
 
             .checkout-due

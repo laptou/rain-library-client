@@ -2,9 +2,7 @@
 <template>
     <div id="root">
         <div>
-            <span id="attribution-container" v-if="backgroundInfo.author">
-                Photo by <a :href="backgroundInfo.author.url">{{ backgroundInfo.author.name }}</a>
-            </span>
+
 
             <ul id="user-container">
                 <li v-if="user">
@@ -32,6 +30,7 @@
                     </div>
                 </div>
             </div>
+
             <div id="content-container">
                 <div id="search-container">
                     <autocomplete :itemsSource="suggestions"
@@ -56,11 +55,11 @@
                                      :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
                             <span class="checkout-book-name">{{ checkout.book.name }}</span>
                             &ensp;
-                            <span class="checkout-book-authors">
-                                <span v-for="author in checkout.book.authors">
+                            <ul class="checkout-book-authors flat-list">
+                                <li v-for="author in checkout.book.authors">
                                     {{ author.name | name }}
-                                </span>
-                            </span>
+                                </li>
+                            </ul>
                             <span>&nbsp;|&nbsp;</span>
                             <span class="checkout-book-genre">
                                 <span v-for="genre in checkout.book.genre">{{ genre }}</span>
@@ -77,6 +76,10 @@
                     </ul>
                 </section>
             </div>
+
+            <footer id="attribution-container" v-if="backgroundInfo.author">
+                Photo by <a :href="backgroundInfo.author.url">{{ backgroundInfo.author.name }}</a>
+            </footer>
         </div>
     </div>
 </template>

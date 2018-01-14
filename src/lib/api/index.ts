@@ -50,4 +50,5 @@ export declare interface Book
     edition: { version: number, publisher: string } [];
     authors: Person[] | string[];
     genre: string[];
+    year: number;
 }

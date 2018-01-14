@@ -43,7 +43,7 @@ new Vue(
         el: "#app",
         router: new VueRouter({
                                   routes: require("./routes").default,
-                                  mode: "history"
+                                  //mode: "history"
                               }),
         template: "<div id='app'><App /></div>",
         store,
