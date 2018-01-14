@@ -43,7 +43,11 @@
         created ()
         {
             this.urls = { current: this.background, old: null };
-            this.$store.dispatch("ui/background/refresh");
+
+            setTimeout(() =>
+                       {
+                           this.$store.dispatch("ui/background/refresh");
+                       }, 0);
         }
     }
 </script>

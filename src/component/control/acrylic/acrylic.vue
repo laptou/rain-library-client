@@ -1,7 +1,7 @@
 <template>
     <div class="acrylic">
         <div id="acrylic-background-blank"></div>
-        <div id="acrylic-background" :style="style">
+        <div id="acrylic-background">
         </div>
         <div id="acrylic-content">
             <slot/>

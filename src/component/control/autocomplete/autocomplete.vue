@@ -3,7 +3,7 @@
         <acrylic :background="acrylicBackground">
             <input class="autocomplete-input" title="title"
                    :placeholder="placeholder" v-model="query"
-            />
+                   ref="input"/>
         </acrylic>
         <div class="autocomplete-suggestions-container" v-bar="{ preventParentScroll: true }">
             <ul class="autocomplete-suggestions" :class="{ focused }">
@@ -57,11 +57,20 @@
         onQueryChanged (newVal: string, oldVal: string)
         {
             this.$emit("querychanged", newVal, oldVal);
+
+        }
+
+        @vue.Watch("itemsSource")
+        onItemSourceChanged (newVal: any[], oldVal: any[])
+        {
+            (<Element>this.$refs.input).scrollIntoView(true);
         }
 
         onFocus (evt: FocusEvent)
         {
             this.focused = true;
+
+            (<Element>this.$refs.input).scrollIntoView(true);
         }
 
         onBlur (evt: FocusEvent)

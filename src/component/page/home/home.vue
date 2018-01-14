@@ -2,8 +2,6 @@
 <template>
     <div id="root">
         <div>
-
-
             <ul id="user-container">
                 <li v-if="user">
                     Welcome, {{ user.name.first + " " + user.name.last }}
