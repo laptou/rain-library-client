@@ -41,7 +41,10 @@ if (module.hot)
 new Vue(
     {
         el: "#app",
-        router: new VueRouter({ routes: require("./routes").routes, mode: "history" }),
+        router: new VueRouter({
+                                  routes: require("./routes").default,
+                                  mode: "history"
+                              }),
         template: "<div id='app'><App /></div>",
         store,
         components: {

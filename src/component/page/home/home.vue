@@ -37,7 +37,8 @@
                     <autocomplete :itemsSource="suggestions"
                                   :itemLabelSelector="label"
                                   :itemDescriptionSelector="describe"
-                                  :itemTagSelector="tag"
+                                  :itemTagSelector="() => null"
+                                  :itemTemplateSelector="template"
                                   :placeholder="'search for books, authors, and more!'"
                                   :acrylic-background="background"
                                   @querychanged="onQueryChanged">
@@ -47,8 +48,12 @@
                 <section id="info-container" v-if="user">
                     <h2>Checked out</h2>
                     <ul>
-                        <li v-for="checkout in checkedOut" class="checkout"
-                            :class="[ Date.parse(checkout.due) <= new Date() ? 'overdue' : null ]">
+                        <router-link tag="li"
+                                     v-for="checkout in checkedOut"
+                                     :key="checkout.id"
+                                     :to="`/book/${checkout.book.id}`"
+                                     class="checkout"
+                                     :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
                             <span class="checkout-book-name">{{ checkout.book.name }}</span>
                             &ensp;
                             <span class="checkout-book-authors">
@@ -68,7 +73,7 @@
                                   v-if="Date.parse(checkout.due) <= new Date()">
                                 overdue
                             </span>
-                        </li>
+                        </router-link>
                     </ul>
                 </section>
             </div>
@@ -84,10 +89,11 @@
 
     import * as vue from "av-ts";
     import Vue from "vue";
+    import LinkAutocompleteItem from "./link-autocomplete-item.ts";
 
 
     @vue.Component({ components: { Acrylic, Autocomplete } })
-    export default class Home extends Vue
+    export default class HomePage extends Vue
     {
         suggestions: any[] = [];
         checkedOut: Book[] = [];
@@ -161,6 +167,11 @@
             }
 
             return "";
+        }
+
+        template (item: any)
+        {
+            return LinkAutocompleteItem;
         }
     };
 </script>

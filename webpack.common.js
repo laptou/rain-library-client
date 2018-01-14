@@ -3,7 +3,6 @@ const webpack = require("webpack");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const HappyPack = require("happypack");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 
 const plugins = [
@@ -11,22 +10,11 @@ const plugins = [
     new webpack.optimize.CommonsChunkPlugin({ async: true }),
     new HtmlWebpackPlugin(
         {
-            inject: true,
-            template: "src/index.html"
+            inject: false,
+            template: "src/index.html",
+            xhtml: true
         }),
     new CleanWebpackPlugin(["dist"], { verbose: false }),
-    new HappyPack({
-                      loaders: ["cache-loader", {
-                          loader: "vue-loader",
-                          options: {
-                              loaders: {
-                                  scss: "cache-loader!vue-style-loader!css-loader!sass-loader"
-                              },
-                              extractCSS: true
-                          }
-                      }],
-                      verbose: false
-                  }),
     new HardSourceWebpackPlugin()
 ];
 

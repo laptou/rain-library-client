@@ -32,7 +32,7 @@
     import Vue from "vue";
 
     @vue.Component({ components: { Acrylic } })
-    export default class Login extends Vue
+    export default class LoginPage extends Vue
     {
         username: string = "";
         password: string = "";

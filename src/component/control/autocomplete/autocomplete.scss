@@ -48,6 +48,17 @@
             transition-property: background-color;
             cursor: pointer;
 
+            .autocomplete-item-desc
+            {
+                font-size: 0.7em;
+                opacity: 0.7;
+            }
+
+            .autocomplete-item-label
+            {
+                font-family: "Noto Serif";
+            }
+
             &:hover
             {
                 background-color: transparentize(white, 0.5);

@@ -8,6 +8,12 @@ export abstract class Api
         return <Book>res.data;
     }
     
+    public static async getBookById (id: string)
+    {
+        let res = await axios.get(`/api/book/id/${id}`);
+        return <Book>res.data;
+    }
+    
     public static async getCheckedOut ()
     {
         let res = await axios.get(`/api/book/checked_out`);
