@@ -50,6 +50,7 @@ header
     {
         display: grid;
         margin: 1em;
+
         label
         {
             align-self: center;
@@ -81,11 +82,13 @@ header
 
         #error
         {
-            background-color: hsla(0, 100%, 70%, 0.75);
+            background: $accent-danger;
+            color: $text-light;
             margin-top: 1em;
             padding: 12pt;
             text-align: center;
             grid-row: 5;
+            @include elevation(1);
         }
 
         grid-template-rows: auto auto auto auto;
@@ -169,7 +172,7 @@ header
             #error
             {
                 grid-row: 3;
-                grid-column: 1 / 2;
+                grid-column: 1 / 3;
             }
         }
     }

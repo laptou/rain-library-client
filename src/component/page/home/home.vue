@@ -47,37 +47,48 @@
 
                     </autocomplete>
                 </div>
-                <section id="info-container" v-if="user">
-                    <h2>Checked out</h2>
-                    <ul>
-                        <router-link tag="li"
-                                     v-for="checkout in checkedOut"
-                                     :key="checkout.id"
-                                     :to="`/book/${checkout.book.id}`"
-                                     class="checkout"
-                                     :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
-                            <span class="checkout-book-name">{{ checkout.book.name }}</span>
-                            &ensp;
-                            <ul class="checkout-book-authors flat-list">
-                                <li v-for="author in checkout.book.authors">
-                                    {{ author.name | name }}
-                                </li>
-                            </ul>
-                            <span>&nbsp;|&nbsp;</span>
-                            <span class="checkout-book-genre">
-                                <span v-for="genre in checkout.book.genre">{{ genre }}</span>
-                            </span>
-                            <span class="checkout-due"
-                                  v-if="Date.parse(checkout.due) > new Date()">
-                                due {{ checkout.due | relative-time }}
-                            </span>
-                            <span class="checkout-due"
-                                  v-if="Date.parse(checkout.due) <= new Date()">
-                                overdue
-                            </span>
-                        </router-link>
-                    </ul>
-                </section>
+                <div id="info-container">
+                    <section id="info-checkout" v-if="user">
+                        <h2>Checked out</h2>
+                        <ul>
+                            <router-link tag="li"
+                                         v-for="checkout in checkedOut"
+                                         :key="checkout.id"
+                                         :to="`/book/${checkout.book.id}`"
+                                         class="checkout"
+                                         :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
+                                <div class="content">
+                                    <span class="checkout-book-name">{{ checkout.book.name }}</span>
+                                    &ensp;
+                                    <ul class="checkout-book-authors flat-list">
+                                        <li v-for="author in checkout.book.authors">
+                                            {{ author.name | name }}
+                                        </li>
+                                    </ul>
+                                    <ul class="checkout-book-genre flat-list text-secondary">
+                                        <li v-for="genre in checkout.book.genre">
+                                            {{ genre }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span class="tag tag-info"
+                                      v-if="Date.parse(checkout.due) > new Date()">
+                                    due {{ checkout.due | relative-time }}
+                                </span>
+                                <span class="tag tag-danger"
+                                      v-if="Date.parse(checkout.due) <= new Date()">
+                                    overdue
+                                </span>
+                            </router-link>
+                        </ul>
+                    </section>
+                    <section id="info-trending">
+                        <h2>Trending</h2>
+                        <ul>
+                            <li>heehee</li>
+                        </ul>
+                    </section>
+                </div>
             </div>
 
             <footer id="attribution-container" v-if="backgroundInfo.author">

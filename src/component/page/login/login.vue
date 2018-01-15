@@ -44,7 +44,7 @@
         {
             if (!this.username || !this.password)
             {
-                this.error = "Enter a username and password.";
+                this.error = "You need a username and password.";
                 return;
             }
 
@@ -59,10 +59,10 @@
                     this.$router.back();
                     break;
                 case 401:
-                    this.error = "Invalid username or password.";
+                    this.error = "The username or password is wrong.";
                     break;
                 default:
-                    this.error = "An error occurred. Check your internet connection.";
+                    this.error = "Something went wrong... Check your internet connection.";
                     break;
             }
         }
