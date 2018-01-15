@@ -16,7 +16,7 @@
     width: 100%;
 }
 
-#logo
+header
 {
     text-align: center;
 
@@ -24,6 +24,8 @@
     {
         height: 4em;
         margin: 1em auto;
+        filter: invert(100%);
+        mix-blend-mode: difference;
     }
 }
 
@@ -36,8 +38,7 @@
 
     h1, h2
     {
-        margin: 0;
-        margin-bottom: 4pt;
+        margin: 0 0 4pt;
     }
 
     #info

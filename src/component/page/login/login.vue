@@ -1,29 +1,29 @@
 <template>
     <div id="root">
-        <acrylic id="login-container"
-                 :background="$store.getters['ui/background/url-blurred']"
+        <acrylic :background="$store.getters['ui/background/url-blurred']"
                  class="elevation-1">
-            <section>
-                <form id="form" method="post" @submit.prevent="onSubmit">
-                    <header>
-                        <img :src="require('@res/img/logo-md.png')" id="logo"/>
-                    </header>
+            <form id="wrapper" method="post" @submit.prevent="onSubmit">
+                <header>
+                    <img :src="require('@res/img/logo-md.png')" id="logo"/>
+                </header>
+                <section id="content">
+                    <div id="form">
+                        <label for="input-username" id="label-username">Username </label>
+                        <input name="username" id="input-username" type="text" v-model="username"/>
 
-                    <label for="input-username" id="label-username">Username </label>
-                    <input name="username" id="input-username" type="text" v-model="username"/>
+                        <label for="input-password" id="label-password">Password </label>
+                        <input name="password" id="input-password" type="password" v-model="password"/>
 
-                    <label for="input-password" id="label-password">Password </label>
-                    <input name="password" id="input-password" type="password" v-model="password"/>
-
-                    <span id="error" v-if="error">
-                        {{ error }}
-                    </span>
-
-                    <footer>
-                        <button id="btn-login" class="btn-primary">Log in</button>
-                    </footer>
-                </form>
-            </section>
+                        <span id="error" v-if="error">
+                            {{ error }}
+                        </span>
+                    </div>
+                </section>
+                <section id="actions">
+                    <button @click="$router.go(-1)" class="btn-auxilary">Back</button>
+                    <button id="btn-login" class="btn-primary">Log in</button>
+                </section>
+            </form>
         </acrylic>
     </div>
 </template>

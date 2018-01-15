@@ -1,11 +1,11 @@
 <template>
     <div v-if="book" id="root">
-        <acrylic :background="background" class="elevation-1">
+        <acrylic :background="$store.getters['ui/background/url-blurred']"
+                 class="elevation-1">
             <div id="wrapper">
-                <div id="logo">
+                <header>
                     <img :src="require('@res/img/logo-sm.png')"/>
-                </div>
-
+                </header>
                 <section id="content">
                     <h1>{{ book.name }}</h1>
 
@@ -41,7 +41,7 @@
                     </table>
                 </section>
                 <section id="actions">
-                    <button class="btn-auxilary">
+                    <button class="btn-auxilary" @click="$router.go(-1)">
                         Back
                     </button>
                     <button id="btn-hold" class="btn-primary">
@@ -68,11 +68,6 @@
     {
         book: Book | null = null;
         holdCount: number | null = null;
-
-        get background (): string
-        {
-            return this.$store.getters["ui/background/url-blurred"];
-        }
 
         @vue.Lifecycle
         created ()

@@ -6,6 +6,12 @@
     background-size: cover;
 }
 
+.acrylic-content
+{
+    height: 100%;
+    width: 100%;
+}
+
 @mixin outset($dist)
 {
     top: $dist;
