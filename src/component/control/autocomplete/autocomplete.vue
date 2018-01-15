@@ -7,7 +7,7 @@
         </acrylic>
         <div class="autocomplete-suggestions-container" v-bar="{ preventParentScroll: true }">
             <div>
-                <ul class="autocomplete-suggestions" :class="{ focused }" v-if="itemsSource.length > 0">
+                <ul class="autocomplete-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
                     <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource"
                         :content="item"
                         :label="itemLabelSelector(item)"

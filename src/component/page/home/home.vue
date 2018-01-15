@@ -6,9 +6,11 @@
                 <button v-if="user" class="btn-auxilary">
                     Welcome, {{ user.name.first + " " + user.name.last }}
                 </button>
-                <button v-if="user" class="btn-secondary">
-                    <a href="#" @click="$store.dispatch('auth/logout')">Log out</a>
-                </button>
+                <a href="#" @click="$store.dispatch('auth/logout')">
+                    <button v-if="user" class="btn-secondary">
+                        Log out
+                    </button>
+                </a>
                 <router-link v-if="!user" to="/login">
                     <button class="btn-primary">Log in</button>
                 </router-link>
