@@ -146,7 +146,7 @@
         {
             setTimeout(async () =>
                        {
-                           this.checkedOut = await Api.getCheckedOut() || [];
+                           this.checkedOut = <Book[]>await Api.getCheckedOut() || [];
                        }, 0);
         }
 

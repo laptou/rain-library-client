@@ -21,12 +21,20 @@ export abstract class Api
         }
     }
     
-    public static async getCheckedOut ()
+    public static async getCheckedOut (bookId?: string)
     {
         try
         {
-            let res = await axios.get(`/api/book/checked_out`);
-            return <Book[]>res.data;
+            if (bookId)
+            {
+                let res = await axios.get(`/api/book/checked_out/${bookId}`);
+                return <boolean>res.data;
+            }
+            else
+            {
+                let res = await axios.get(`/api/book/checked_out`);
+                return <Book[]>res.data;
+            }
         }
         catch
         {

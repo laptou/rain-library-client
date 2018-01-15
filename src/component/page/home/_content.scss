@@ -84,8 +84,13 @@
         background: transparent linear-gradient(to top, hsla(0, 0%, 93%, 0.8), hsla(0, 0%, 100%, 0.8));
         border-radius: 4pt;
         flex-basis: 100%;
-        margin: 1em 0;
+        flex-grow: 1;
         overflow: hidden;
+
+        & + section
+        {
+            margin-top: 1em;
+        }
 
         h2
         {
@@ -204,7 +209,13 @@
     #info-container section
     {
         flex-basis: calc(50% - 2em);
-        margin: 1em 1em;
+        margin: 0;
+
+        & + section
+        {
+            margin-left: 1em;
+            margin-top: 0;
+        }
     }
 }
 

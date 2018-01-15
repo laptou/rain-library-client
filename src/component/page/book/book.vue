@@ -44,11 +44,14 @@
                     <button class="btn-auxilary" @click="$router.go(-1)">
                         Back
                     </button>
-                    <button id="btn-hold" class="btn-primary">
+                    <button id="btn-hold" class="btn-primary" v-if="!checkedOut">
                         Place hold
                         <span class="text-secondary">
                             {{ holdCount }}
                         </span>
+                    </button>
+                    <button class="btn-neutral btn-disabled" v-if="checkedOut">
+                        Checked out
                     </button>
                 </section>
             </div>
@@ -68,6 +71,7 @@
     {
         book: Book | null = null;
         holdCount: number | null = null;
+        checkedOut: boolean = false;
 
         @vue.Lifecycle
         created ()
@@ -76,6 +80,7 @@
             {
                 this.book = await Api.getBookById(this.$route.params.id);
                 this.holdCount = await Api.getHoldCountForBook(this.book.isbn);
+                this.checkedOut = <boolean>await Api.getCheckedOut(this.book.id) || false;
             })();
         }
     }
