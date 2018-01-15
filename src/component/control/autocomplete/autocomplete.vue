@@ -65,14 +65,14 @@
         @vue.Watch("itemsSource")
         onItemSourceChanged (newVal: any[], oldVal: any[])
         {
-            setTimeout(() => (<Element>this.$refs.input).scrollIntoView(true), 150);
+            setTimeout(() => (<Element>this.$refs.input).scrollIntoView({ behavior: "smooth", block: "start" }), 150);
         }
 
         onFocus (evt: FocusEvent)
         {
             this.focused = true;
 
-            setTimeout(() => (<Element>this.$refs.input).scrollIntoView(true), 150);
+            setTimeout(() => (<Element>this.$refs.input).scrollIntoView({ behavior: "smooth", block: "start" }), 150);
         }
 
         onBlur (evt: FocusEvent)

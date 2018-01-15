@@ -49,20 +49,21 @@
     padding: 1em;
 }
 
-@medi width: auto;
+@media (min-width: 800px)
 {
-    right: 0;
-    top: 0;
-    a (min-width: 800px) #user-container
-{
-    position: absolute;
-}
+    #user-container
+    {
+        width: auto;
+        right: 0;
+        top: 0;
+        position: abso
+        {
+            lute;
+        }
 
-#attribution-container
-{
-    width: auto;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-}
+        #attribution-container width: auto;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+    }
 }

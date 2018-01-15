@@ -17,17 +17,18 @@
             <div id="logo-container">
                 <div id="logo-box">
                     <acrylic :background="backgroundAcrylic" :mode="'image'">
-                        <div id="logo-border" :class="`text-${theme}`">
-                            <div id="title-container">
-                                <h1 id="title" :class="`text-${theme}`">
-                                    RAIN <br/>
-                                    INSTITUTE <br/>
-                                    LIBRARY
-                                </h1>
+                        <div id="logo-wrapper">
+                            <div id="logo-border" :class="`text-${theme}`">
+                                <div id="title-container">
+                                    <h1 id="title" :class="`text-${theme}`">
+                                        RAIN <br/>
+                                        INSTITUTE <br/>
+                                        LIBRARY
+                                    </h1>
+                                </div>
                             </div>
                         </div>
                     </acrylic>
-
                 </div>
             </div>
 
