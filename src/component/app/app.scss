@@ -2,6 +2,11 @@
 @import "theme";
 @import "background";
 
+@mixin elevation($level)
+{
+    box-shadow: 0 0 #{$level * 2}pt 0 rgba(0, 0, 0, 0.25);
+}
+
 #scroll-root
 {
     height: 100vh;
@@ -60,6 +65,7 @@ input
     &:focus
     {
         background-color: white;
+        @include elevation(1);
 
         &::placeholder
         {
@@ -95,30 +101,28 @@ button
     {
         background-color: lighten($bg-dark, 0.2);
     }
+}
 
-    // mix-blend-mode: multiply;
-
-    @mixin btn($class, $color)
+@mixin btn($class, $color)
+{
+    .btn-#{$class}
     {
-        &.btn-#{$class}
+        background-color: transparentize($color, 0.2);
+
+        &:hover, &:focus
         {
-            background-color: transparentize($color, 0.2);
+            background-color: $color;
+        }
 
-            &:hover, &:focus
-            {
-                background-color: $color;
-            }
-
-            &:active
-            {
-                background-color: darken($color, 0.2);
-            }
+        &:active
+        {
+            background-color: darken($color, 0.2);
         }
     }
-
-    @include btn(primary, $accent-primary);
-    @include btn(secondary, $accent-secondary);
 }
+
+@include btn(primary, $accent-primary);
+@include btn(secondary, $accent-secondary);
 
 .flat-list
 {
@@ -139,17 +143,14 @@ button
     }
 }
 
-@mixin elevation($level)
-{
-    .elevation-#{$level}
-    {
-        box-shadow: 0 0 #{$level * 2}pt 0 rgba(0, 0, 0, 0.25);
-    }
-}
+
 
 @for $i from 1 through 6
 {
-    @include elevation($i);
+    .elevation-#{$i}
+    {
+        @include elevation($i);
+    }
 }
 
 @media(min-width: 800px)

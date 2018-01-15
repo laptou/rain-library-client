@@ -21,6 +21,11 @@ $accent-secondary: #5f9ea0;
     mix-blend-mode: exclusion;
 }
 
+.text-secondary
+{
+    opacity: 0.6;
+}
+
 .block-dark
 {
     background-color: hsla(0, 0, 10, 0.5);

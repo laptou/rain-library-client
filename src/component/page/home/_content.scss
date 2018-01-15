@@ -142,3 +142,13 @@
 {
     font-family: "Noto Serif";
 }
+
+@media (min-width: 800px)
+{
+    #search-container .autocomplete
+    {
+        width: 80%;
+        max-width: 120em;
+        display: inline-block;
+    }
+}

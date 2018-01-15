@@ -10,6 +10,7 @@ axios.defaults.headers["Accept"] = "application/json";
 
 Vue.use(Vuebar);
 Vue.use(VueRouter);
+
 Vue.filter("name", function (value: string | { first: string; last: string })
 {
     if (!value) return "";

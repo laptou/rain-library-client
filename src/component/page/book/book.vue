@@ -2,6 +2,10 @@
     <div v-if="book" id="root">
         <acrylic :background="background" class="elevation-1">
             <div id="wrapper">
+                <div id="logo">
+                    <img :src="require('@res/img/logo-sm.png')"/>
+                </div>
+
                 <section id="content">
                     <h1>{{ book.name }}</h1>
 
@@ -9,30 +13,37 @@
                         <li v-for="author in book.authors">{{ author.name | name }}</li>
                     </ul>
 
-                    <ul id="genres" class="flat-list">
-                        <li v-for="genre in book.genre">{{ genre }}</li>
-                    </ul>
-
                     <table id="info">
                         <tr>
+                            <td>{{ book.genre.length === 1 ? "Genre" : "Genres" }}</td>
+                            <td class="text-secondary">
+                                <ul id="genres" class="flat-list">
+                                    <li v-for="genre in book.genre">{{ genre }}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>Year</td>
-                            <td>{{ book.year }}</td>
+                            <td class="text-secondary">{{ book.year }}</td>
                         </tr>
                         <tr v-if="book.edition">
                             <td>Edition</td>
-                            <td>{{ book.edition.version }}</td>
+                            <td class="text-secondary">{{ book.edition.version }}</td>
                         </tr>
                         <tr v-if="book.edition">
                             <td>Publisher</td>
-                            <td>{{ book.edition.publisher }}</td>
+                            <td class="text-secondary">{{ book.edition.publisher }}</td>
                         </tr>
-                        <tr v-if="book.edition">
-                            <td>Publisher</td>
-                            <td>{{ book.edition.publisher }}</td>
+                        <tr>
+                            <td>ISBN</td>
+                            <td class="text-secondary">{{ book.isbn }}</td>
                         </tr>
                     </table>
                 </section>
                 <section id="actions">
+                    <button class="btn-auxilary">
+                        Back
+                    </button>
                     <button id="btn-hold" class="btn-primary">
                         Place hold
                         <span class="text-secondary">

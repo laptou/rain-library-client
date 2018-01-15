@@ -1,6 +1,8 @@
 <template>
     <div id="root">
-        <acrylic id="login-container" :background="$store.getters['ui/background/url']">
+        <acrylic id="login-container"
+                 :background="$store.getters['ui/background/url-blurred']"
+                 class="elevation-1">
             <section>
                 <form id="form" method="post" @submit.prevent="onSubmit">
                     <header>
@@ -18,7 +20,7 @@
                     </span>
 
                     <footer>
-                        <button id="btn-login">Log in</button>
+                        <button id="btn-login" class="btn-primary">Log in</button>
                     </footer>
                 </form>
             </section>
