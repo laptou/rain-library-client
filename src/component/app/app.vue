@@ -13,7 +13,9 @@
 
         <div id="scroll-root" v-bar>
             <div>
-                <router-view/>
+                <transition>
+                    <router-view/>
+                </transition>
             </div>
         </div>
     </div>

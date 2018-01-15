@@ -13,6 +13,25 @@
     width: 100vw;
 }
 
+.v-enter-active, .v-leave-active
+{
+    height: 100%;
+    position: absolute;
+    transition-duration: 0.15s;
+    transition-property: opacity;
+    width: 100%;
+}
+
+.v-enter, .v-leave-to
+{
+    opacity: 0;
+}
+
+.v-enter-to, .v-leave
+{
+    opacity: 1;
+}
+
 *
 {
     font-family: "Roboto", sans-serif;
@@ -146,8 +165,6 @@ button
         }
     }
 }
-
-
 
 @for $i from 1 through 6
 {
