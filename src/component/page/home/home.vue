@@ -2,17 +2,17 @@
 <template>
     <div id="root">
         <div>
-            <ul id="user-container">
-                <li v-if="user">
+            <header id="user-container">
+                <button v-if="user" class="btn-auxilary">
                     Welcome, {{ user.name.first + " " + user.name.last }}
-                </li>
-                <li v-if="user">
+                </button>
+                <button v-if="user" class="btn-secondary">
                     <a href="#" @click="$store.dispatch('auth/logout')">Log out</a>
-                </li>
-                <router-link tag="li" v-if="!user" to="/login">
-                    <a>Log in</a>
+                </button>
+                <router-link v-if="!user" to="/login">
+                    <button class="btn-primary">Log in</button>
                 </router-link>
-            </ul>
+            </header>
 
             <div id="logo-container">
                 <div id="logo-box">
@@ -79,7 +79,8 @@
             </div>
 
             <footer id="attribution-container" v-if="backgroundInfo.author">
-                Photo by <a :href="backgroundInfo.author.url">{{ backgroundInfo.author.name }}</a>
+                Photo by <a :href="backgroundInfo.author.url">{{ backgroundInfo.author.name }}</a><br/>
+                © 2017-2018 Ibiyemi Abiodun
             </footer>
         </div>
     </div>

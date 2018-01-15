@@ -1,23 +1,20 @@
-$bg-light: rgba(255, 255, 255, 0.2);
-$bg-dark: rgba(0, 0, 0, 0.2);
-$accent-primary: #1e90ff;
-$accent-secondary: #5f9ea0;
+@import "../../lib/lib.scss";
 
 .text-dark
 {
-    color: hsl(0, 0, 20);
-    mix-blend-mode: color-dodge;
+    color: $text-dark;
+    mix-blend-mode: color;
 }
 
 .text-light
 {
-    color: hsl(0, 0, 80);
-    mix-blend-mode: color-burn;
+    color: $text-light;
+    mix-blend-mode: color;
 }
 
 .text-colorful
 {
-    color: white;
+    color: $text-colorful;
     mix-blend-mode: exclusion;
 }
 
@@ -29,7 +26,6 @@ $accent-secondary: #5f9ea0;
 .block-dark
 {
     background-color: hsla(0, 0, 10, 0.5);
-    color: white;
     a
     {
         color: dodgerblue;
@@ -38,8 +34,8 @@ $accent-secondary: #5f9ea0;
 
 .block-colorful
 {
-    background-color: rgba(255, 255, 255, 0.5);
-    color: black;
+    color: $text-colorful;
+
     a
     {
         color: blue;

@@ -1,4 +1,5 @@
 @import "~scut";
+@import "../../../lib/lib.scss";
 
 h1
 {
@@ -33,10 +34,8 @@ header
 
     img
     {
-        filter: invert(100%);
         height: 4em;
         margin: 1em auto;
-        mix-blend-mode: difference;
     }
 }
 

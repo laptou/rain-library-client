@@ -5,3 +5,26 @@
     right: $dist;
     bottom: $dist;
 }
+
+@mixin elevation($level)
+{
+    box-shadow: 0 0 #{$level * 2}pt 0 rgba(0, 0, 0, 0.25);
+}
+
+$bg-light: rgba(255, 255, 255, 0.5);
+$bg-light-textured: transparent linear-gradient(to top, hsla(0, 0%, 93%, 0.8), hsla(0, 0%, 100%, 0.8));
+$bg-dark: rgba(0, 0, 0, 0.5);
+$text-light: #cccccc;
+$text-dark: #333333;
+$text-colorful: fuchsia;
+
+$accent-primary: #1e90ff;
+$accent-secondary: #5f9ea0;
+$accent-danger: #fb3640;
+$accent-neutral: #605f5e;
+$accent-auxilary: #1c3144;
+
+$font-header: "Roboto Condensed", "Haettenschweiler", "Impact", sans-serif;
+$font-action: "Roboto Condensed", "Haettenschweiler", "Impact", sans-serif;
+$font-body: "PT Sans", "Roboto", "Helvetica", serif;
+$font-decor: "Noto Serif", "PT Serif", "Cambria", serif;

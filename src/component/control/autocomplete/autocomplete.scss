@@ -1,8 +1,9 @@
+@import "../../../lib/lib.scss";
 
 .autocomplete
 {
     border-radius: 4pt;
-    font-family: Roboto, sans-serif;
+    font-family: $font-body;
 
     .autocomplete-input
     {
@@ -12,7 +13,6 @@
         text-align: center;
         width: 100%;
         border: 1px solid grey;
-        box-shadow: 0 0 5pt 0 rgba(0, 0, 0, 0.5);
         box-sizing: border-box;
     }
 
@@ -24,7 +24,7 @@
 
     .autocomplete-suggestions
     {
-        background: transparent linear-gradient(to top, hsla(0, 0%, 93%, 0.8), hsla(0, 0%, 100%, 0.8));
+        background: $bg-light-textured;
         border-radius: 4pt;
         margin: 0;
         padding: 0;

@@ -1,11 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Noto+Serif|Roboto|Roboto+Condensed:700");
 @import "theme";
 @import "background";
-
-@mixin elevation($level)
-{
-    box-shadow: 0 0 #{$level * 2}pt 0 rgba(0, 0, 0, 0.25);
-}
+@import "../../lib/lib.scss";
 
 #scroll-root
 {
@@ -34,7 +30,6 @@
 
 *
 {
-    font-family: "Roboto", sans-serif;
     box-sizing: border-box;
 }
 
@@ -57,14 +52,18 @@ html
 body
 {
     @extend html;
-    font-family: "Roboto", sans-serif;
     perspective: 4000px;
+}
+
+body, input
+{
+    font-family: $font-body;
 }
 
 h1
 {
     display: block;
-    font-family: "Roboto Condensed", sans-serif;
+    font-family: $font-header;
     font-size: 2em;
     font-weight: bold;
     text-align: left;
@@ -100,7 +99,7 @@ input
 
 label
 {
-    font-family: "Roboto Condensed";
+    font-family: $font-header;
 }
 
 button
@@ -111,11 +110,11 @@ button
     cursor: pointer;
     font-weight: bold;
     outline: none;
-    padding: 0.5em;
+    font-family: $font-action;
     transition-duration: 0.15s;
     transition-property: background-color;
     text-transform: uppercase;
-    font-family: "Roboto Condensed", sans-serif;
+    padding: 1em;
 
     &:hover
     {
@@ -127,22 +126,25 @@ button
 {
     .btn-#{$class}
     {
-        background-color: transparentize($color, 0.2);
+        background-color: transparentize($color, 0.3);
 
         &:hover, &:focus
         {
-            background-color: $color;
+            background-color: transparentize($color, 0.15);
         }
 
         &:active
         {
-            background-color: darken($color, 0.2);
+            background-color: $color;
         }
     }
 }
 
 @include btn(primary, $accent-primary);
 @include btn(secondary, $accent-secondary);
+@include btn(auxilary, $accent-auxilary);
+@include btn(danger, $accent-danger);
+@include btn(neutral, $accent-neutral);
 
 .flat-list
 {
