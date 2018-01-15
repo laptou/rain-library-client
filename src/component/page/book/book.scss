@@ -12,9 +12,8 @@
 
 #wrapper
 {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
     height: 100%;
-    padding: 1em;
     width: 100%;
 }
 
@@ -23,6 +22,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    padding: 2em;
 
     h1, h2
     {
@@ -31,18 +31,43 @@
 
     #genres
     {
-        opacity: 0.8;
+        opacity: 0.6;
     }
 
-    #btn-checkout
+    #info
+    {
+        border-spacing: 0;
+        display: block;
+        flex-basis: 100%;
+        margin: 0;
+        padding: 0;
+
+        tr
+        {
+            td:not(:first-child)
+            {
+                opacity: 0.6;
+                padding-left: 1ex;
+            }
+        }
+    }
+}
+
+#actions
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    #btn-hold
     {
         bottom: 0;
+        font-size: 1.25em;
         left: 0;
         padding: 1em;
         position: fixed;
         right: 0;
         width: 100%;
-        font-size: 1.25em;
     }
 }
 
@@ -50,15 +75,9 @@
 {
     #content
     {
-        flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: flex-start;
         align-content: flex-start;
-
-        h1, h2
-        {
-            flex-basis: 100%;
-        }
     }
 }
 
@@ -84,6 +103,21 @@
 
     #content
     {
-        min-width: 32em;
+        min-width: 24rem;
+    }
+
+    #actions
+    {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: row;
+
+        #btn-hold
+        {
+            position: static;
+            margin-top: 1em;
+            width: auto;
+            align-self: flex-end;
+        }
     }
 }

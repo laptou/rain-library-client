@@ -2,7 +2,8 @@
 {
     overflow: hidden;
     position: relative;
-    transition-duration: 0.15s;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 @mixin outset($dist)
@@ -11,33 +12,4 @@
     left: $dist;
     right: $dist;
     bottom: $dist;
-}
-
-%background
-{
-    background-attachment: fixed;
-    background-size: cover;
-    position: absolute;
-    z-index: -1;
-}
-
-#acrylic-background-blank
-{
-    @extend %background;
-    @include outset(0);
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-#acrylic-background
-{
-    @extend %background;
-    @include outset(-1em);
-    //filter: blur(0.5em);
-    opacity: 0.8;
-}
-
-#acrylic-content
-{
-    height: 100%;
-    width: 100%;
 }

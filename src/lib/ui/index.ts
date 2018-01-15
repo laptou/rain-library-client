@@ -57,7 +57,7 @@ export namespace Background
         }
         catch
         {
-            // didn't work, just let the old cached info shine
+            // didn't work, just let the old cached background shine
             return getBackground();
         }
     }
@@ -96,30 +96,30 @@ export namespace Background
     
     function saveTheme (theme: Theme)
     {
-        localStorage.setItem("ui::info::theme", <string>theme);
+        localStorage.setItem("ui::background::theme", <string>theme);
     }
     
     function getTheme ()
     {
-        return <Theme>localStorage.getItem("ui::info::theme");
+        return <Theme>localStorage.getItem("ui::background::theme");
     }
     
     async function saveBackground (image: BackgroundInfo)
     {
-        localStorage.setItem("ui::info::data", await blobTools.getBlobAsDataURL(image.data));
-        localStorage.setItem("ui::info::author::name", image.author.name);
-        localStorage.setItem("ui::info::author::url", image.author.url);
+        localStorage.setItem("ui::background::data", await blobTools.getBlobAsDataURL(image.data));
+        localStorage.setItem("ui::background::author::name", image.author.name);
+        localStorage.setItem("ui::background::author::url", image.author.url);
     }
     
     function getBackground (): BackgroundInfo | null
     {
-        let data = <string>localStorage.getItem("ui::info::data");
+        let data = <string>localStorage.getItem("ui::background::data");
         if (data)
         {
             return {
                 author: {
-                    name: <string>localStorage.getItem("ui::info::author::name"),
-                    url: <string>localStorage.getItem("ui::info::author::url")
+                    name: <string>localStorage.getItem("ui::background::author::name"),
+                    url: <string>localStorage.getItem("ui::background::author::url")
                 },
                 // should work with data urls
                 data: dtob(data)
@@ -130,26 +130,39 @@ export namespace Background
     
     interface VuexState
     {
-        info: BackgroundInfo | null;
+        background: BackgroundInfo | null;
+        blurredBackground: BackgroundInfo | null;
     }
     
     export let vuexModule: Vuex.Module<VuexState, object> = {
         state: {
-            info: getBackground()
+            background: getBackground(),
+            blurredBackground: null
         },
         getters: {
             url: (state: VuexState) =>
             {
-                if (state.info)
-                    return `url(${blobTools.getBlobAsObjectURL(state.info.data)})`;
-                
+                if (state.background)
+                    return `url(${blobTools.getBlobAsObjectURL(state.background.data)})`;
+    
+                return null;
+            },
+            "url-blurred": (state: VuexState) =>
+            {
+                if (state.blurredBackground)
+                    return `url(${blobTools.getBlobAsObjectURL(state.blurredBackground.data)})`;
+        
                 return null;
             }
         },
         mutations: {
             setBackground: (state: VuexState, payload: BackgroundInfo) =>
             {
-                state.info = payload;
+                state.background = payload;
+            },
+            setBlurredBackground: (state: VuexState, payload: BackgroundInfo) =>
+            {
+                state.blurredBackground = payload;
             }
         },
         actions: {
@@ -162,6 +175,16 @@ export namespace Background
                     await saveBackground(background);
                     
                     ctx.commit("setBackground", background);
+    
+                    ctx.commit("setBlurredBackground",
+                               {
+                                   data: await blobTools.blur(background.data,
+                                                              (<Size>background.size).width,
+                                                              (<Size>background.size).height),
+                                   size: background.size,
+                                   author: background.author,
+                                   color: background.color
+                               });
                     
                     const theme = await getThemeForBackground(background);
                     

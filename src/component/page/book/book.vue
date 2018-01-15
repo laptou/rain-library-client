@@ -1,6 +1,6 @@
 <template>
     <div v-if="book" id="root">
-        <acrylic :background="background">
+        <acrylic :background="background" class="elevation-1">
             <div id="wrapper">
                 <section id="content">
                     <h1>{{ book.name }}</h1>
@@ -13,10 +13,32 @@
                         <li v-for="genre in book.genre">{{ genre }}</li>
                     </ul>
 
-                    <h2>Year</h2>
-                    {{ book.year }}
-
-                    <button id="btn-checkout" class="btn-primary">Check out</button>
+                    <table id="info">
+                        <tr>
+                            <td>Year</td>
+                            <td>{{ book.year }}</td>
+                        </tr>
+                        <tr v-if="book.edition">
+                            <td>Edition</td>
+                            <td>{{ book.edition.version }}</td>
+                        </tr>
+                        <tr v-if="book.edition">
+                            <td>Publisher</td>
+                            <td>{{ book.edition.publisher }}</td>
+                        </tr>
+                        <tr v-if="book.edition">
+                            <td>Publisher</td>
+                            <td>{{ book.edition.publisher }}</td>
+                        </tr>
+                    </table>
+                </section>
+                <section id="actions">
+                    <button id="btn-hold" class="btn-primary">
+                        Place hold
+                        <span class="text-secondary">
+                            {{ holdCount }}
+                        </span>
+                    </button>
                 </section>
             </div>
         </acrylic>
@@ -34,10 +56,11 @@
     export default class BookPage extends Vue
     {
         book: Book | null = null;
+        holdCount: number | null = null;
 
         get background (): string
         {
-            return this.$store.getters["ui/background/url"];
+            return this.$store.getters["ui/background/url-blurred"];
         }
 
         @vue.Lifecycle
@@ -46,6 +69,7 @@
             (async () =>
             {
                 this.book = await Api.getBookById(this.$route.params.id);
+                this.holdCount = await Api.getHoldCountForBook(this.book.isbn);
             })();
         }
     }

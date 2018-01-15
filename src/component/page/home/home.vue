@@ -16,16 +16,18 @@
 
             <div id="logo-container">
                 <div id="logo-box">
-                    <acrylic :background="background" :mode="'image'">
-                        <div id="logo-border" :class="`text-${theme}`"></div>
+                    <acrylic :background="backgroundAcrylic" :mode="'image'">
+                        <div id="logo-border" :class="`text-${theme}`">
+                            <div id="title-container">
+                                <h1 id="title" :class="`text-${theme}`">
+                                    RAIN <br/>
+                                    INSTITUTE <br/>
+                                    LIBRARY
+                                </h1>
+                            </div>
+                        </div>
                     </acrylic>
-                    <div id="title-container">
-                        <h1 id="title" :class="`text-${theme}`">
-                            RAIN <br/>
-                            INSTITUTE <br/>
-                            LIBRARY
-                        </h1>
-                    </div>
+
                 </div>
             </div>
 
@@ -109,9 +111,14 @@
             return this.$store.getters["ui/background/url"];
         }
 
+        get backgroundAcrylic (): string
+        {
+            return this.$store.getters["ui/background/url-blurred"];
+        }
+
         get backgroundInfo ()
         {
-            return this.$store.state.ui.background.info;
+            return this.$store.state.ui.background.background;
         }
 
         get theme (): Theme
@@ -124,7 +131,7 @@
         {
             setTimeout(async () =>
                        {
-                           this.checkedOut = await Api.getCheckedOut();
+                           this.checkedOut = await Api.getCheckedOut() || [];
                        }, 0);
         }
 
@@ -135,7 +142,8 @@
                 let suggestions: Book[] = [];
                 try
                 {
-                    suggestions.push(... await Api.searchBooks(newVal, 7));
+                    let books = await Api.searchBooks(newVal, 7);
+                    if (books) suggestions.push(... books);
                 }
                 catch
                 {

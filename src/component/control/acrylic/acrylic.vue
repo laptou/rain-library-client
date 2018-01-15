@@ -1,9 +1,6 @@
 <template>
-    <div class="acrylic">
-        <div id="acrylic-background-blank"></div>
-        <div id="acrylic-background">
-        </div>
-        <div id="acrylic-content">
+    <div class="acrylic" :style="style">
+        <div class="acrylic-content">
             <slot/>
         </div>
     </div>

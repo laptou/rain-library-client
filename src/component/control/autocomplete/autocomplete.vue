@@ -6,14 +6,16 @@
                    ref="input"/>
         </acrylic>
         <div class="autocomplete-suggestions-container" v-bar="{ preventParentScroll: true }">
-            <ul class="autocomplete-suggestions" :class="{ focused }">
-                <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource"
-                    :content="item"
-                    :label="itemLabelSelector(item)"
-                    :description="itemDescriptionSelector(item)"
-                    :tabindex="index">
-                </li>
-            </ul>
+            <div>
+                <ul class="autocomplete-suggestions" :class="{ focused }" v-if="itemsSource.length > 0">
+                    <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource"
+                        :content="item"
+                        :label="itemLabelSelector(item)"
+                        :description="itemDescriptionSelector(item)"
+                        :tabindex="index">
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -63,14 +65,14 @@
         @vue.Watch("itemsSource")
         onItemSourceChanged (newVal: any[], oldVal: any[])
         {
-            (<Element>this.$refs.input).scrollIntoView(true);
+            setTimeout(() => (<Element>this.$refs.input).scrollIntoView(true), 150);
         }
 
         onFocus (evt: FocusEvent)
         {
             this.focused = true;
 
-            (<Element>this.$refs.input).scrollIntoView(true);
+            setTimeout(() => (<Element>this.$refs.input).scrollIntoView(true), 150);
         }
 
         onBlur (evt: FocusEvent)

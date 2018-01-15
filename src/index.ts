@@ -1,9 +1,12 @@
 import store from "@lib/state";
-import * as moment from "moment";
+import axios from "axios";
+import moment from "moment";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuebar from "vuebar";
 import App from "./component/app/app.vue";
+
+axios.defaults.headers["Accept"] = "application/json";
 
 Vue.use(Vuebar);
 Vue.use(VueRouter);

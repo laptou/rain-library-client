@@ -1,4 +1,5 @@
 import axios from "axios";
+import stackblur from "stackblur-canvas";
 
 export async function colorInfo (image: Blob, width: number, height: number, margin: number = 0.1)
 {
@@ -41,6 +42,31 @@ export async function colorInfo (image: Blob, width: number, height: number, mar
     
     const dl_diff = ((light - dark) / (width * height));
     return { brightness: dl_diff, saturation: averageSaturation * 2 - 1 };
+}
+
+export async function blur (image: Blob, width: number, height: number, radius: number = 8)
+{
+    const imageBitmap = await createImageBitmap(image, 0, 0, width, height);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    
+    const ctx = canvas.getContext("2d");
+    
+    if (ctx == null) throw new Error("no canvas context available");
+    
+    ctx.drawImage(imageBitmap, 0, 0);
+    
+    stackblur.canvasRGB(canvas, 0, 0, width, height, radius);
+    
+    return await new Promise((resolve, reject) =>
+                             {
+                                 canvas.toBlob(blob =>
+                                               {
+                                                   if (blob) resolve(blob);
+                                                   else reject(blob);
+                                               });
+                             });
 }
 
 export async function getRemoteURLAsBlob (url: string): Promise<Blob>

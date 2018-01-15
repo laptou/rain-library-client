@@ -46,6 +46,24 @@
 
 #content-container
 {
-    // @include scut-center-block(80%);
     padding: 1em;
+}
+
+@medi width: auto;
+{
+    right: 0;
+    top: 0;
+    a (min-width: 800px) #user-container
+{
+    position: absolute;
+}
+
+#attribution-container
+{
+    width: auto;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+
 }

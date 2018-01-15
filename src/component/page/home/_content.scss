@@ -2,13 +2,9 @@
 {
     text-align: center;
 
-    .acrylic
+    .acrylic-content
     {
-        bottom: 0;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
+        background-color: rgba(255, 255, 255, 0.2);
     }
 
     #logo-box
@@ -16,26 +12,27 @@
         display: inline-block;
         margin: 4em 0 4em 0;
         position: relative;
-        &::before
-        {
-            content: "";
-            display: block;
-            float: left;
-            padding-bottom: 100%;
-        }
-
         mix-blend-mode: normal;
     }
 
     #logo-border
     {
         border: 0.5em solid currentColor;
-        bottom: 0;
         box-sizing: border-box;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
+        align-items: center;
+        color: white;
+        display: flex;
+        height: 80vw;
+        justify-content: center;
+        position: relative;
+        width: 80vw;
+        mix-blend-mode: exclusion;
+
+        @media (min-width: 32rem)
+        {
+            width: 24em;
+            height: 24em;
+        }
     }
 
     #title-container
@@ -47,10 +44,16 @@
     {
         display: block;
         font-family: "Roboto Condensed", sans-serif;
-        font-size: 48pt;
         font-weight: bold;
-        margin: 12pt 12pt 0;
         text-align: left;
+        color: white;
+        font-size: 14vw;
+        mix-blend-mode: exclusion;
+
+        @media (min-width: 32rem)
+        {
+            font-size: 4rem;
+        }
     }
 }
 

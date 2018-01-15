@@ -63,6 +63,7 @@
     "file-loader": "^1.1.6",
     "happypack": "^4.0.0",
     "moment": "^2.20.1",
+    "stackblur-canvas": "^1.4.0",
     "universal-cookie": "^2.1.2",
     "vue-style-loader": "^3.0.3",
     "vuebar": "0.0.17"
