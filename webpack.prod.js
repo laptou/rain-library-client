@@ -32,17 +32,17 @@ module.exports = merge(common, {
             }),
         extractor,
         new HappyPack({
-                          loaders: ["cache-loader", {
-                              loader: "vue-loader",
-                              options: {
-                                  loaders: {
-                                      scss: "cache-loader!vue-style-loader!css-loader!sass-loader"
-                                  },
-                                  extractCSS: true
-                              }
-                          }],
-                          verbose: false
-                      })
+            loaders: ["cache-loader", {
+                loader: "vue-loader",
+                options: {
+                    loaders: {
+                        scss: "cache-loader!vue-style-loader!css-loader!sass-loader"
+                    },
+                    extractCSS: true
+                }
+            }],
+            verbose: false
+        })
     ],
     module:
         {
@@ -50,11 +50,11 @@ module.exports = merge(common, {
                 {
                     test: /\.scss$/,
                     use: extractor.extract([
-                                               "cache-loader",
-                                               "css-loader",
-                                               "resolve-url-loader",
-                                               "sass-loader"
-                                           ])
+                        "cache-loader",
+                        "css-loader",
+                        "resolve-url-loader",
+                        "sass-loader"
+                    ])
                 },
                 {
                     test: /\.vue$/,
