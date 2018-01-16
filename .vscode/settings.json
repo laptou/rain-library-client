@@ -1,6 +1,5 @@
 {
     "files.exclude": {
-        "dist": true,
-        ".cache-loader": true
+        "dist": true
     }
 }

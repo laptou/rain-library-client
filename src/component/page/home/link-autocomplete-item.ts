@@ -1,7 +1,6 @@
 import * as vue from "av-ts";
 import Vue from "vue";
 
-
 @vue.Component({
                    template:
                        `<router-link tag="li"

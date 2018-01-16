@@ -61,12 +61,12 @@
                                     <span class="checkout-book-name">{{ checkout.book.name }}</span>
                                     &ensp;
                                     <ul class="checkout-book-authors flat-list">
-                                        <li v-for="author in checkout.book.authors">
+                                        <li v-for="author in checkout.book.authors" :key="author.id">
                                             {{ author.name | name }}
                                         </li>
                                     </ul>
                                     <ul class="checkout-book-genre flat-list text-secondary">
-                                        <li v-for="genre in checkout.book.genre">
+                                        <li v-for="genre in checkout.book.genre" :key="genre">
                                             {{ genre }}
                                         </li>
                                     </ul>
@@ -107,8 +107,8 @@
 
     import * as vue from "av-ts";
     import Vue from "vue";
-    import LinkAutocompleteItem from "./link-autocomplete-item.ts";
-
+    import LinkAutocompleteItem from "./link-autocomplete-item";
+    
 
     @vue.Component({ components: { Acrylic, Autocomplete } })
     export default class HomePage extends Vue
