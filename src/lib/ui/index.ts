@@ -70,8 +70,8 @@ export namespace Background
             {
                 const info = await blobTools.colorInfo(image.data, image.size.width, image.size.height);
 
-                if (info.saturation < -0.9 ||
-                    Math.abs(info.saturation * info.brightness) < 0.1) return Theme.Colorful;
+                if (info.saturation < -0.9 || Math.abs(info.saturation * info.brightness) < 0.1)
+                    return Theme.Colorful;
                 else if (info.brightness < -0.3) return Theme.Dark;
                 else if (info.brightness > 0.3) return Theme.Light;
                 else return Theme.Colorful;
@@ -177,15 +177,16 @@ export namespace Background
 
                     ctx.commit("setBackground", background);
 
-                    ctx.commit("setBlurredBackground",
-                        {
-                            data: await blobTools.blur(background.data,
-                                (background.size as Size).width,
-                                (background.size as Size).height),
-                            size: background.size,
-                            author: background.author,
-                            color: background.color
-                        });
+                    if (background.size)
+                        ctx.commit("setBlurredBackground",
+                            {
+                                data: await blobTools.blur(background.data,
+                                    (background.size as Size).width,
+                                    (background.size as Size).height),
+                                size: background.size,
+                                author: background.author,
+                                color: background.color
+                            });
 
                     const theme = await getThemeForBackground(background);
 

@@ -20,7 +20,7 @@
                     </div>
                 </section>
                 <section id="actions">
-                    <button @click="$router.go(-1)" class="btn-auxilary">Back</button>
+                    <button @click.prevent="$router.go(-1)" class="btn-auxilary">Back</button>
                     <button id="btn-login" class="btn-primary">Log in</button>
                 </section>
             </form>

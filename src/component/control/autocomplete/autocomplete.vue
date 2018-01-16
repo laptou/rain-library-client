@@ -22,74 +22,69 @@
 </template>
 
 <script lang="ts">
-    import Acrylic from "@control/acrylic/acrylic.vue";
-    import * as vue from "av-ts";
-    import Vue from "vue";
+import Acrylic from "@control/acrylic/acrylic.vue";
+import * as vue from "av-ts";
+import Vue from "vue";
 
-    const AutocompleteItem = require("./autocomplete-item.vue").default;
+const AutocompleteItem = require("./autocomplete-item.vue").default;
 
-    @vue.Component({ components: { Acrylic } })
-    export default class Autocomplete extends Vue
-    {
-        query = "";
-        focused = false;
+@vue.Component({ components: { Acrylic } })
+export default class Autocomplete extends Vue
+{
+  query = "";
+  focused = false;
 
-        // appearance
-        @vue.Prop acrylicBackground = vue.p({ type: String, required: true });
-        @vue.Prop placeholder = vue.p(String);
+  // appearance
+  @vue.Prop acrylicBackground = vue.p({ type: String, required: true });
+  @vue.Prop placeholder = vue.p(String);
 
-        // templating
-        @vue.Prop itemsSource = vue.p(Array);
+  // templating
+  @vue.Prop itemsSource = vue.p(Array);
 
-        @vue.Prop itemTemplateSelector = vue.p({
-                                                   type: Function,
-                                                   defaultFunc: () => AutocompleteItem
-                                               });
+  @vue.Prop
+  itemTemplateSelector = vue.p({
+    type: Function,
+    defaultFunc: () => AutocompleteItem
+  });
 
-        @vue.Prop itemLabelSelector = vue.p({
-                                                type: Function,
-                                                defaultFunc: (item: any) => item
-                                            });
+  @vue.Prop
+  itemLabelSelector = vue.p({
+    type: Function,
+    defaultFunc: (item: any) => item
+  });
 
-        @vue.Prop itemDescriptionSelector = vue.p({
-                                                      type: Function,
-                                                      defaultFunc: (item: any) => item
-                                                  });
+  @vue.Prop
+  itemDescriptionSelector = vue.p({
+    type: Function,
+    defaultFunc: (item: any) => item
+  });
 
-        @vue.Watch("query")
-        onQueryChanged (newVal: string, oldVal: string)
-        {
-            this.$emit("querychanged", newVal, oldVal);
+  @vue.Watch("query")
+  onQueryChanged(newVal: string, oldVal: string)  {
+    this.$emit("querychanged", newVal, oldVal);
+  }
 
-        }
+  @vue.Watch("itemsSource")
+  onItemSourceChanged(newVal: any[], oldVal: any[])  {
+    this.scrollTo();
+  }
 
-        @vue.Watch("itemsSource")
-        onItemSourceChanged (newVal: any[], oldVal: any[])
-        {
-            this.scrollTo();
-        }
+  onFocus(evt: FocusEvent)  {
+    this.focused = true;
 
-        onFocus (evt: FocusEvent)
-        {
-            this.focused = true;
+    this.scrollTo();
+  }
 
-            this.scrollTo();
-        }
+  onBlur(evt: FocusEvent)  {
+    this.focused = false;
+  }
 
-        onBlur (evt: FocusEvent)
-        {
-            this.focused = false;
-        }
+  scrollTo()  {
+    let elem = <Element>this.$refs.input;
 
-        scrollTo()
-        {
-            let elem = <Element>this.$refs.input;
-            
-            if(elem) setTimeout(() => 
-                elem.scrollIntoView({ behavior: "smooth", block: "start" }), 150)
-        }
-    }
+    if (elem) elem.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
 </script>
 
-<style lang="scss" src="./autocomplete.scss">
-</style>
+<style lang="scss" src="./autocomplete.scss"></style>
