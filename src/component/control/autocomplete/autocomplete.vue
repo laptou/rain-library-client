@@ -12,7 +12,8 @@
                         :content="item"
                         :label="itemLabelSelector(item)"
                         :description="itemDescriptionSelector(item)"
-                        :tabindex="index">
+                        :tabindex="index"
+                        :key="index">
                     </li>
                 </ul>
             </div>
@@ -65,19 +66,27 @@
         @vue.Watch("itemsSource")
         onItemSourceChanged (newVal: any[], oldVal: any[])
         {
-            setTimeout(() => (<Element>this.$refs.input).scrollIntoView({ behavior: "smooth", block: "start" }), 150);
+            this.scrollTo();
         }
 
         onFocus (evt: FocusEvent)
         {
             this.focused = true;
 
-            setTimeout(() => (<Element>this.$refs.input).scrollIntoView({ behavior: "smooth", block: "start" }), 150);
+            this.scrollTo();
         }
 
         onBlur (evt: FocusEvent)
         {
             this.focused = false;
+        }
+
+        scrollTo()
+        {
+            let elem = <Element>this.$refs.input;
+            
+            if(elem) setTimeout(() => 
+                elem.scrollIntoView({ behavior: "smooth", block: "start" }), 150)
         }
     }
 </script>
