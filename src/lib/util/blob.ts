@@ -44,7 +44,7 @@ export async function colorInfo(image: Blob, width: number, height: number, marg
     return { brightness: diff, saturation: averageSaturation * 2 - 1 };
 }
 
-export async function blur(image: Blob, width: number, height: number, radius: number = 8)
+export async function blur(image: Blob, width: number, height: number, radius: number = 14)
 {
     const imageBitmap = await createImageBitmap(image, 0, 0, width, height);
     const canvas = document.createElement("canvas");

@@ -23,7 +23,7 @@ module.exports = {
     context: __dirname,
     plugins,
     output: {
-        path: path.join(__dirname, "dist"),
+        path: require("./config").output,
         filename: "bundle.js"
     },
     module: {
@@ -47,7 +47,7 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 loader: "file-loader",
-                options: { name: "[name].[ext]?[hash]" }
+                options: { name: "[name].[ext]?[hash]", publicPath: "/" }
             }
         ]
     },

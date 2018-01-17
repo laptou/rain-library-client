@@ -14,17 +14,17 @@ Vue.use(VueRouter);
 Vue.filter("name", function (value: string | { first: string; last: string })
 {
     if (!value) return "";
-    
+
     if (value instanceof String)
         return value;
     else
         return value.first + " " + value.last;
 });
 
-Vue.filter("relative-time", function (time: string | Date)
+Vue.filter("relative-time", (time: string | Date) =>
 {
     if (!time) return "";
-    
+
     return moment(time).fromNow();
 });
 
@@ -35,26 +35,28 @@ if (module.hot)
         const newStore = require("./lib/state");
         // swap in the new actions and mutationsa
         store.hotUpdate({
-                            modules: newStore.modules
-                        });
+            modules: newStore.modules
+        });
     });
-    
+
     module.hot.accept();
 }
 
-new Vue(
+console.log(process.env.NODE_ENV);
+
+const v = new Vue(
     {
         el: "#app",
         router: new VueRouter({
-                                  routes: require("./routes").default,
-                                  //mode: "history"
-                              }),
+            routes: require("./routes").default,
+            mode: process.env.NODE_ENV === "development" ? "hash" : "history"
+        }),
         template: "<div id='app'><App /></div>",
         store,
         components: {
             App
         },
-        created ()
+        created()
         {
             require("@lib/ui").vueInit(this);
             require("@lib/auth").vueInit(this);
