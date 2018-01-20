@@ -2,38 +2,60 @@ import axios from "axios";
 
 export abstract class Api
 {
-    public static async getBookById (id: string)
-    {
-        let res = await axios.get(`/api/book/id/${id}`);
-        return <Book>res.data;
-    }
-    
-    public static async getBookByIsbn (isbn: string)
+    static async getBooksByAuthor(id: string)
     {
         try
         {
-            let res = await axios.get(`/api/book/isbn/${isbn}`);
-            return <Book>res.data;
+            const res = await axios.get(`/api/book/author/${id}`);
+            return res.data as Book[];
         }
         catch
         {
             return null;
         }
     }
-    
-    public static async getCheckedOut (bookId?: string)
+
+    static async getBookById(id: string)
+    {
+        try
+        {
+            const res = await axios.get(`/api/book/id/${id}`);
+            return res.data as Book;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    static async getBookByIsbn(isbn: string)
+    {
+        try
+        {
+            const res = await axios.get(`/api/book/isbn/${isbn}`);
+            return res.data as Book;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    static async getCheckedOut(bookId: string): Promise<boolean | null>;
+    static async getCheckedOut(): Promise<Book[] | null>;
+    static async getCheckedOut(bookId?: string): Promise<Book[] | boolean | null>
     {
         try
         {
             if (bookId)
             {
-                let res = await axios.get(`/api/book/checked_out/${bookId}`);
-                return <boolean>res.data;
+                const res = await axios.get(`/api/book/checked_out/${bookId}`);
+                return res.data as boolean;
             }
             else
             {
-                let res = await axios.get(`/api/book/checked_out`);
-                return <Book[]>res.data;
+                const res = await axios.get(`/api/book/checked_out`);
+                return res.data as Book[];
             }
         }
         catch
@@ -41,41 +63,41 @@ export abstract class Api
             return null;
         }
     }
-    
-    public static async getHoldCountForBook (isbn: string)
+
+    static async getHoldCountForBook(isbn: string)
     {
         try
         {
-            let res = await axios.get(`/api/hold/book/${isbn}/count`);
-            return <number>res.data;
+            const res = await axios.get(`/api/hold/book/${isbn}/count`);
+            return res.data as number;
         }
         catch
         {
             return null;
         }
     }
-    
-    public static async getPersonById (id: string)
+
+    static async getPersonById(id: string)
     {
         try
         {
-            let res = await axios.get(`/api/person/id/${id}`);
-            return <Person>res.data;
+            const res = await axios.get(`/api/person/id/${id}`);
+            return res.data as Person;
         }
         catch
         {
             return null;
         }
     }
-    
-    public static async searchBooks (query: string, limit?: number)
+
+    static async searchBooks(query: string, limit?: number)
     {
         try
         {
             let url = `/api/book/search/${query}`;
             if (limit) url += `?limit=${limit}`;
-            let res = await axios.get(url);
-            return <Book[]>res.data;
+            const res = await axios.get(url);
+            return res.data as Book[];
         }
         catch
         {
@@ -90,6 +112,8 @@ export interface Person
     username: string | undefined;
     name: { first: string, last: string };
     permissions: string[];
+    bio: string;
+    wiki: string;
 }
 
 export interface Book

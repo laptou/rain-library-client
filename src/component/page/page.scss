@@ -1,8 +1,10 @@
-@import "../../../lib/lib.scss";
+@import "../../lib/lib.scss";
 
 #root
 {
     display: flex;
+    height: 100%;
+    width: 100%;
 
     .acrylic
     {
@@ -16,26 +18,49 @@
     background: $bg-light;
     height: 100%;
     width: 100%;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header
 {
-    text-align: center;
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2em;
 
     img
     {
         height: 4em;
-        margin: 1em auto;
-        filter: invert(100%);
-        mix-blend-mode: difference;
+        margin: 1em 0;
     }
+
+    div
+    {
+        margin-left: 1em;
+    }
+
+    h1
+    {
+        margin: 0;
+    }
+}
+
+#content-wrapper
+{
+    flex-shrink: 1;
+    flex-grow: 1;
+    height: 100%;
 }
 
 #content
 {
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
+    flex-direction: column;
     padding: 0 2em 2em;
 
     h1, h2
@@ -43,7 +68,7 @@ header
         margin: 0 0 4pt;
     }
 
-    #info
+    table
     {
         border-spacing: 0 4pt;
         display: block;
@@ -66,17 +91,13 @@ header
 #actions
 {
     display: flex;
-    bottom: 0;
     justify-content: flex-end;
     flex-direction: column;
-    left: 0;
-    position: fixed;
-    right: 0;
     width: 100%;
+    flex-shrink: 0;
 
     button
     {
-
         font-size: 1.25em;
         padding: 1em;
     }
@@ -104,8 +125,6 @@ header
 {
     #root
     {
-        height: 100%;
-        width: 100%;
         justify-content: center;
         align-items: center;
 
@@ -120,6 +139,7 @@ header
     {
         height: auto;
         width: auto;
+        max-height: 80vh;
     }
 
     #content

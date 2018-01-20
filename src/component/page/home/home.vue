@@ -1,6 +1,6 @@
 <!--suppress JSMethodCanBeStatic -->
 <template>
-    <div id="root">
+    <div id="root" v-bar>
         <div>
             <header id="user-container">
                 <button v-if="user" class="btn-auxilary">

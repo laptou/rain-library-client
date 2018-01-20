@@ -14,12 +14,10 @@
             </div>
         </transition>
 
-        <div id="scroll-root" v-bar>
-            <div>
-                <transition>
-                    <router-view/>
-                </transition>
-            </div>
+        <div id="scroll-root">
+            <transition>
+                <router-view/>
+            </transition>
         </div>
     </div>
 </template>

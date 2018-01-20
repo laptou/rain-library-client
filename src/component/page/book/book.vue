@@ -5,20 +5,26 @@
             <div id="wrapper">
                 <header>
                     <img :src="require('@res/img/logo-sm.png')"/>
+                    <div>
+                        <h1>{{ book.name }}</h1>
+                        <ul id="authors" class="subtitle flat-list">
+                            <router-link tag="li"
+                                        v-for="author in book.authors" 
+                                        :to="`/author/${author.id}`"
+                                        :key="author.id">
+                                <a>{{ author.name | name }}</a>
+                            </router-link>
+                        </ul>
+                    </div>
                 </header>
+                <div id="content-wrapper">
                 <section id="content">
-                    <h1>{{ book.name }}</h1>
-
-                    <ul id="authors" class="flat-list">
-                        <li v-for="author in book.authors">{{ author.name | name }}</li>
-                    </ul>
-
                     <table id="info">
                         <tr>
                             <td>{{ book.genre.length === 1 ? "Genre" : "Genres" }}</td>
                             <td class="text-secondary">
                                 <ul id="genres" class="flat-list">
-                                    <li v-for="genre in book.genre">{{ genre }}</li>
+                                    <li v-for="genre in book.genre" :key="genre">{{ genre }}</li>
                                 </ul>
                             </td>
                         </tr>
@@ -40,6 +46,7 @@
                         </tr>
                     </table>
                 </section>
+                </div>
                 <section id="actions">
                     <button class="btn-auxilary" @click="$router.go(-1)">
                         Back
@@ -60,32 +67,36 @@
 </template>
 
 <script lang="ts">
-    import Acrylic from "@control/acrylic/acrylic.vue";
-    import { Api, Book } from "@lib/api";
-    import * as vue from "av-ts";
-    import Vue from "vue";
+import Acrylic from "@control/acrylic/acrylic.vue";
+import { Api, Book } from "@lib/api";
+import * as vue from "av-ts";
+import Vue from "vue";
 
+@vue.Component({ components: { Acrylic } })
+export default class BookPage extends Vue
+{
+    book: Book | null = null;
+    holdCount: number | null = null;
+    checkedOut: boolean | null = false;
 
-    @vue.Component({ components: { Acrylic } })
-    export default class BookPage extends Vue
+    @vue.Lifecycle
+    created()
     {
-        book: Book | null = null;
-        holdCount: number | null = null;
-        checkedOut: boolean = false;
-
-        @vue.Lifecycle
-        created ()
+        (async () =>
         {
-            (async () =>
-            {
-                this.book = await Api.getBookById(this.$route.params.id);
-                this.holdCount = await Api.getHoldCountForBook(this.book.isbn);
-                this.checkedOut = <boolean>await Api.getCheckedOut(this.book.id) || false;
-            })();
-        }
+            this.book = await Api.getBookById(this.$route.params.id);
+
+            if (this.book)            {
+                [this.holdCount, this.checkedOut] = await Promise.all([
+                    Api.getHoldCountForBook(this.book.isbn),
+                    Api.getCheckedOut(this.book.id)
+                ]);
+            }
+        })();
     }
+}
 </script>
 
-<style scoped src="./book.scss" lang="scss">
+<style scoped src="../page.scss" lang="scss">
 
 </style>

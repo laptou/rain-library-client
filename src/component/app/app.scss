@@ -2,7 +2,6 @@
 @import "theme";
 @import "background";
 @import "../../lib/lib.scss";
-
 #scroll-root
 {
     height: 100vh;
@@ -60,13 +59,36 @@ body, input
     font-family: $font-body;
 }
 
-h1
+h1, h2
 {
     display: block;
     font-family: $font-header;
     font-size: 2em;
     font-weight: bold;
     text-align: left;
+    text-transform: uppercase;
+    margin: 0;
+    margin-bottom: 4pt;
+    & + .subtitle
+    {
+        font-family: $font-header;
+        opacity: 0.7;
+        text-transform: uppercase;
+        font-weight: bold;
+        position: relative;
+        top: -8pt;
+    }
+}
+
+h1
+{
+    color: $accent-primary;
+}
+
+h2
+{
+    color: $accent-secondary;
+    font-size: 1.5em;
 }
 
 input
@@ -79,18 +101,15 @@ input
     padding: 6pt;
     transition-duration: 0.15s;
     transition-property: background-color;
-
     &:focus
     {
         background-color: white;
         @include elevation(1);
-
         &::placeholder
         {
             opacity: 0;
         }
     }
-
     &::placeholder
     {
         transition-duration: 0.15s;
@@ -115,33 +134,28 @@ button
     transition-property: background-color;
     text-transform: uppercase;
     padding: 1em;
-
     &:hover
     {
         background-color: lighten($bg-dark, 0.2);
     }
-
     &.btn-disabled
     {
         cursor: default;
-        opacity: 0.8;
-
-        // this is a hack, but will stop the button from reacting to changes
+        opacity: 0.8; // this is a hack, but will stop the button from reacting to changes
         transition-delay: 1000000000000000000000000000s;
     }
 }
 
-@mixin btn($class, $color)
+@mixin btn($class,
+$color)
 {
     .btn-#{$class}
     {
         background-color: transparentize($color, 0.3);
-
         &:hover, &:focus
         {
             background-color: transparentize($color, 0.15);
         }
-
         &:active
         {
             background-color: $color;
@@ -149,12 +163,16 @@ button
     }
 }
 
-@include btn(primary, $accent-primary);
-@include btn(secondary, $accent-secondary);
-@include btn(auxilary, $accent-auxilary);
-@include btn(danger, $accent-danger);
-@include btn(neutral, $accent-neutral);
-
+@include btn(primary,
+$accent-primary);
+@include btn(secondary,
+$accent-secondary);
+@include btn(auxilary,
+$accent-auxilary);
+@include btn(danger,
+$accent-danger);
+@include btn(neutral,
+$accent-neutral);
 .flat-list
 {
     list-style: none;
@@ -162,12 +180,10 @@ button
     padding: 0;
     display: inline-flex;
     flex-wrap: wrap;
-
     li
     {
         display: inline;
         white-space: nowrap;
-
         &:not(:last-child)::after
         {
             content: "•";
@@ -188,5 +204,7 @@ button
 @media(min-width: 800px)
 {
     h1
-    { font-size: 4em; }
+    {
+        font-size: 4em;
+    }
 }
