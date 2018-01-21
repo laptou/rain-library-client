@@ -4,22 +4,20 @@
                  class="elevation-1">
             <div id="wrapper">
                 <header>
-                    <img :src="require('@res/img/logo-sm.png')"/>
-                    <div>
-                        <h1>{{ book.name }}</h1>
-                        <ul id="authors" class="subtitle flat-list">
-                            <router-link tag="li"
-                                        v-for="author in book.authors" 
-                                        :to="`/author/${author.id}`"
-                                        :key="author.id">
-                                <a>{{ author.name | name }}</a>
-                            </router-link>
-                        </ul>
-                    </div>
+                    <img class="logo" :src="require('@res/img/logo-sm.png')"/>
+                    <h1 class="title">{{ book.name }}</h1>
+                    <ul class="subtitle flat-list">
+                        <router-link tag="li"
+                                    v-for="author in book.authors" 
+                                    :to="`/author/${author.id}`"
+                                    :key="author.id">
+                            <a>{{ author.name | name }}</a>
+                        </router-link>
+                    </ul>
                 </header>
                 <div id="content-wrapper">
                 <section id="content">
-                    <table id="info">
+                    <table class="info">
                         <tr>
                             <td>{{ book.genre.length === 1 ? "Genre" : "Genres" }}</td>
                             <td class="text-secondary">
