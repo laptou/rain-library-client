@@ -1,0 +1,67 @@
+.see-more
+{
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: hidden;
+    max-height: 100px;
+    
+    &.inline
+    {
+        display: inline-flex;
+        flex-flow: row nowrap;
+        max-width: 500px;
+        max-height: 1.2em;
+
+        .see-more-content
+        {
+            display: inline;
+        }
+
+        .see-more-link
+        {
+            margin-left: 1ex;
+            float: right;
+        }
+
+        &.open
+        {
+            display: inline-block;
+        }
+    }
+
+    &.open
+    {
+        max-height: none;
+        max-width: none;
+
+        .see-more-link
+        {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+
+    &.overflow
+    {
+        .see-more-link
+        {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+
+    .see-more-content
+    {
+        overflow: hidden;
+        flex-shrink: 1;
+        text-overflow: ellipsis;
+        word-break: break-all;
+    }
+
+    .see-more-link
+    {
+        visibility: collapse;
+        opacity: 0;
+        transition-duration: 0.15s;
+    }
+}

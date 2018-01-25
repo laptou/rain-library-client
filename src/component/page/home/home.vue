@@ -35,6 +35,7 @@
             </div>
 
             <div id="content-container">
+                
                 <div id="search-container">
                     <autocomplete :itemsSource="suggestions"
                                   :itemLabelSelector="label"
@@ -100,104 +101,108 @@
 </template>
 
 <script lang="ts">
-    import Acrylic from "@control/acrylic/acrylic.vue";
-    import Autocomplete from "@control/autocomplete/autocomplete.vue";
-    import { Api, Book, Person } from "@lib/api";
-    import { Theme } from "@lib/ui";
+import Acrylic from "@control/acrylic/acrylic.vue";
+import Autocomplete from "@control/autocomplete/autocomplete.vue";
+import SeeMore from "@control/see-more/see-more.vue";
+import LinkAutocompleteItem from "./link-autocomplete-item";
 
-    import * as vue from "av-ts";
-    import Vue from "vue";
-    import LinkAutocompleteItem from "./link-autocomplete-item";
-    
+import { Api, Book, Person } from "@lib/api";
+import { Theme } from "@lib/ui";
 
-    @vue.Component({ components: { Acrylic, Autocomplete } })
-    export default class HomePage extends Vue
+import * as vue from "av-ts";
+import Vue from "vue";
+
+@vue.Component({ components: { Acrylic, Autocomplete, SeeMore } })
+export default class HomePage extends Vue
+{
+    suggestions: any[] = [];
+    checkedOut: Book[] = [];
+
+
+    get user(): Person | null
     {
-        suggestions: any[] = [];
-        checkedOut: Book[] = [];
+        return this.$store.state.auth.user;
+    }
 
-        get user (): Person | null
+    get background(): string
+    {
+        return this.$store.getters["ui/background/url"];
+    }
+
+    get backgroundAcrylic(): string
+    {
+        return this.$store.getters["ui/background/url-blurred"];
+    }
+
+    get backgroundInfo()
+    {
+        return this.$store.state.ui.background.background;
+    }
+
+    get theme(): Theme
+    {
+        return this.$store.state.ui.theme;
+    }
+
+    @vue.Lifecycle
+    created()
+    {
+        setTimeout(async () =>
         {
-            return this.$store.state.auth.user;
-        }
-
-        get background (): string
-        {
-            return this.$store.getters["ui/background/url"];
-        }
-
-        get backgroundAcrylic (): string
-        {
-            return this.$store.getters["ui/background/url-blurred"];
-        }
-
-        get backgroundInfo ()
-        {
-            return this.$store.state.ui.background.background;
-        }
-
-        get theme (): Theme
-        {
-            return this.$store.state.ui.theme;
-        }
-
-        @vue.Lifecycle
-        created ()
-        {
-            setTimeout(async () =>
-                       {
-                           this.checkedOut = <Book[]>await Api.getCheckedOut() || [];
-                       }, 0);
-        }
-
-        async onQueryChanged (newVal: string)
-        {
-            if (newVal)
-            {
-                let suggestions: Book[] = [];
-                try
-                {
-                    let books = await Api.searchBooks(newVal, 7);
-                    if (books) suggestions.push(... books);
-                }
-                catch
-                {
-                    // do nothing for now
-                }
-
-                this.suggestions = suggestions;
+            if (this.user) {
+                this.checkedOut = await Api.getCheckedOut() as Book[] || [];
             }
-            else this.suggestions = [];
-        }
+        }, 0);
+    }
 
-        label (item: any): string
+    async onQueryChanged(newVal: string)
+    {
+        if (newVal)
         {
-            if (item.title) return item.title;
-            if (typeof item.name === "string") return item.name;
-            return item.name.first + " " + item.name.last;
-        }
-
-        describe (item: any): string
-        {
-            if (item.authors)
+            const suggestions: Book[] = [];
+            try
             {
-                let book = <Book>item;
-                let authors = <Person[]>book.authors;
-                let info = authors.map((a: Person) => a.name.first + " " + a.name.last)
-                                  .join(", ");
-                info += " | ";
-                info += book.genre.join(", ");
-                return info;
+                const books = await Api.searchBooks(newVal, 7);
+                if (books) suggestions.push(...books);
+            }
+            catch
+            {
+                // do nothing for now
             }
 
-            return "";
+            this.suggestions = suggestions;
+        }
+        else this.suggestions = [];
+    }
+
+    label(item: any): string
+    {
+        if (item.title) return item.title;
+        if (typeof item.name === "string") return item.name;
+        return item.name.first + " " + item.name.last;
+    }
+
+    describe(item: any): string
+    {
+        if (item.authors)
+        {
+            const book = item as Book;
+            const authors = book.authors as Person[];
+            let info = authors.map((a: Person) => a.name.first + " " + a.name.last)
+                .join(", ");
+            info += " | ";
+            info += book.genre.join(", ");
+            return info;
         }
 
-        template (item: any)
-        {
-            return LinkAutocompleteItem;
-        }
-    };
+        return "";
+    }
+
+    template(item: any)
+    {
+        return LinkAutocompleteItem;
+    }
+}
 </script>
 
 <style src="./home.scss" lang="scss" scoped></style>

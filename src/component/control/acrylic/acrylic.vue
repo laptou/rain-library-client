@@ -19,7 +19,7 @@
     @vue.Component
     export default class Acrylic extends Vue
     {
-        @vue.Prop background = vue.p({ type: String, required: true });
+        @vue.Prop background = vue.p({ required: true });
         @vue.Prop mode: string | Mode = vue.p({ type: String, default: Mode.Image });
 
         get style ()
