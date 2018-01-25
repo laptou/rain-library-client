@@ -2,6 +2,7 @@
 @import "theme";
 @import "background";
 @import "../../lib/lib.scss";
+
 #scroll-root
 {
     height: 100vh;
@@ -13,18 +14,23 @@
     height: 100%;
     position: absolute;
     transition-duration: 0.15s;
-    transition-property: opacity;
+    transition-property: left;
     width: 100%;
 }
 
-.v-enter, .v-leave-to
+.v-enter
 {
-    opacity: 0;
+    left: 100%;
+}
+
+.v-leave-to
+{
+    left: -100%;
 }
 
 .v-enter-to, .v-leave
 {
-    opacity: 1;
+    left: 0;
 }
 
 *
@@ -60,4 +66,25 @@ body, input
     font-family: $font-body;
 }
 
+@media (min-width: 800px)
+{
+    .v-enter-active, .v-leave-active
+    {
+        height: 100%;
+        position: absolute;
+        transition-duration: 0.15s;
+        transition-property: opacity;
+        transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+        width: 100%;
+    }
 
+    .v-enter, .v-leave-to
+    {
+        opacity: 0;
+    }
+
+    .v-enter-to, .v-leave
+    {
+        opacity: 1;
+    }
+}

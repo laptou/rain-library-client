@@ -51,10 +51,7 @@
         {
             this.urls = { front: this.background, back: null };
 
-            setTimeout(() =>
-                       {
-                           this.$store.dispatch("ui/background/refresh");
-                       }, 0);
+            setTimeout(() => this.$store.dispatch("ui/background/refresh"), 0);
         }
     }
 </script>

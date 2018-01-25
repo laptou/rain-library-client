@@ -88,7 +88,7 @@ export default class BookPage extends Vue
         {
             this.book = await Api.getBookById(this.$route.params.id);
 
-            if (this.book)            {
+            if (this.book && this.$store.state.auth.user) {
                 [this.holdCount, this.checkedOut] = await Promise.all([
                     Api.getHoldCountForBook(this.book.isbn),
                     Api.getCheckedOut(this.book.id)
