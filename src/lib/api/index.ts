@@ -1,5 +1,11 @@
 import axios from "axios";
 
+// tslint:disable:interface-over-type-literal
+type NoneStatus = { status: "none" };
+type HoldStatus = { status: "on_hold", hold: Hold };
+type CheckoutStatus = { status: "checked_out", checkout: Checkout };
+export type Status = CheckoutStatus | HoldStatus | NoneStatus;
+
 export abstract class Api
 {
     static async getBooksByAuthor(id: string)
@@ -41,22 +47,25 @@ export abstract class Api
         }
     }
 
-    static async getCheckedOut(bookId: string): Promise<boolean | null>;
-    static async getCheckedOut(): Promise<Book[] | null>;
-    static async getCheckedOut(bookId?: string): Promise<Book[] | boolean | null>
+    static async getStatus(bookId: string): Promise<Status | null>
     {
         try
         {
-            if (bookId)
-            {
-                const res = await axios.get(`/api/book/checked_out/${bookId}`);
-                return res.data as boolean;
-            }
-            else
-            {
-                const res = await axios.get(`/api/book/checked_out`);
-                return res.data as Book[];
-            }
+            const res = await axios.get(`/api/book/status/${bookId}`);
+            return res.data as Status;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    static async getCheckedOut(): Promise<Book[] | null>
+    {
+        try
+        {
+            const res = await axios.get(`/api/book/checked_out`);
+            return res.data as Book[];
         }
         catch
         {
@@ -129,8 +138,19 @@ export interface Book
 
 export interface Hold
 {
+    id: string;
     date: Date;
     completed: boolean;
     isbn: string;
+    person: string | Person;
+}
+
+export interface Checkout
+{
+    id: string;
+    start: Date;
+    end: Date | null;
+    penalty_factor: number;
+    book: string | Book;
     person: string | Person;
 }

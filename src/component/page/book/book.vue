@@ -48,16 +48,19 @@
                 </section>
                 </div>
                 <section id="actions">
-                    <button class="btn-auxilary" @click="$router.go(-1)">
+                    <button class="btn-auxilary" @click="$router.back()">
                         Back
                     </button>
-                    <button id="btn-hold" class="btn-primary" v-if="!checkedOut">
+                    <button id="btn-hold" class="btn-primary" v-if="status && status.status === 'none'">
                         Place hold
                         <span class="text-secondary">
                             {{ holdCount }}
                         </span>
                     </button>
-                    <button class="btn-neutral btn-disabled" v-if="checkedOut">
+                    <button class="btn-danger" v-if="status && status.status === 'on_hold'">
+                        Cancel hold
+                    </button>
+                    <button class="btn-neutral btn-disabled" v-if="status && status.status === 'checked_out'">
                         Checked out
                     </button>
                 </section>
@@ -70,7 +73,7 @@
 import Acrylic from "@control/acrylic/acrylic.vue";
 import SeeMore from "@control/see-more/see-more.vue";
 
-import { Api, Book } from "@lib/api";
+import { Api, Book, Status } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
 
@@ -79,7 +82,7 @@ export default class BookPage extends Vue
 {
     book: Book | null = null;
     holdCount: number | null = null;
-    checkedOut: boolean | null = false;
+    status: Status | null = null;
 
     @vue.Lifecycle
     created()
@@ -89,9 +92,9 @@ export default class BookPage extends Vue
             this.book = await Api.getBookById(this.$route.params.id);
 
             if (this.book && this.$store.state.auth.user) {
-                [this.holdCount, this.checkedOut] = await Promise.all([
+                [this.holdCount, this.status] = await Promise.all([
                     Api.getHoldCountForBook(this.book.isbn),
-                    Api.getCheckedOut(this.book.id)
+                    Api.getStatus(this.book.id)
                 ]);
             }
         })();
