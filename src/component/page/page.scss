@@ -30,14 +30,12 @@ header
     grid-template-columns: auto 1fr;
     grid-template-rows: auto;
     grid-gap: 0 1em;
-    padding: 2em;
-    padding-bottom: 0.5em;
+    padding: 2em 1em 1em;
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 
     #logo
     {
         height: 4em;
-        // align-self: center;
     }
 
     #title-wrapper
@@ -62,34 +60,14 @@ header
 {
     display: flex;
     flex-direction: column;
-    padding: 0.5em 2em;
+    padding: 0.5em 1em;
 
     h2
     {
         margin: 1em 0 0;
     }
 
-    ul.tile-list
-    {
-        list-style: none;
-        margin: 1em 0;
-        padding: 0;
-        column-gap: 0.25em;
-        width: 100%;
-
-        li
-        {
-            @include elevation(1);
-            padding: 0.75em;
-            margin: 0.25em 0;
-            background-color: $bg-light;
-
-            &:first-child
-            {
-                margin-top: 0;
-            }
-        }
-    }
+    
 
     table.info
     {
@@ -144,6 +122,16 @@ header
 
 @media (min-width: 480px)
 {
+    header
+    {
+        padding: 2em 2em 1em;
+    }
+
+    #content
+    {
+        padding: 0.5em 2em;
+    }
+
     #actions
     {
         position: static;
@@ -172,6 +160,7 @@ header
     #wrapper
     {
         width: auto;
+        max-width: 80vw;
         height: 80vh;
     }
 

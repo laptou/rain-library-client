@@ -1,0 +1,133 @@
+input
+{
+    background: transparent linear-gradient(to top, hsla(0, 0%, 93%, 0.8), hsla(0, 0%, 100%, 0.8));
+    border: none;
+    border-bottom: 1px solid grey;
+    border-radius: 4pt;
+    outline: none;
+    padding: 6pt;
+    transition-duration: 0.15s;
+    transition-property: background-color;
+
+    &:focus
+    {
+        background-color: white;
+        border: none;
+        @include elevation(1);
+
+        &::placeholder
+        {
+            opacity: 0;
+        }
+    }
+
+    &::placeholder
+    {
+        transition-duration: 0.15s;
+    }
+}
+
+label
+{
+    font-family: $font-header;
+}
+
+button
+{
+    background-color: $bg-dark;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    outline: none;
+    font-family: $font-action;
+    transition-duration: 0.15s;
+    transition-property: background-color;
+    text-transform: uppercase;
+    padding: 1em;
+
+    &:hover
+    {
+        background-color: lighten($bg-dark, 0.2);
+    }
+    &.btn-disabled
+    {
+        cursor: default;
+        opacity: 0.8; // this is a hack, but will stop the button from reacting to changes
+        transition-delay: 1000000000000000000000000000s;
+    }
+}
+
+@include btn(primary, $accent-primary);
+@include btn(secondary, $accent-secondary);
+@include btn(auxilary, $accent-auxilary);
+@include btn(danger, $accent-danger);
+@include btn(neutral, $accent-neutral);
+
+
+@for $i from 1 through 6
+{
+    .elevation-#{$i}
+    {
+        @include elevation($i);
+    }
+}
+
+ul.flat-list
+{
+    display: inline-flex;
+    flex-wrap: wrap;
+
+    li
+    {
+        display: inline;
+        white-space: nowrap;
+        
+        &:not(:last-child)::after
+        {
+            content: "•";
+            margin: 0 4pt;
+            opacity: 0.7;
+        }
+    }
+}
+
+ul.tile-list
+{
+    list-style: none;
+    margin: 1em 0;
+    padding: 0;
+    column-gap: 0.25em;
+    width: 100%;
+
+    li
+    {
+        @include elevation(1);
+        padding: 0.75em;
+        margin-bottom: 0.25em;
+        background-color: $bg-light;
+        transition-duration: 0.15s;
+        transition-property: transform;
+        transform: perspective(400px);
+
+        &:first-child
+        {
+            margin-top: 0;
+        }
+
+        &.tile-link
+        {
+            cursor: pointer;
+
+            &:hover
+            {
+                transform: perspective(400px) translateZ(4px);
+            }
+
+            &:active
+            {
+                transform: perspective(400px) translateZ(-4px);
+            }
+        }
+    }
+}

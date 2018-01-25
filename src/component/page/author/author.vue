@@ -31,10 +31,22 @@
                             <h2>Books</h2>
 
                             <ul v-if="books" class="tile-list tile-small">
-                                <li v-for="book in sortedBooks" :key="book.id">
-                                    {{ book.name }}<br/>
-                                    <span class="subtitle">ree</span>
-                                </li>
+                                <router-link tag="li"
+                                    class="tile-link"
+                                    :to="`/book/${book.id}`" 
+                                    :key="book.id"
+                                    v-for="book in sortedBooks">
+                                    {{ book.name }}
+                                    <span class="subtitle" v-if="book.authors.length > 1">
+                                        + {{ book.authors.length - 1 }} {{ book.authors.length > 2 ? "authors" : "author" }}
+                                    </span>
+                                    <span class="subtitle">
+                                        <br/>
+                                        {{ book.year }}
+                                        &nbsp;&bullet;&nbsp;
+                                        {{ book.genre.join(", ") }}
+                                    </span>
+                                </router-link>
                             </ul>
                             
                         </section>
