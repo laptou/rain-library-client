@@ -5,7 +5,7 @@
                 <slot/>
             </div>
         </div>
-        <a href='#' class="see-more-link" @click="toggle">
+        <a href='javascript:void(0)' class="see-more-link" @click="toggle">
             {{ open ? 'less' : 'more' }}
         </a>
     </div>

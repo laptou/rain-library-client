@@ -4,8 +4,8 @@
                  class="elevation-1">
             <div id="wrapper">
                 <header>
-                    <img :src="require('@res/img/logo-sm.png')"/>
-                    <div>
+                    <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                    <div id="title-wrapper">
                         <h1>{{ author.name | name }}</h1>
                         <span class="subtitle">Author</span>
                     </div>

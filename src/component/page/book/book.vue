@@ -4,18 +4,18 @@
                  class="elevation-1">
             <div id="wrapper">
                 <header>
-                    <img class="logo" :src="require('@res/img/logo-sm.png')"/>
-                    <h1 class="title">{{ book.name }}</h1>
-                    <see-more class="subtitle" :inline="true">
-                        <ul class="flat-list">
-                            <router-link tag="li"
-                                        v-for="author in book.authors" 
-                                        :to="`/author/${author.id}`"
-                                        :key="author.id">
-                                <a>{{ author.name | name }}</a>
+                    <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                    <div id="title-wrapper">
+                        <h1 class="title">{{ book.name }}</h1>
+                        <see-more class="subtitle" :inline="true">
+                            <router-link tag="span"
+                                v-for="author in book.authors" 
+                                :to="`/author/${author.id}`"
+                                :key="author.id">
+                                <a>{{ author.name | name }}</a><span v-if="author.id != book.authors[book.authors.length - 1].id">,&#32;<wbr/></span>
                             </router-link>
-                        </ul>
-                    </see-more>
+                        </see-more>
+                    </div>
                 </header>
                 <div id="content-wrapper">
                 <section id="content">

@@ -34,9 +34,10 @@
 
 a
 {
-    color: blue;
+    color: darken($accent-primary, 20%);
     font-weight: bold;
     text-decoration: none;
+    word-break: keep-all;
 }
 
 html
@@ -147,8 +148,7 @@ button
     }
 }
 
-@mixin btn($class,
-$color)
+@mixin btn($class, $color)
 {
     .btn-#{$class}
     {
@@ -170,13 +170,18 @@ $color)
 @include btn(danger, $accent-danger);
 @include btn(neutral, $accent-neutral);
 
-.flat-list
+ul
 {
-    list-style: none;
+    list-style-position: inside;
     margin: 0 1ex 0 0;
     padding: 0;
+}
+
+.flat-list
+{
     display: inline-flex;
     flex-wrap: wrap;
+
     li
     {
         display: inline;

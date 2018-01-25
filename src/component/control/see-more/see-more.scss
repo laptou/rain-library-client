@@ -5,13 +5,13 @@
     display: flex;
     flex-flow: column nowrap;
     overflow: hidden;
-    max-height: 100px;
+    transition-property: max-height max-width;
+    transition-duration: 5s;
 
     &.inline
     {
         display: inline-flex;
         flex-flow: row nowrap;
-        max-width: 500px;
         max-height: 1.2em;
 
         .see-more-content
@@ -67,6 +67,7 @@
     .see-more-link
     {
         visibility: collapse;
+        flex-shrink: 0;
         opacity: 0;
         transition-property: opacity;
         transition-duration: 0.15s;
