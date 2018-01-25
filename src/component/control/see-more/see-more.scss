@@ -1,10 +1,12 @@
+@import "../../../lib/lib.scss";
+
 .see-more
 {
     display: flex;
     flex-flow: column nowrap;
     overflow: hidden;
     max-height: 100px;
-    
+
     &.inline
     {
         display: inline-flex;
@@ -20,12 +22,16 @@
         .see-more-link
         {
             margin-left: 1ex;
-            float: right;
         }
 
         &.open
         {
             display: inline-block;
+
+            .see-more-link
+            {
+                float: right;
+            }
         }
     }
 
@@ -62,6 +68,8 @@
     {
         visibility: collapse;
         opacity: 0;
+        transition-property: opacity;
         transition-duration: 0.15s;
+        color: $accent-auxilary;
     }
 }

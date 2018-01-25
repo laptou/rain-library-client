@@ -1,7 +1,9 @@
 <template>
     <div class="see-more" :class="{ inline, open, overflow }">
-        <div class="see-more-content" ref="content">
-            <slot/>
+        <div class="see-more-content" ref="wrapper">
+            <div ref="content">
+                <slot/>
+            </div>
         </div>
         <a href='#' class="see-more-link" @click="toggle">
             {{ open ? 'less' : 'more' }}
@@ -25,9 +27,11 @@ export default class SeeMore extends Vue
     @vue.Lifecycle mounted()
     {
         resize.addResizeListener(this.$refs.content, this.onResize);
+
+        this.onResize();
     }
 
-    @vue.Lifecycle destroyed()
+    @vue.Lifecycle beforeDestroy()
     {
         resize.removeResizeListener(this.$refs.content, this.onResize);
     }
@@ -35,12 +39,15 @@ export default class SeeMore extends Vue
     toggle()
     {
         this.open = !this.open;
+
+        this.onResize();
     }
 
-    private onResize(evt: UIEvent)
+    private onResize(evt?: UIEvent)
     {
         const content: HTMLDivElement = this.$refs.content as HTMLDivElement;
-        this.overflow = content.scrollHeight > content.clientHeight;
+        const wrapper: HTMLDivElement = this.$refs.wrapper as HTMLDivElement;
+        this.overflow = content.scrollHeight > wrapper.clientHeight;
     }
 }
 </script>

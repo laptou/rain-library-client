@@ -103,7 +103,6 @@
 <script lang="ts">
 import Acrylic from "@control/acrylic/acrylic.vue";
 import Autocomplete from "@control/autocomplete/autocomplete.vue";
-import SeeMore from "@control/see-more/see-more.vue";
 import LinkAutocompleteItem from "./link-autocomplete-item";
 
 import { Api, Book, Person } from "@lib/api";
@@ -112,12 +111,11 @@ import { Theme } from "@lib/ui";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-@vue.Component({ components: { Acrylic, Autocomplete, SeeMore } })
+@vue.Component({ components: { Acrylic, Autocomplete } })
 export default class HomePage extends Vue
 {
     suggestions: any[] = [];
     checkedOut: Book[] = [];
-
 
     get user(): Person | null
     {

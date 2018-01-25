@@ -6,14 +6,16 @@
                 <header>
                     <img class="logo" :src="require('@res/img/logo-sm.png')"/>
                     <h1 class="title">{{ book.name }}</h1>
-                    <ul class="subtitle flat-list">
-                        <router-link tag="li"
-                                    v-for="author in book.authors" 
-                                    :to="`/author/${author.id}`"
-                                    :key="author.id">
-                            <a>{{ author.name | name }}</a>
-                        </router-link>
-                    </ul>
+                    <see-more class="subtitle" :inline="true">
+                        <ul class="flat-list">
+                            <router-link tag="li"
+                                        v-for="author in book.authors" 
+                                        :to="`/author/${author.id}`"
+                                        :key="author.id">
+                                <a>{{ author.name | name }}</a>
+                            </router-link>
+                        </ul>
+                    </see-more>
                 </header>
                 <div id="content-wrapper">
                 <section id="content">
@@ -66,11 +68,13 @@
 
 <script lang="ts">
 import Acrylic from "@control/acrylic/acrylic.vue";
+import SeeMore from "@control/see-more/see-more.vue";
+
 import { Api, Book } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-@vue.Component({ components: { Acrylic } })
+@vue.Component({ components: { Acrylic, SeeMore } })
 export default class BookPage extends Vue
 {
     book: Book | null = null;
