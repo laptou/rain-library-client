@@ -16,13 +16,18 @@
     .btn-#{$class}
     {
         background-color: transparentize($color, 0.3);
-        &:hover, &:focus
+
+        &:not(.btn-disabled)
         {
-            background-color: transparentize($color, 0.15);
-        }
-        &:active
-        {
-            background-color: $color;
+            &:hover, &:focus
+            {
+                background-color: lighten($color, 0.15);
+            }
+
+            &:active
+            {
+                background-color: darken($color, 0.15);
+            }
         }
     }
 }

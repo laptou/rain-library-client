@@ -4,7 +4,9 @@ export enum BookStatus
 {
     None = "none",
     OnHold = "on_hold",
-    CheckedOut = "checked_out"
+    CheckedOut = "checked_out",
+    Overdue = "overdue",
+    Unavailable = "unavailable"
 }
 
 // tslint:disable:interface-over-type-literal

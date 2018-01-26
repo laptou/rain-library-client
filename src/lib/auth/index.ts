@@ -3,27 +3,27 @@ import axios from "axios";
 import Vue from "vue";
 import * as Vuex from "vuex";
 
-async function getCurrentUser (): Promise<Person | null>
+async function getCurrentUser(): Promise<Person | null>
 {
     try
     {
-        
-        let res = await axios.get("/auth/me", { responseType: "application/json" });
+
+        const res = await axios.get("/auth/me", { responseType: "application/json" });
         if (res.status === 200)
-            return <Person>res.data;
+            return res.data as Person;
     }
     catch
     {
     }
-    
+
     return null;
 }
 
-async function login (username: string, password: string): Promise<number>
+async function login(username: string, password: string): Promise<number>
 {
     try
     {
-        let res = await axios.post("/auth/login", { username, password });
+        const res = await axios.post("/auth/login", { username, password });
         return res.status;
     }
     catch (err)
@@ -32,11 +32,11 @@ async function login (username: string, password: string): Promise<number>
     }
 }
 
-async function logout (): Promise<boolean>
+async function logout(): Promise<boolean>
 {
     try
     {
-        let res = await axios.get("/auth/logout");
+        const res = await axios.get("/auth/logout");
         return res.status === 200;
     }
     catch
@@ -69,7 +69,7 @@ export const vuexModule: Vuex.Module<VuexState, object> = {
             const response = await login(username, password);
             if (response === 200)
                 ctx.commit("setUser", await getCurrentUser());
-            
+
             return response;
         },
         logout: async ctx =>
@@ -82,7 +82,7 @@ export const vuexModule: Vuex.Module<VuexState, object> = {
         }
     }
 };
-export const vueInit = async function (vue: Vue)
+export const vueInit = async (vue: Vue) =>
 {
     vue.$store.dispatch("auth/update");
 };

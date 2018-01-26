@@ -46,15 +46,10 @@ button
     text-transform: uppercase;
     padding: 1em;
 
-    &:hover
-    {
-        background-color: lighten($bg-dark, 0.2);
-    }
     &.btn-disabled
     {
         cursor: default;
         opacity: 0.8; // this is a hack, but will stop the button from reacting to changes
-        transition-delay: 1000000000000000000000000000s;
     }
 }
 

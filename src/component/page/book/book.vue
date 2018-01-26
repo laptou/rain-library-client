@@ -48,20 +48,35 @@
                 </section>
                 </div>
                 <section id="actions">
-                    <button class="btn-auxilary" @click="$router.back()">
+                    <button @click="$router.back()" class="btn-auxilary">
                         Back
                     </button>
-                    <button id="btn-hold" class="btn-primary" v-if="mode === 'place_hold'">
+                    <router-link v-if="mode === 'log_in'" to="/login">
+                        <button class="btn-secondary">
+                            Log in
+                            <br/>
+                            <span class="subtitle">
+                                to check out
+                            </span>
+                        </button>
+                    </router-link>
+                    <button v-else-if="mode === 'place_hold'" class="btn-primary">
                         Place hold
                         <span class="text-secondary">
                             {{ holdCount }}
                         </span>
                     </button>
-                    <button class="btn-danger" v-if="status && status.status === 'on_hold'">
+                    <button v-else-if="mode === 'on_hold'" class="btn-danger">
                         Cancel hold
                     </button>
-                    <button class="btn-neutral btn-disabled" v-if="status && status.status === 'checked_out'">
+                    <button v-else-if="mode === 'checked_out'" class="btn-neutral btn-disabled">
                         Checked out
+                    </button>
+                    <button v-else-if="mode === 'overdue'" class="btn-danger btn-disabled">
+                        Overdue
+                    </button>
+                    <button v-else class="btn-neutral btn-disabled">
+                        Unavailable
                     </button>
                 </section>
             </div>
@@ -109,14 +124,14 @@ export default class BookPage extends Vue
         switch (this.status.status)
         {
             case BookStatus.None:
-                if (this.user.permissions.indexOf("place_hold") === -1)
+                if (!this.user)
+                    return "log_in";
+                else if (this.user.permissions.indexOf("place_hold") === -1)
                     return "none";
                 else
                     return "place_hold";
-            case BookStatus.OnHold:
-                return "on_hold";
-            case BookStatus.CheckedOut:
-                return "checked_out";
+            default:
+                return this.status.status;
         }
     }
 }
