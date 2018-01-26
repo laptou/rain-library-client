@@ -1,9 +1,16 @@
 import axios from "axios";
 
+export enum BookStatus
+{
+    None = "none",
+    OnHold = "on_hold",
+    CheckedOut = "checked_out"
+}
+
 // tslint:disable:interface-over-type-literal
-type NoneStatus = { status: "none" };
-type HoldStatus = { status: "on_hold", hold: Hold };
-type CheckoutStatus = { status: "checked_out", checkout: Checkout };
+type NoneStatus = { status: BookStatus.None };
+type HoldStatus = { status: BookStatus.OnHold, hold: Hold };
+type CheckoutStatus = { status: BookStatus.CheckedOut, checkout: Checkout };
 export type Status = CheckoutStatus | HoldStatus | NoneStatus;
 
 export abstract class Api

@@ -51,7 +51,7 @@
                     <button class="btn-auxilary" @click="$router.back()">
                         Back
                     </button>
-                    <button id="btn-hold" class="btn-primary" v-if="status && status.status === 'none'">
+                    <button id="btn-hold" class="btn-primary" v-if="mode === 'place_hold'">
                         Place hold
                         <span class="text-secondary">
                             {{ holdCount }}
@@ -73,7 +73,7 @@
 import Acrylic from "@control/acrylic/acrylic.vue";
 import SeeMore from "@control/see-more/see-more.vue";
 
-import { Api, Book, Status } from "@lib/api";
+import { Api, Book, BookStatus, Status, Person } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
 
@@ -91,13 +91,33 @@ export default class BookPage extends Vue
         {
             this.book = await Api.getBookById(this.$route.params.id);
 
-            if (this.book && this.$store.state.auth.user) {
+            if (this.book && this.user)            {
                 [this.holdCount, this.status] = await Promise.all([
                     Api.getHoldCountForBook(this.book.isbn),
                     Api.getStatus(this.book.id)
                 ]);
             }
         })();
+    }
+
+    get user(): Person { return this.$store.state.auth.user; }
+
+    get mode()
+    {
+        if (!this.status) return null;
+
+        switch (this.status.status)
+        {
+            case BookStatus.None:
+                if (this.user.permissions.indexOf("place_hold") === -1)
+                    return "none";
+                else
+                    return "place_hold";
+            case BookStatus.OnHold:
+                return "on_hold";
+            case BookStatus.CheckedOut:
+                return "checked_out";
+        }
     }
 }
 </script>
