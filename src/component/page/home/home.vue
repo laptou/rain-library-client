@@ -92,8 +92,10 @@
                 </div>
             </div>
 
-            <footer id="attribution-container" v-if="backgroundInfo.author">
-                Photo by <a :href="backgroundInfo.author.url">{{ backgroundInfo.author.name }}</a><br/>
+            <footer id="attribution-container" >
+                <span v-if="backgroundInfo && backgroundInfo.author">
+                    Photo by <a :href="backgroundInfo.author.url">{{ backgroundInfo.author.name }}</a><br/>
+                </span>
                 © 2017-2018 Ibiyemi Abiodun
             </footer>
         </div>
@@ -145,12 +147,16 @@ export default class HomePage extends Vue
     @vue.Lifecycle
     created()
     {
-        setTimeout(async () =>
+        this.$watch(() => this.user, this.onUserChanged);
+        this.onUserChanged(this.user, null);
+    }
+
+    async onUserChanged(newVal: Person | null, oldVal: Person | null)
+    {
+        if (newVal)
         {
-            if (this.user) {
-                this.checkedOut = await Api.getCheckedOut() as Book[] || [];
-            }
-        }, 0);
+            this.checkedOut = await Api.getCheckedOut() as Book[] || [];
+        }
     }
 
     async onQueryChanged(newVal: string)
