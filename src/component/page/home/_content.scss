@@ -78,6 +78,7 @@
 {
     display: flex;
     flex-wrap: wrap;
+    margin-right: -1em;
 
     section
     {
@@ -86,13 +87,10 @@
         flex-basis: 100%;
         flex-grow: 1;
         overflow: hidden;
+        margin-bottom: 1em;
+        margin-right: 1em;
 
-        & + section
-        {
-            margin-top: 1em;
-        }
-
-        h2
+        & > h2
         {
             display: block;
             font-family: $font-header;
@@ -112,23 +110,38 @@
             {
                 cursor: pointer;
                 display: grid;
+                grid-template-columns: auto 1fr;
+
+                .book-name
+                {
+                    font-family: $font-decor;
+                }
+
+                .book-genre
+                {
+                    font-size: 0.8em;
+                }
+
+                .book-authors
+                {
+                    font-size: 0.8em;
+                }
+
                 .content
                 {
                     align-items: center;
-                    display: flex;
-                    flex-flow: wrap row;
+                    display: grid;
                     padding: 1em;
                 }
 
                 .tag
                 {
-                    align-items: center;
+                    align-content: center;
+                    display: grid;
                     background-color: $accent-neutral;
                     color: white;
-                    display: flex;
                     font-family: $font-action;
-                    font-size: 0.8em;
-                    justify-content: center;
+                    text-align: center;
                     padding: 1em;
                     grid-column: 2;
                 }
@@ -156,38 +169,18 @@
                 grid-template-columns: auto 6em;
             }
         }
+
+        .empty-message
+        {
+            margin: 1em auto;
+            text-align: center;
+            display: block;
+        }
     }
 }
 
 #info-checkout
 {
-    .checkout-book-name
-    {
-        font-family: $font-decor;
-    }
-
-    .checkout-book-genre
-    {
-        font-size: 0.8em;
-
-        span:not(:last-child)::after
-        {
-            content: "•";
-            margin: 0 4pt;
-            opacity: 0.7;
-        }
-    }
-
-    .checkout-book-authors
-    {
-        font-size: 0.8em;
-    }
-
-    .checkout-due
-    {
-        float: right;
-    }
-
     &.overdue
     {
         background: rgba(255, 10, 10, 0.2);
@@ -208,14 +201,8 @@
 {
     #info-container section
     {
-        flex-basis: calc(50% - 2em);
-        margin: 0;
-
-        & + section
-        {
-            margin-left: 1em;
-            margin-top: 0;
-        }
+        flex-basis: calc(50% - 1em);
+        flex-grow: 1;
     }
 }
 

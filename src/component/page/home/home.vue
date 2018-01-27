@@ -51,43 +51,74 @@
                 <div id="info-container">
                     <section id="info-checkout" v-if="user">
                         <h2>Checked out</h2>
-                        <ul>
+                        <ul v-if="checkedOut.length">
                             <router-link tag="li"
                                          v-for="checkout in checkedOut"
-                                         :key="checkout.id"
-                                         :to="`/book/${checkout.book.id}`"
+                                         :key="checkout._id"
+                                         :to="`/book/${checkout.book._id}`"
                                          class="checkout"
                                          :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
                                 <div class="content">
-                                    <span class="checkout-book-name">{{ checkout.book.name }}</span>
-                                    &ensp;
-                                    <ul class="checkout-book-authors flat-list">
-                                        <li v-for="author in checkout.book.authors" :key="author.id">
-                                            {{ author.name | name }}
-                                        </li>
-                                    </ul>
-                                    <ul class="checkout-book-genre flat-list text-secondary">
-                                        <li v-for="genre in checkout.book.genre" :key="genre">
-                                            {{ genre }}
-                                        </li>
-                                    </ul>
+                                    <span class="book-name">{{ checkout.book.name }}</span>
+                                    <span class="book-authors flat-list no-wrap">
+                                        <span v-for="author in checkout.book.authors" :key="author._id">
+                                            {{ author.name | name }},
+                                        </span>
+                                    </span>
+                                    <span class="book-genre text-secondary">
+                                        <span v-for="genre in checkout.book.genre" :key="genre">
+                                            {{ genre }},
+                                        </span>
+                                    </span>
                                 </div>
                                 <span class="tag tag-info"
                                       v-if="Date.parse(checkout.due) > new Date()">
-                                    due {{ checkout.due | relative-time }}
+                                    <span>{{ checkout.due | relative-time }}</span>
+                                    <span class="subtitle">remaining</span>
                                 </span>
-                                <span class="tag tag-danger"
-                                      v-if="Date.parse(checkout.due) <= new Date()">
+                                <span class="tag tag-danger" v-else>
                                     overdue
                                 </span>
                             </router-link>
                         </ul>
+                        <span class="empty-message" v-else>
+                            Go to the library to check out some books!
+                        </span>
                     </section>
+                    
                     <section id="info-trending">
                         <h2>Trending</h2>
-                        <ul>
-                            <li>heehee</li>
+                        <span class="empty-message">
+                            This feature hasn't been implemented yet.
+                        </span>
+                    </section>
+
+                    <section id="info-holds" v-if="user">
+                        <h2>Holds</h2>
+                        <ul v-if="holds.length">
+                            <li v-for="hold in holds"
+                                :key="hold._id">
+                                <div class="content">
+                                    <span class="book-name">{{ hold.book.name }}</span>
+                                    <span class="book-authors flat-list no-wrap">
+                                        <span v-for="(author, index) in hold.book.authors" :key="author._id">
+                                            {{ author.name | name }}{{ index + 1 < hold.book.authors.length ? "," : null }}
+                                        </span>
+                                    </span>
+                                    <span class="book-genre text-secondary">
+                                        <span v-for="(genre, index) in hold.book.genre" :key="genre">
+                                            {{ genre }}{{ index + 1 < hold.book.genre.length ? "," : null }}
+                                        </span>
+                                    </span>
+                                </div>
+                                <span class="tag tag-primary" v-if="hold.ready">
+                                    ready for pickup
+                                </span>
+                            </li>
                         </ul>
+                        <span class="empty-message" v-else>
+                            You don't have any books on hold.
+                        </span>
                     </section>
                 </div>
             </div>
@@ -107,7 +138,7 @@ import Acrylic from "@control/acrylic/acrylic.vue";
 import Autocomplete from "@control/autocomplete/autocomplete.vue";
 import LinkAutocompleteItem from "./link-autocomplete-item";
 
-import { Api, Book, Person } from "@lib/api";
+import { Api, Book, Person, Hold } from "@lib/api";
 import { Theme } from "@lib/ui";
 
 import * as vue from "av-ts";
@@ -118,6 +149,7 @@ export default class HomePage extends Vue
 {
     suggestions: any[] = [];
     checkedOut: Book[] = [];
+    holds: Hold[] = [];
 
     get user(): Person | null
     {
@@ -156,6 +188,7 @@ export default class HomePage extends Vue
         if (newVal)
         {
             this.checkedOut = await Api.getCheckedOut() as Book[] || [];
+            this.holds = await Api.getPendingHolds() as Hold[] || [];
         }
     }
 

@@ -10,9 +10,9 @@
                         <see-more class="subtitle" :inline="true">
                             <router-link tag="span"
                                 v-for="author in book.authors" 
-                                :to="`/author/${author.id}`"
-                                :key="author.id">
-                                <a>{{ author.name | name }}</a><span v-if="author.id != book.authors[book.authors.length - 1].id">,&#32;<wbr/></span>
+                                :to="`/author/${author._id}`"
+                                :key="author._id">
+                                <a>{{ author.name | name }}</a><span v-if="author._id != book.authors[book.authors.length - 1]._id">,&#32;<wbr/></span>
                             </router-link>
                         </see-more>
                     </div>
@@ -60,7 +60,7 @@
                             </span>
                         </button>
                     </router-link>
-                    <button v-else-if="mode === 'place_hold'" class="btn-primary">
+                    <button v-else-if="mode === 'place_hold'" class="btn-primary" @click="placeHold">
                         Place hold
                         <span class="text-secondary">
                             {{ holdCount }}
@@ -106,10 +106,10 @@ export default class BookPage extends Vue
         {
             this.book = await Api.getBookById(this.$route.params.id);
 
-            if (this.book && this.user)            {
+            if (this.book && this.user) {
                 [this.holdCount, this.status] = await Promise.all([
                     Api.getHoldCountForBook(this.book.isbn),
-                    Api.getStatus(this.book.id)
+                    Api.getStatus(this.book._id)
                 ]);
             }
         })();
@@ -132,6 +132,14 @@ export default class BookPage extends Vue
                     return "place_hold";
             default:
                 return this.status.status;
+        }
+    }
+
+    async placeHold()
+    {
+        if (this.book && await Api.placeHold(this.book.isbn))
+        {
+            this.status = await Api.getStatus(this.book._id);
         }
     }
 }

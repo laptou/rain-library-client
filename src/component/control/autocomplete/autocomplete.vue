@@ -5,7 +5,7 @@
                    :placeholder="placeholder" v-model="query"
                    ref="input"/>
         </acrylic>
-        <div class="autocomplete-suggestions-container" v-bar="{ preventParentScroll: true }">
+        <div class="autocomplete-suggestions-container">
             <div>
                 <ul class="autocomplete-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
                     <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource"

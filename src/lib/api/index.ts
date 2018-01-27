@@ -17,6 +17,19 @@ export type Status = CheckoutStatus | HoldStatus | NoneStatus;
 
 export abstract class Api
 {
+    static async placeHold(isbn: string): Promise<boolean>
+    {
+        try
+        {
+            const res = await axios.post(`/api/hold/me`, { isbn });
+            return res.status === 200;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     static async getBooksByAuthor(id: string)
     {
         try
@@ -49,6 +62,32 @@ export abstract class Api
         {
             const res = await axios.get(`/api/book/isbn/${isbn}`);
             return res.data as Book;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    static async getHolds(): Promise<Hold[] | null>
+    {
+        try
+        {
+            const res = await axios.get(`/api/hold/me`);
+            return res.data as Hold[];
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    static async getPendingHolds(): Promise<Hold[] | null>
+    {
+        try
+        {
+            const res = await axios.get(`/api/hold/me/pending`);
+            return res.data as Hold[];
         }
         catch
         {
@@ -126,7 +165,7 @@ export abstract class Api
 
 export interface Person
 {
-    id: string;
+    _id: string;
     username: string | undefined;
     name: { first: string, last: string };
     permissions: string[];
@@ -136,7 +175,7 @@ export interface Person
 
 export interface Book
 {
-    id: string;
+    _id: string;
     name: string;
     edition: { version: number, publisher: string };
     authors: Person[] | string[];
@@ -147,7 +186,7 @@ export interface Book
 
 export interface Hold
 {
-    id: string;
+    _id: string;
     date: Date;
     completed: boolean;
     isbn: string;
@@ -156,7 +195,7 @@ export interface Hold
 
 export interface Checkout
 {
-    id: string;
+    _id: string;
     start: Date;
     end: Date | null;
     penalty_factor: number;

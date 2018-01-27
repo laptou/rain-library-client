@@ -73,6 +73,13 @@ ul.flat-list
     display: inline-flex;
     flex-wrap: wrap;
 
+    &.no-wrap
+    {
+        max-height: 1.2em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     li
     {
         display: inline;

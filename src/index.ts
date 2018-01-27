@@ -25,7 +25,7 @@ Vue.filter("relative-time", (time: string | Date) =>
 {
     if (!time) return "";
 
-    return moment(time).fromNow();
+    return moment(time).fromNow(true);
 });
 
 if (module.hot)

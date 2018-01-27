@@ -33,8 +33,8 @@
                             <ul v-if="books" class="tile-list tile-small">
                                 <router-link tag="li"
                                     class="tile-link"
-                                    :to="`/book/${book.id}`" 
-                                    :key="book.id"
+                                    :to="`/book/${book._id}`" 
+                                    :key="book._id"
                                     v-for="book in sortedBooks">
                                     {{ book.name }}
                                     <span class="subtitle" v-if="book.authors.length > 1">
