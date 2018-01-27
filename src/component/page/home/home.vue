@@ -1,4 +1,3 @@
-<!--suppress JSMethodCanBeStatic -->
 <template>
     <div id="root" v-bar>
         <div>
@@ -20,9 +19,9 @@
                 <div id="logo-box">
                     <acrylic :background="backgroundAcrylic" :mode="'image'">
                         <div id="logo-wrapper">
-                            <div id="logo-border" :class="`text-${theme}`">
+                            <div id="logo-border" :class="`logo-${theme}`">
                                 <div id="title-container">
-                                    <h1 id="title" :class="`text-${theme}`">
+                                    <h1 id="title">
                                         RAIN <br/>
                                         INSTITUTE <br/>
                                         LIBRARY
@@ -61,13 +60,13 @@
                                 <div class="content">
                                     <span class="book-name">{{ checkout.book.name }}</span>
                                     <span class="book-authors flat-list no-wrap">
-                                        <span v-for="author in checkout.book.authors" :key="author._id">
-                                            {{ author.name | name }},
+                                        <span v-for="(author, index) in checkout.book.authors" :key="author._id">
+                                            {{ author.name | name }}{{ index + 1 < checkout.book.authors.length ? "," : null }}
                                         </span>
                                     </span>
                                     <span class="book-genre text-secondary">
-                                        <span v-for="genre in checkout.book.genre" :key="genre">
-                                            {{ genre }},
+                                        <span v-for="(genre, index) in checkout.book.genre" :key="genre">
+                                            {{ genre }}{{ index + 1 < checkout.book.genre.length ? "," : null }}
                                         </span>
                                     </span>
                                 </div>

@@ -7,29 +7,30 @@
 </template>
 
 <script lang="ts">
-    import * as vue from "av-ts";
-    import Vue from "vue";
+import * as vue from "av-ts";
+import Vue from "vue";
 
-    enum Mode
+enum Mode
+{
+    Image = "image",
+    Color = "color"
+}
+
+@vue.Component
+export default class Acrylic extends Vue
+{
+    @vue.Prop background = vue.p({ required: true });
+    @vue.Prop mode: string | Mode = vue.p({ type: String, default: Mode.Image });
+
+    get style()
     {
-        Image = "image",
-        Color = "color"
+        return this.mode === Mode.Color
+            ? { "background-color": this.background }
+            : { "background-image": this.background };
     }
-
-    @vue.Component
-    export default class Acrylic extends Vue
-    {
-        @vue.Prop background = vue.p({ required: true });
-        @vue.Prop mode: string | Mode = vue.p({ type: String, default: Mode.Image });
-
-        get style ()
-        {
-            return this.mode == Mode.Color
-                ? { "background-color": this.background }
-                : { "background-image": this.background };
-        }
-    }
+}
 </script>
 
 <style lang="scss" scoped src="./acrylic.scss">
+
 </style>

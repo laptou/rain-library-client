@@ -11,11 +11,3 @@
     height: 100%;
     width: 100%;
 }
-
-@mixin outset($dist)
-{
-    top: $dist;
-    left: $dist;
-    right: $dist;
-    bottom: $dist;
-}

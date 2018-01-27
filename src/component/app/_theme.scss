@@ -1,55 +1,21 @@
 @import "../../lib/lib.scss";
 
-.text-dark
+.logo-dark
 {
-    color: $text-dark;
-    mix-blend-mode: color;
-}
-
-.text-light
-{
-    color: $text-light;
-    mix-blend-mode: color;
-}
-
-.text-colorful
-{
-    color: $text-colorful;
+    color: white;
     mix-blend-mode: exclusion;
 }
 
-.text-secondary
+.logo-light
 {
-    opacity: 0.6;
+    color: black;
+    mix-blend-mode: exclusion;
 }
 
-.block-dark
-{
-    background-color: hsla(0, 0, 10, 0.5);
-    a
-    {
-        color: dodgerblue;
-    }
-}
-
-.block-colorful
+.logo-colorful
 {
     color: $text-colorful;
-
-    a
-    {
-        color: blue;
-    }
-}
-
-.block-light
-{
-    background-color: hsla(0, 0, 90, 0.5);
-    color: black;
-    a
-    {
-        color: blue;
-    }
+    mix-blend-mode: difference;
 }
 
 .vb

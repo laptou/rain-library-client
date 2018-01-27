@@ -27,13 +27,11 @@
         border: 0.5em solid currentColor;
         box-sizing: border-box;
         align-items: center;
-        color: white;
         display: flex;
         height: 80vw;
         justify-content: center;
         position: relative;
         width: 80vw;
-        mix-blend-mode: exclusion;
 
         @media (min-width: 32rem)
         {
@@ -53,9 +51,7 @@
         font-family: "Roboto Condensed", sans-serif;
         font-weight: bold;
         text-align: left;
-        color: white;
         font-size: 14vw;
-        mix-blend-mode: exclusion;
 
         @media (min-width: 32rem)
         {
@@ -132,6 +128,11 @@
                     align-items: center;
                     display: grid;
                     padding: 1em;
+                }
+                
+                &:first-of-type .tag
+                {
+                    border-top-left-radius: 1em;
                 }
 
                 .tag

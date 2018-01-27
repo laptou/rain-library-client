@@ -26,6 +26,7 @@ export namespace Background
         color?: string;
         size?: Size;
         data: Blob;
+        theme: Theme;
     }
 
     async function getRandomBackground(): Promise<BackgroundInfo | null>
@@ -47,11 +48,16 @@ export namespace Background
                 }));
             const height = width / bgData.width * bgData.height;
 
+            const data = await blobTools.getRemoteURLAsBlob(bgData.urls.custom);
+            const size = { height, width };
+            const color = bgData.color;
+
             return {
                 author: { name: bgData.user.name, url: bgData.user.links.html },
-                size: { height, width },
-                data: await blobTools.getRemoteURLAsBlob(bgData.urls.custom),
-                color: bgData.color
+                size,
+                data,
+                color,
+                theme: await getThemeForBackground(data, size, color)
             };
 
         }
@@ -62,70 +68,66 @@ export namespace Background
         }
     }
 
-    async function getThemeForBackground(image: BackgroundInfo): Promise<Theme>
+    async function getThemeForBackground(data: Blob, size: Size, color: string): Promise<Theme>
     {
         try
         {
-            if (image.size)
-            {
-                const info = await blobTools.colorInfo(image.data, image.size.width, image.size.height);
-
-                if (info.saturation < -0.9 || Math.abs(info.saturation * info.brightness) < 0.1)
-                    return Theme.Colorful;
-                else if (info.brightness < -0.3) return Theme.Dark;
-                else if (info.brightness > 0.3) return Theme.Light;
-                else return Theme.Colorful;
-            }
+            const info = await blobTools.colorInfo(data, size.width, size.height);
+            console.log(info);
+            if (info.saturation < -0.9 || Math.abs(info.saturation * info.brightness) < 0.1)
+                return Theme.Colorful;
+            else if (info.brightness < -0.3) return Theme.Dark;
+            else if (info.brightness > 0.3) return Theme.Light;
+            else return Theme.Colorful;
         }
         catch
         {
 
         }
 
-        if (image.color)
+        if (color)
         {
-            const color = colors.hex.hsl.raw(image.color);
+            const hsl = colors.hex.hsl.raw(color);
 
-            if (color[1] < 10) return Theme.Colorful;
-            else if (color[2] < 40) return Theme.Dark;
+            if (hsl[1] < 10) return Theme.Colorful;
+            else if (hsl[2] < 40) return Theme.Dark;
             else return Theme.Light;
         }
 
         return Theme.Colorful;
     }
 
-    function saveTheme(theme: Theme)
-    {
-        localStorage.setItem("ui::background::theme", theme as string);
-    }
-
-    function getTheme()
-    {
-        return localStorage.getItem("ui::background::theme") as Theme;
-    }
-
     async function saveBackground(image: BackgroundInfo)
     {
-        localStorage.setItem("ui::background::data", await blobTools.getBlobAsDataURL(image.data));
-        localStorage.setItem("ui::background::author::name", image.author.name);
-        localStorage.setItem("ui::background::author::url", image.author.url);
+        const obj = image as any;
+        const serialized: any = {};
+        for (const key in obj)
+        {
+            if (obj.hasOwnProperty(key))
+            {
+                if (obj[key] instanceof Blob)
+                    serialized[key] = await blobTools.getBlobAsDataURL(obj[key]);
+                else
+                    serialized[key] = obj[key];
+            }
+        }
+
+        localStorage.setItem("ui::background", JSON.stringify(serialized));
     }
 
     function getBackground(): BackgroundInfo | null
     {
-        const data = localStorage.getItem("ui::background::data") as string;
+        const data = localStorage.getItem("ui::background");
 
         if (data)
         {
-            return {
-                author: {
-                    name: localStorage.getItem("ui::background::author::name") as string,
-                    url: localStorage.getItem("ui::background::author::url") as string
-                },
-                // should work with data urls
-                data: dtob(data)
-            };
+            return JSON.parse(data, (key, value) =>
+            {
+                if (key === "data") return dtob(value as string);
+                return value;
+            }) as BackgroundInfo;
         }
+
         return null;
     }
 
@@ -143,14 +145,14 @@ export namespace Background
         getters: {
             "url": (state: BackgroundVuexState) =>
             {
-                if (state.background)
+                if (state.background && state.background.data)
                     return `url(${blobTools.getBlobAsObjectURL(state.background.data)})`;
 
                 return null;
             },
             "url-blurred": (state: BackgroundVuexState) =>
             {
-                if (state.blurredBackground)
+                if (state.blurredBackground && state.blurredBackground.data)
                     return `url(${blobTools.getBlobAsObjectURL(state.blurredBackground.data)})`;
 
                 return null;
@@ -173,6 +175,8 @@ export namespace Background
 
                 if (background)
                 {
+                    console.log(background.theme);
+
                     await saveBackground(background);
 
                     ctx.commit("setBackground", background);
@@ -188,11 +192,7 @@ export namespace Background
                                 color: background.color
                             });
 
-                    const theme = await getThemeForBackground(background);
-
-                    saveTheme(theme);
-
-                    ctx.commit("ui/setTheme", theme, { root: true });
+                    ctx.commit("ui/setTheme", background.theme, { root: true });
                 }
             }
         },
