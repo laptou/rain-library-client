@@ -7,14 +7,22 @@ const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 
 const plugins = [
     // Generate skeleton HTML file
-    new webpack.optimize.CommonsChunkPlugin({ async: true }),
+    new webpack.optimize.CommonsChunkPlugin({
+        async: true
+    }),
     new HtmlWebpackPlugin(
         {
             inject: false,
             template: "src/index.html",
             xhtml: true
         }),
-    new CleanWebpackPlugin(["dist"], { verbose: false }),
+    new CleanWebpackPlugin(["dist"], {
+        verbose: false,
+        exclude:
+            ["vue", "moment", "lodash"]
+                .map(j => [j + ".bundle.js", j + "-manifest.json"])
+                .reduce((p, c) => p.concat(c))
+    }),
     new HardSourceWebpackPlugin()
 ];
 

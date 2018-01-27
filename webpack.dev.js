@@ -19,11 +19,11 @@ module.exports = merge(common, {
                 "process.env.NODE_ENV": JSON.stringify("development")
             }),
         new happypack({
-                          loaders: ["cache-loader", {
+                          loaders: [{
                               loader: "vue-loader",
                               options: {
                                   loaders: {
-                                      scss: "cache-loader!vue-style-loader!css-loader!sass-loader"
+                                      scss: "vue-style-loader!css-loader!sass-loader"
                                   }
                               }
                           }],
@@ -35,12 +35,6 @@ module.exports = merge(common, {
             {
                 test: /\.vue$/,
                 loader: "happypack/loader"
-                // loader: "vue-loader",
-                // options: {
-                //     loaders: {
-                //         scss: "vue-style-loader!css-loader!sass-loader"
-                //     }
-                // }
             }
         ]
     }
