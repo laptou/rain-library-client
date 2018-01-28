@@ -11,7 +11,7 @@ export enum BookStatus
 
 // tslint:disable:interface-over-type-literal
 type NoneStatus = { status: BookStatus.None };
-type HoldStatus = { status: BookStatus.OnHold, hold: Hold };
+type HoldStatus = { status: BookStatus.OnHold, hold: Hold, position: number };
 type CheckoutStatus = { status: BookStatus.CheckedOut, checkout: Checkout };
 export type Status = CheckoutStatus | HoldStatus | NoneStatus;
 

@@ -69,13 +69,16 @@
                     <button v-else-if="mode === 'on_hold'" class="btn-danger">
                         Cancel hold
                     </button>
-                    <button v-else-if="mode === 'checked_out'" class="btn-neutral btn-disabled">
+                    <button v-else-if="mode === 'ready'" class="btn-fake text-accent">
+                        Ready for pickup
+                    </button>
+                    <button v-else-if="mode === 'checked_out'" class="btn-fake">
                         Checked out
                     </button>
-                    <button v-else-if="mode === 'overdue'" class="btn-danger btn-disabled">
+                    <button v-else-if="mode === 'overdue'" class="btn-fake text-danger">
                         Overdue
                     </button>
-                    <button v-else class="btn-neutral btn-disabled">
+                    <button v-else class="btn-fake">
                         Unavailable
                     </button>
                 </section>
@@ -106,7 +109,7 @@ export default class BookPage extends Vue
         {
             this.book = await Api.getBookById(this.$route.params.id);
 
-            if (this.book && this.user) {
+            if (this.book && this.user)            {
                 [this.holdCount, this.status] = await Promise.all([
                     Api.getHoldCountForBook(this.book.isbn),
                     Api.getStatus(this.book._id)
@@ -130,6 +133,11 @@ export default class BookPage extends Vue
                     return "none";
                 else
                     return "place_hold";
+            case BookStatus.OnHold:
+                if (this.status.position === 0)
+                    return "ready";
+                else
+                    return "on_hold";
             default:
                 return this.status.status;
         }
