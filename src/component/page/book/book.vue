@@ -66,7 +66,7 @@
                             {{ holdCount }}
                         </span>
                     </button>
-                    <button v-else-if="mode === 'on_hold'" class="btn-danger">
+                    <button v-else-if="mode === 'on_hold'" class="btn-danger" @click="cancelHold">
                         Cancel hold
                     </button>
                     <button v-else-if="mode === 'ready'" class="btn-fake text-accent">
@@ -146,6 +146,14 @@ export default class BookPage extends Vue
     async placeHold()
     {
         if (this.book && await Api.placeHold(this.book.isbn))
+        {
+            this.status = await Api.getStatus(this.book._id);
+        }
+    }
+
+    async cancelHold()
+    {
+        if (this.book && await Api.cancelHold(this.book.isbn))
         {
             this.status = await Api.getStatus(this.book._id);
         }

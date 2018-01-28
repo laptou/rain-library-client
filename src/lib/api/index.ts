@@ -30,6 +30,19 @@ export abstract class Api
         }
     }
 
+    static async cancelHold(isbn: string): Promise<boolean>
+    {
+        try
+        {
+            const res = await axios.delete(`/api/hold/me/${isbn}`);
+            return res.status === 200;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     static async getBooksByAuthor(id: string)
     {
         try
