@@ -54,7 +54,7 @@
                             <router-link tag="li"
                                          v-for="checkout in checkedOut"
                                          :key="checkout._id"
-                                         :to="`/book/${checkout.book._id}`"
+                                         :to="`/book/${checkout.book.isbn}`"
                                          class="checkout"
                                          :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
                                 <div class="content">
@@ -95,8 +95,10 @@
                     <section id="info-holds" v-if="user">
                         <h2>Holds</h2>
                         <ul v-if="holds.length">
-                            <li v-for="hold in holds"
-                                :key="hold._id">
+                            <router-link tag="li"
+                                         v-for="hold in holds"
+                                         :key="hold._id"
+                                         :to="`/book/${hold.book.isbn}`">
                                 <div class="content">
                                     <span class="book-name">{{ hold.book.name }}</span>
                                     <span class="book-authors flat-list no-wrap">
@@ -113,7 +115,7 @@
                                 <span class="tag tag-primary" v-if="hold.ready">
                                     ready for pickup
                                 </span>
-                            </li>
+                            </router-link>
                         </ul>
                         <span class="empty-message" v-else>
                             You don't have any books on hold.

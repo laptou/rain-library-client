@@ -6,6 +6,6 @@ import Author from "@page/author/author.vue";
 export default [
     { path: "/", component: Home },
     { path: "/login", component: Login },
-    { path: "/book/:id", component: Book },
+    { path: "/book/:isbn", component: Book },
     { path: "/author/:id", component: Author }
 ];

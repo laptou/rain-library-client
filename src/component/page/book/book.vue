@@ -56,7 +56,7 @@
                             Log in
                             <br/>
                             <span class="subtitle">
-                                to check out
+                                to place hold
                             </span>
                         </button>
                     </router-link>
@@ -107,12 +107,12 @@ export default class BookPage extends Vue
     {
         (async () =>
         {
-            this.book = await Api.getBookById(this.$route.params.id);
+            this.book = await Api.getBookByIsbn(this.$route.params.isbn);
 
             if (this.book && this.user)            {
                 [this.holdCount, this.status] = await Promise.all([
                     Api.getHoldCountForBook(this.book.isbn),
-                    Api.getStatus(this.book._id)
+                    Api.getStatus(this.book.isbn)
                 ]);
             }
         })();
@@ -122,14 +122,18 @@ export default class BookPage extends Vue
 
     get mode()
     {
-        if (!this.status) return null;
+        if (!this.status)
+        {
+            if (!this.user)
+                return "log_in";
+            return "none";
+        }
 
         switch (this.status.status)
         {
+            case null:
             case BookStatus.None:
-                if (!this.user)
-                    return "log_in";
-                else if (this.user.permissions.indexOf("place_hold") === -1)
+                if (this.user.permissions.indexOf("place_hold") === -1)
                     return "none";
                 else
                     return "place_hold";
@@ -147,7 +151,7 @@ export default class BookPage extends Vue
     {
         if (this.book && await Api.placeHold(this.book.isbn))
         {
-            this.status = await Api.getStatus(this.book._id);
+            this.status = await Api.getStatus(this.book.isbn);
         }
     }
 
@@ -155,7 +159,7 @@ export default class BookPage extends Vue
     {
         if (this.book && await Api.cancelHold(this.book.isbn))
         {
-            this.status = await Api.getStatus(this.book._id);
+            this.status = await Api.getStatus(this.book.isbn);
         }
     }
 }

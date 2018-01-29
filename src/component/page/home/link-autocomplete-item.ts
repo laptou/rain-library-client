@@ -5,7 +5,7 @@ import Vue from "vue";
                    template:
                        `<router-link tag="li"
                                      class="autocomplete-item"
-                                     :to="\`/book/\${content._id}\`">
+                                     :to="\`/book/\${content.isbn}\`">
                             <span class="autocomplete-item-label">{{ label }}</span>
                             <span class="autocomplete-item-desc">{{ description }}</span>
                         </router-link>`

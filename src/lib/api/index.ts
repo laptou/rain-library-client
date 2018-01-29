@@ -56,24 +56,11 @@ export abstract class Api
         }
     }
 
-    static async getBookById(id: string)
-    {
-        try
-        {
-            const res = await axios.get(`/api/book/id/${id}`);
-            return res.data as Book;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
     static async getBookByIsbn(isbn: string)
     {
         try
         {
-            const res = await axios.get(`/api/book/isbn/${isbn}`);
+            const res = await axios.get(`/api/book/${isbn}`);
             return res.data as Book;
         }
         catch
@@ -108,11 +95,11 @@ export abstract class Api
         }
     }
 
-    static async getStatus(bookId: string): Promise<Status | null>
+    static async getStatus(isbn: string): Promise<Status | null>
     {
         try
         {
-            const res = await axios.get(`/api/book/status/${bookId}`);
+            const res = await axios.get(`/api/book/status/${isbn}`);
             return res.data as Status;
         }
         catch
@@ -125,7 +112,7 @@ export abstract class Api
     {
         try
         {
-            const res = await axios.get(`/api/book/checked_out`);
+            const res = await axios.get(`/api/book/status/checked_out`);
             return res.data as Book[];
         }
         catch
@@ -176,42 +163,64 @@ export abstract class Api
     }
 }
 
-export interface Person
+export declare interface Document
 {
+    id: string;
     _id: string;
-    username: string | undefined;
-    name: { first: string, last: string };
-    permissions: string[];
-    bio: string;
-    wiki: string;
 }
 
-export interface Book
+export declare type Permission = "check_out" |
+    "place_hold" |
+    "modify_hold" |
+    "modify_book" |
+    "modify_fine" |
+    "modify_person" |
+    "admin" |
+    "author" |
+    "user" |
+    "test";
+
+export declare interface Person extends Document
 {
-    _id: string;
+    username: string | null;
+    name: { first: string, last: string };
+    permissions: Permission[];
+}
+
+export declare interface Book extends Document
+{
     name: string;
     edition: { version: number, publisher: string };
     authors: Person[] | string[];
+    copies: string[];
     genre: string[];
-    year: number;
+    rating: number;
     isbn: string;
 }
 
-export interface Hold
+export interface Checkout extends Document
 {
-    _id: string;
+    start: Date;
+    due: Date | null;
+    completed: boolean;
+    penalty_factor: number;
+    book: string | Book;
+    person: string | Person;
+}
+
+export interface Hold extends Document
+{
     date: Date;
     completed: boolean;
     isbn: string;
     person: string | Person;
 }
 
-export interface Checkout
+export interface Fine extends Document
 {
-    _id: string;
-    start: Date;
-    end: Date | null;
-    penalty_factor: number;
+    date: Date;
+    completed: boolean;
+    amount: number;
     book: string | Book;
     person: string | Person;
 }
