@@ -1,52 +1,54 @@
 @import "~scut";
 @import "_content";
-@import "../../../lib/lib.scss";
+@import "../../../res/base.scss";
 
-#root
-{
+#root {
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
-    height: 100%;
-    width: 100%;
 }
 
-#user-container
-{
-    padding: 1em;
+#menu-container {
     width: 100%;
     margin: 0;
+    padding: 1em;
 
-    button a
-    {
+    list-style: none;
+
+    li,
+    button {
+        width: 100%;
+    }
+
+    button a {
         color: white;
     }
 }
 
-footer
-{
-    text-align: center;
+footer {
     margin: 2em auto 0;
     padding: 2em;
+
+    text-align: center;
+
     background-color: $bg-light;
 }
 
-#content-container
-{
+#content-container {
     padding: 1em;
 }
 
-@media (min-width: 800px)
-{
-    #user-container
-    {
-        width: auto;
-        right: 0;
-        top: 0;
+@media (min-width: 800px) {
+    #menu-container {
         position: absolute;
+        top: 0;
+        right: 0;
+
+        width: auto;
     }
 
-    #attribution-container
-    {
+    #attribution-container {
         max-width: 32em;
     }
 }

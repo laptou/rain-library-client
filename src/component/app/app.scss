@@ -1,15 +1,13 @@
 @import url("https://fonts.googleapis.com/css?family=Noto+Serif|PT+Sans|Roboto+Condensed:700");
 @import "theme";
-@import "../../lib/lib.scss";
+@import "../../res/base.scss";
 
-#scroll-root
-{
+#scroll-root {
     width: 100vw;
     height: 100vh;
 }
 
-.background
-{
+.background {
     position: fixed;
     z-index: -1;
     top: 0;
@@ -25,26 +23,26 @@
     background-size: cover;
 }
 
-.fade-enter-active, .fade-leave-active
-{
+.fade-enter-active,
+.fade-leave-active {
     width: 100%;
     height: 100%;
 
     transition-property: opacity;
 }
 
-.fade-enter, .fade-leave-to
-{
+.fade-enter,
+.fade-leave-to {
     opacity: 0;
 }
 
-.fade-enter-to, .fade-leave
-{
+.fade-enter-to,
+.fade-leave {
     opacity: 0.8;
 }
 
-.page-enter-active, .page-leave-active
-{
+.page-enter-active,
+.page-leave-active {
     position: absolute;
 
     width: 100%;
@@ -54,28 +52,24 @@
     transition-property: left;
 }
 
-.page-enter
-{
+.page-enter {
     left: 100%;
 }
 
-.page-leave-to
-{
+.page-leave-to {
     left: -100%;
 }
 
-.page-enter-to, .page-leave
-{
+.page-enter-to,
+.page-leave {
     left: 0;
 }
 
-*
-{
+* {
     box-sizing: border-box;
 }
 
-a
-{
+a {
     font-weight: bold;
 
     text-decoration: none;
@@ -84,8 +78,7 @@ a
     color: darken($accent-primary, 20%);
 }
 
-html
-{
+html {
     overflow: hidden;
 
     width: 100%;
@@ -94,21 +87,19 @@ html
     padding: 0;
 }
 
-body
-{
+body {
     @extend html;
     perspective: 4000px;
 }
 
-body, input
-{
+body,
+input {
     font-family: $font-body;
 }
 
-@media (min-width: 800px)
-{
-    .page-enter-active, .page-leave-active
-    {
+@media (min-width: 800px) {
+    .page-enter-active,
+    .page-leave-active {
         position: static;
 
         width: 100%;
@@ -118,13 +109,13 @@ body, input
         transition-property: opacity;
     }
 
-    .page-enter, .page-leave-to
-    {
+    .page-enter,
+    .page-leave-to {
         opacity: 0;
     }
 
-    .page-enter-to, .page-leave
-    {
+    .page-enter-to,
+    .page-leave {
         opacity: 1;
     }
 }

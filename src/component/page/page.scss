@@ -1,20 +1,17 @@
-@import "../../lib/lib.scss";
+@import "../../res/base.scss";
 
-#root
-{
+#root {
     display: flex;
     height: 100%;
     width: 100%;
 
-    .acrylic
-    {
+    .acrylic {
         height: 100%;
         width: 100%;
     }
 }
 
-#wrapper
-{
+#wrapper {
     background: $bg-light;
     height: 100%;
     width: 100%;
@@ -23,8 +20,7 @@
     flex-direction: column;
 }
 
-header
-{
+header {
     background: $bg-light-textured;
     display: grid;
     grid-template-columns: auto 1fr;
@@ -32,61 +28,51 @@ header
     grid-gap: 0 1em;
     padding: 2em 1em 1em;
 
-    #logo
-    {
+    #logo {
         height: 4em;
     }
 
-    #title-wrapper
-    {
+    #title-wrapper {
         padding-top: calc(0.5em - 4pt);
         grid-column: 2 / 2;
     }
 }
 
-#content-scroll-wrapper
-{
+#content-scroll-wrapper {
     height: 100%;
 }
 
-#content-scroll-wrapper, #content-wrapper, #content
-{
+#content-scroll-wrapper,
+#content-wrapper,
+#content {
     flex-shrink: 1;
     flex-grow: 1;
 }
 
-#content
-{
+#content {
     display: flex;
     flex-direction: column;
     padding: 0.5em 1em;
 
-    h2
-    {
+    h2 {
         margin: 1em 0 0;
     }
 
-    
-
-    table.info
-    {
+    table.info {
         border-spacing: 0 4pt;
         display: block;
         flex-basis: 100%;
         margin: 0;
         padding: 0;
 
-        tr
-        {
+        tr {
             margin: 4pt 0;
 
-            td
-            {
+            td {
                 padding-right: 1ex;
                 vertical-align: top;
 
-                &:first-child
-                {
+                &:first-child {
                     padding-right: 1em;
                 }
             }
@@ -94,93 +80,76 @@ header
     }
 }
 
-#actions
-{
+#actions {
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
     width: 100%;
     flex-shrink: 0;
 
-    button
-    {
+    button {
         font-size: 1.25em;
         padding: 1em;
     }
 }
 
-@media(orientation: landscape)
-{
-    #content
-    {
+@media (orientation: landscape) {
+    #content {
         justify-content: flex-start;
         align-items: flex-start;
         align-content: flex-start;
     }
 }
 
-@media (min-width: 480px)
-{
-    header
-    {
+@media (min-width: 480px) {
+    header {
         padding: 2em 2em 1em;
     }
 
-    #content
-    {
+    #content {
         padding: 0.5em 2em;
     }
 
-    #actions
-    {
+    #actions {
         position: static;
     }
 }
 
-@media(min-width: 800px)
-{
-    #root
-    {
+@media (min-width: 800px) {
+    #root {
         justify-content: center;
         align-items: center;
 
-        .acrylic
-        {
+        .acrylic {
             width: auto;
             height: auto;
         }
     }
 
-    header #title-wrapper
-    {
+    header #title-wrapper {
         margin-top: -4pt;
     }
 
-    #wrapper
-    {
+    #wrapper {
         width: auto;
         max-width: 80vw;
         height: 80vh;
     }
 
-    #content
-    {
+    #content {
         min-width: 48rem;
 
-        ul.tile-list.tile-small
-        {
+        ul.tile-list.tile-small {
             columns: 2;
 
-            li
-            {
+            li {
                 display: inline-block;
                 width: 100%;
             }
         }
     }
 
-    #actions
-    {
+    #actions {
         flex-direction: row;
     }
 }

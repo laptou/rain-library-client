@@ -1,29 +1,24 @@
-@import "../../../lib/lib.scss";
+@import "../../../res/base.scss";
 
-#logo-container
-{
+#logo-container {
     text-align: center;
 
-    .acrylic-content
-    {
+    .acrylic-content {
         background-color: rgba(255, 255, 255, 0.2);
     }
 
-    #logo-box
-    {
+    #logo-box {
         display: inline-block;
         margin: 4em 0 4em 0;
         position: relative;
         mix-blend-mode: normal;
 
-        #logo-wrapper
-        {
+        #logo-wrapper {
             background-color: rgba(255, 255, 255, 0.2);
         }
     }
 
-    #logo-border
-    {
+    #logo-border {
         border: 0.5em solid currentColor;
         box-sizing: border-box;
         align-items: center;
@@ -33,52 +28,49 @@
         position: relative;
         width: 80vw;
 
-        @media (min-width: 32rem)
-        {
+        @media (min-width: 32rem) {
             width: 24em;
             height: 24em;
         }
     }
 
-    #title-container
-    {
+    #title-container {
         padding: 1em;
     }
 
-    #title
-    {
+    #title {
         display: block;
         font-family: "Roboto Condensed", sans-serif;
         font-weight: bold;
         text-align: left;
         font-size: 14vw;
 
-        @media (min-width: 32rem)
-        {
+        @media (min-width: 32rem) {
             font-size: 4rem;
         }
     }
 }
 
-#search-container
-{
+#search-container {
     text-align: center;
 
-    .autocomplete
-    {
+    .autocomplete {
         margin-bottom: 5em;
     }
 }
 
-#info-container
-{
+#info-container {
     display: flex;
     flex-wrap: wrap;
     margin-right: -1em;
 
-    section
-    {
-        background: transparent linear-gradient(to top, hsla(0, 0%, 93%, 0.8), hsla(0, 0%, 100%, 0.8));
+    section {
+        background: transparent
+            linear-gradient(
+                to top,
+                hsla(0, 0%, 93%, 0.8),
+                hsla(0, 0%, 100%, 0.8)
+            );
         border-radius: 4pt;
         flex-basis: 100%;
         flex-grow: 1;
@@ -86,8 +78,7 @@
         margin-bottom: 1em;
         margin-right: 1em;
 
-        & > h2
-        {
+        & > h2 {
             display: block;
             font-family: $font-header;
             font-size: 1em;
@@ -96,47 +87,39 @@
             text-transform: uppercase;
         }
 
-        & > ul
-        {
+        & > ul {
             list-style: none;
             margin: 0;
             padding: 0;
 
-            & > li
-            {
+            & > li {
                 cursor: pointer;
                 display: grid;
                 grid-template-columns: auto 1fr;
 
-                .book-name
-                {
+                .book-name {
                     font-family: $font-decor;
                 }
 
-                .book-genre
-                {
+                .book-genre {
                     font-size: 0.8em;
                 }
 
-                .book-authors
-                {
+                .book-authors {
                     font-size: 0.8em;
                 }
 
-                .content
-                {
+                .content {
                     align-items: center;
                     display: grid;
                     padding: 1em;
                 }
-                
-                &:first-of-type .tag
-                {
+
+                &:first-of-type .tag {
                     border-top-left-radius: 1em;
                 }
 
-                .tag
-                {
+                .tag {
                     align-content: center;
                     display: grid;
                     background-color: $accent-neutral;
@@ -147,23 +130,19 @@
                     grid-column: 2;
                 }
 
-                .tag-info
-                {
+                .tag-info {
                     background-color: $accent-auxilary;
                 }
 
-                .tag-danger
-                {
+                .tag-danger {
                     background-color: $accent-danger;
                 }
 
-                .tag-primary
-                {
+                .tag-primary {
                     background-color: $accent-primary;
                 }
 
-                .tag-secondary
-                {
+                .tag-secondary {
                     background-color: $accent-secondary;
                 }
 
@@ -171,8 +150,7 @@
             }
         }
 
-        .empty-message
-        {
+        .empty-message {
             margin: 1em auto;
             text-align: center;
             display: block;
@@ -180,37 +158,29 @@
     }
 }
 
-#info-checkout
-{
-    &.overdue
-    {
+#info-checkout {
+    &.overdue {
         background: rgba(255, 10, 10, 0.2);
 
-        .checkout-due
-        {
+        .checkout-due {
             color: red;
         }
     }
 }
 
-.autocomplete .autocomplete-item-label
-{
+.autocomplete .autocomplete-item-label {
     font-family: $font-decor;
 }
 
-@media (min-width: 480px)
-{
-    #info-container section
-    {
+@media (min-width: 480px) {
+    #info-container section {
         flex-basis: calc(50% - 1em);
         flex-grow: 1;
     }
 }
 
-@media (min-width: 800px)
-{
-    #content-container
-    {
+@media (min-width: 800px) {
+    #content-container {
         width: 80%;
         max-width: 120em;
         margin: auto;

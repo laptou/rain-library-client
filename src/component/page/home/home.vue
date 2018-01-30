@@ -1,19 +1,33 @@
 <template>
     <div id="root" v-bar>
         <div>
-            <header id="user-container">
-                <button v-if="user" class="btn-auxilary">
-                    Welcome, {{ user.name.first + " " + user.name.last }}
-                </button>
-                <a href="#" @click="$store.dispatch('auth/logout')">
-                    <button v-if="user" class="btn-secondary">
-                        Log out
+            <ul id="menu-container">
+                <li v-if="user">
+                    <button class="btn-auxilary">
+                        Welcome, {{ user.name.first + " " + user.name.last }}
                     </button>
-                </a>
-                <router-link v-if="!user" to="/login">
-                    <button class="btn-primary">Log in</button>
+                </li>
+
+                <router-link tag="li" to="/admin" v-if="user && user.permissions.indexOf('admin') !== -1">
+                    <button class="btn-primary">
+                        Manage Library
+                    </button>
                 </router-link>
-            </header>
+                
+                <li  v-if="user">
+                    <a href="javascript:void(0)" @click="$store.dispatch('auth/logout')">
+                        <button class="btn-secondary">
+                            Log Out
+                        </button>
+                    </a>
+                </li>
+
+                <router-link v-else to="/login" tag="li">
+                        <button class="btn-primary">
+                            Log In
+                        </button>
+                </router-link>
+            </ul>
 
             <div id="logo-container">
                 <div id="logo-box">
@@ -146,87 +160,70 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component({ components: { Acrylic, Autocomplete } })
-export default class HomePage extends Vue
-{
+export default class HomePage extends Vue {
     suggestions: any[] = [];
     checkedOut: Book[] = [];
     holds: Hold[] = [];
 
-    get user(): Person | null
-    {
+    get user(): Person | null {
         return this.$store.state.auth.user;
     }
 
-    get background(): string
-    {
+    get background(): string {
         return this.$store.getters["ui/background/url"];
     }
 
-    get backgroundAcrylic(): string
-    {
+    get backgroundAcrylic(): string {
         return this.$store.getters["ui/background/url-blurred"];
     }
 
-    get backgroundInfo()
-    {
+    get backgroundInfo() {
         return this.$store.state.ui.background.background;
     }
 
-    get theme(): Theme
-    {
+    get theme(): Theme {
         return this.$store.state.ui.theme;
     }
 
     @vue.Lifecycle
-    created()
-    {
+    created() {
         this.$watch(() => this.user, this.onUserChanged);
         this.onUserChanged(this.user, null);
     }
 
-    async onUserChanged(newVal: Person | null, oldVal: Person | null)
-    {
-        if (newVal)
-        {
-            this.checkedOut = await Api.getCheckedOut() as Book[] || [];
-            this.holds = await Api.getPendingHolds() as Hold[] || [];
+    async onUserChanged(newVal: Person | null, oldVal: Person | null) {
+        if (newVal) {
+            this.checkedOut = ((await Api.getCheckedOut()) as Book[]) || [];
+            this.holds = ((await Api.getPendingHolds()) as Hold[]) || [];
         }
     }
 
-    async onQueryChanged(newVal: string)
-    {
-        if (newVal)
-        {
+    async onQueryChanged(newVal: string) {
+        if (newVal) {
             const suggestions: Book[] = [];
-            try
-            {
+            try {
                 const books = await Api.searchBooks(newVal, 7);
                 if (books) suggestions.push(...books);
-            }
-            catch
-            {
+            } catch {
                 // do nothing for now
             }
 
             this.suggestions = suggestions;
-        }
-        else this.suggestions = [];
+        } else this.suggestions = [];
     }
 
-    label(item: any): string
-    {
+    label(item: any): string {
         if (item.title) return item.title;
         if (typeof item.name === "string") return item.name;
         return item.name.first + " " + item.name.last;
     }
 
-    describe(item: any): string
-    {
-        if (item.authors)
-        {
+    describe(item: any): string {
+        if (item.authors) {
             const book = item as Book;
             const authors = book.authors as Person[];
-            let info = authors.map((a: Person) => a.name.first + " " + a.name.last)
+            let info = authors
+                .map((a: Person) => a.name.first + " " + a.name.last)
                 .join(", ");
             info += " | ";
             info += book.genre.join(", ");
@@ -236,12 +233,12 @@ export default class HomePage extends Vue
         return "";
     }
 
-    template(item: any)
-    {
+    template(item: any) {
         return LinkAutocompleteItem;
     }
 }
 </script>
 
-<style src="./home.scss" lang="scss" scoped></style>
+<style src="./home.scss" lang="scss" scoped>
 
+</style>

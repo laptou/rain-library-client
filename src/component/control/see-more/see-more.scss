@@ -1,71 +1,59 @@
-@import "../../../lib/lib.scss";
+@import "../../../res/base.scss";
 
-.see-more
-{
+.see-more {
     display: flex;
     flex-flow: column nowrap;
     overflow: hidden;
     transition-property: max-height max-width;
     transition-duration: 5s;
 
-    &.inline
-    {
+    &.inline {
         display: inline-flex;
         flex-flow: row nowrap;
         max-height: 1.2em;
 
-        .see-more-content
-        {
+        .see-more-content {
             display: inline;
         }
 
-        .see-more-link
-        {
+        .see-more-link {
             margin-left: 1ex;
         }
 
-        &.open
-        {
+        &.open {
             display: inline-block;
 
-            .see-more-link
-            {
+            .see-more-link {
                 float: right;
             }
         }
     }
 
-    &.open
-    {
+    &.open {
         max-height: none;
         max-width: none;
 
-        .see-more-link
-        {
+        .see-more-link {
             visibility: visible;
             opacity: 1;
         }
     }
 
-    &.overflow
-    {
-        .see-more-link
-        {
+    &.overflow {
+        .see-more-link {
             visibility: visible;
             opacity: 1;
         }
     }
 
-    .see-more-content
-    {
+    .see-more-content {
         overflow: hidden;
         flex-shrink: 1;
         text-overflow: ellipsis;
         word-break: break-all;
     }
 
-    .see-more-link
-    {
+    .see-more-link {
         visibility: collapse;
         flex-shrink: 0;
         opacity: 0;
