@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <section id="actions">
-                    <button class="btn-auxilary" @click="$router.go(-1)">
+                    <button class="btn-back btn-auxilary" @click="$router.back()">
                         Back
                     </button>
                 </section>

@@ -127,11 +127,6 @@ header
 
         padding: 1em;
     }
-
-    & > button:first-child
-    {
-        border-top-left-radius: 4pt;
-    }
 }
 
 @media #{$screen-md}
@@ -144,11 +139,6 @@ header
     #content
     {
         padding: 0.5em 2em;
-    }
-
-    #actions
-    {
-        position: static;
     }
 }
 
@@ -201,6 +191,12 @@ header
     #actions
     {
         flex-direction: row;
+
+        .btn-back
+        {
+            border-top-left-radius: 4pt;
+            order: -1;
+        }
     }
 
     .page-narrow

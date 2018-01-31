@@ -47,9 +47,6 @@
                 </section>
                 </div>
                 <section id="actions">
-                    <button @click="$router.back()" class="btn-auxilary">
-                        Back
-                    </button>
                     <router-link v-if="mode === 'log_in'" to="/login">
                         <button class="btn-secondary">
                             Log in
@@ -79,6 +76,9 @@
                     </button>
                     <button v-else class="btn-fake">
                         Unavailable
+                    </button>
+                    <button @click="$router.back()" class="btn-back btn-auxilary">
+                        Back
                     </button>
                 </section>
             </div>
