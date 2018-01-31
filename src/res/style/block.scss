@@ -1,6 +1,7 @@
-input
+input[type="text"], input[type="search"], input[type="password"]
 {
     display: block;
+
     padding: 6pt;
 
     transition-duration: 0.15s;
@@ -27,8 +28,51 @@ input
     &::placeholder
     {
         transition-duration: 0.15s;
+
         opacity: 0.7;
         color: currentColor;
+    }
+}
+
+input[type="checkbox"]
+{
+    position: absolute;
+
+    opacity: 0;
+
+    & + label::before
+    {
+        display: inline-block;
+
+        width: 1em;
+        height: 1em;
+        margin: 0 1ex 0 0;
+
+        content: " ";
+        cursor: pointer;
+        transition-duration: 0.075s;
+        transition-property: background-color transform;
+        transform: rotate(0deg);
+        vertical-align: middle;
+
+        border: 1pt solid $text-dark;
+    }
+
+    &:hover + label::before
+    {
+        background-color: transparentize($text-dark, 0.5);
+    }
+
+    &:checked + label::before
+    {
+        transform: rotate(90deg);
+
+        background-color: $text-dark;
+    }
+
+    &:active + label::before
+    {
+        transform: perspective(40px) translateZ(-4px) rotate(45deg);
     }
 }
 
@@ -156,6 +200,22 @@ ul.tile-list
             {
                 transform: perspective(400px) translateZ(-4px);
             }
+        }
+    }
+}
+
+ul.checkbox-list
+{
+    li
+    {
+        position: relative;
+        
+        & > label
+        {
+            display: block;
+
+            margin: 0 !important;
+            padding: 1ex 0;
         }
     }
 }

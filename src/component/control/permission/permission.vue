@@ -22,7 +22,12 @@ export default class SeeMore extends Vue {
             if (user.permissions.indexOf("user") === -1) return false;
 
             const required = this.permissions.split(" ") as Permission[];
-            for (const r of required) {
+            for (let r of required) {
+                if (r.startsWith("-")) {
+                    r = r.replace(/^-+/, "") as Permission;
+                    if (user.permissions.indexOf(r) !== -1) return false;
+                    continue;
+                }
                 if (user.permissions.indexOf(r) === -1) return false;
             }
             return true;

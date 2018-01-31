@@ -82,7 +82,7 @@ header
         margin: 1em 0 0;
     }
 
-    table.info
+    table
     {
         display: block;
         flex-basis: 100%;
@@ -107,6 +107,55 @@ header
                     padding-right: 1em;
                 }
             }
+        }
+    }
+
+    form
+    {
+        display: grid;
+
+        margin: 1em;
+
+        grid-template-rows: auto auto auto auto;
+        grid-row-gap: 0.5em;
+
+        label
+        {
+            align-self: center;
+
+            margin-top: 1em;
+
+            text-transform: uppercase;
+        }
+
+        #input-username
+        {
+            grid-row: 2;
+        }
+
+        #label-password
+        {
+            grid-row: 3;
+        }
+
+        #input-password
+        {
+            grid-row: 4;
+        }
+
+        #error
+        {
+            margin-top: 1em;
+            padding: 12pt;
+
+            text-align: center;
+
+            color: $text-light;
+            background: $accent-danger;
+
+            grid-row: 5;
+
+@include elevation(1);
         }
     }
 }

@@ -8,10 +8,12 @@
                         <h1 class="title">Manage Library</h1>
                     </div>
                 </header>
-                <div id="content-wrapper">
-                    <transition name="page">
-                        <router-view id="content" />
-                    </transition>
+                <div id="content-scroll-wrapper" v-bar>
+                    <div id="content-wrapper">
+                        <transition name="page">
+                            <router-view id="content" />
+                        </transition>
+                    </div>
                 </div>
                 <section id="actions">
                     <button @click="$router.back()" class="btn-auxilary">

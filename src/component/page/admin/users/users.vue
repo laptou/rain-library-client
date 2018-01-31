@@ -1,8 +1,18 @@
 <template>
   <div>
-
       <input type="search" placeholder="search users" v-model="query"/>
-      {{ results }}
+      <ul class="tile-list tile-small">
+        <router-link tag="li"
+            class="tile-link"
+            :to="`user/${user.id}`" 
+            :key="user.id"
+            v-for="user in results">
+            {{ user.name | name }}<br/>
+            <span class="subtitle">
+                {{ user.permissions | status }}
+            </span>
+        </router-link>
+    </ul>
   </div>
 </template>
 

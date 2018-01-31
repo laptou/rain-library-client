@@ -11,7 +11,7 @@
                     </div>
                 </header>
                 <section id="content">
-                    <div id="form">
+                    <form>
                         <label for="input-username" id="label-username">Username </label>
                         <input name="username" id="input-username" type="text" v-model="username"/>
 
@@ -21,7 +21,7 @@
                         <span id="error" v-if="error">
                             {{ error }}
                         </span>
-                    </div>
+                    </form>
                 </section>
                 <section id="actions">
                     <button id="btn-login" class="btn-primary">Log in</button>
