@@ -164,6 +164,7 @@ export interface Hold extends Document {
     completed: boolean;
     isbn: string;
     person: string | Person;
+    ready: boolean;
 }
 
 export interface Fine extends Document {

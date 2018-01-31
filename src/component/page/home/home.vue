@@ -187,6 +187,9 @@ export default class HomePage extends Vue {
         if (newVal) {
             this.checkedOut = ((await Api.getCheckedOut()) as Book[]) || [];
             this.holds = ((await Api.getPendingHolds()) as Hold[]) || [];
+            this.holds = this.holds.sort(
+                (a, b) => (a.ready > b.ready ? 1 : a.ready < b.ready ? -1 : 0)
+            );
         }
     }
 
