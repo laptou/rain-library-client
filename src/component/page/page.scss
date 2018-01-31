@@ -66,16 +66,12 @@ header
 
 #content-scroll-wrapper, #content-wrapper, #content
 {
-    position: relative;
-
     flex-grow: 1;
     flex-shrink: 1;
 }
 
 #content
 {
-    position: relative;
-
     display: flex;
     flex-direction: column;
 
@@ -123,12 +119,18 @@ header
     justify-content: flex-end;
 
     width: 100%;
+    margin-top: 1em;
 
     button
     {
         font-size: 1.25em;
 
         padding: 1em;
+
+        &:first-child
+        {
+            border-top-left-radius: 4pt;
+        }
     }
 }
 
@@ -142,7 +144,7 @@ header
     }
 }
 
-@media (min-width: 480px)
+@media #{$screen-md}
 {
     header
     {
@@ -160,7 +162,7 @@ header
     }
 }
 
-@media (min-width: 800px)
+@media #{$screen-lg}
 {
     #root
     {

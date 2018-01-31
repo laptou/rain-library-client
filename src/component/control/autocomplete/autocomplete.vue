@@ -68,8 +68,7 @@ export default class Autocomplete extends Vue {
 
     onFocus(evt: FocusEvent) {
         this.focused = true;
-
-        this.scrollTo();
+        if (evt.srcElement === this.$refs.input) this.scrollTo();
     }
 
     onBlur(evt: FocusEvent) {
@@ -77,7 +76,7 @@ export default class Autocomplete extends Vue {
     }
 
     scrollTo() {
-        let elem = <Element>this.$refs.input;
+        const elem = this.$refs.input as Element;
 
         if (elem) elem.scrollIntoView({ behavior: "smooth", block: "start" });
     }

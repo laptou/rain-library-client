@@ -91,7 +91,7 @@ footer
     padding: 1em;
 }
 
-@media (min-width: 800px)
+@media #{$screen-lg}
 {
     #menu-container
     {
