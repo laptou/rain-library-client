@@ -8,10 +8,16 @@ const HappyPack = require("happypack");
 
 const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 
-const extractor = new ExtractTextWebpackPlugin("bundle-[contenthash].css");
-
 module.exports = merge(common, {
     plugins: [
+        // extract the CSS
+        new ExtractTextPlugin({
+            filename: "[name].[contenthash].css",
+            allChunks: true
+        }),
+        new webpack.DefinePlugin({
+            "process.env.NODE_ENV": JSON.stringify("production")
+        }),
         // Minify JavaScript
         new UglifyJsPlugin({
             sourceMap: false,
@@ -20,13 +26,6 @@ module.exports = merge(common, {
                 ecma: 8
             }
         }),
-        new ExtractTextPlugin({
-            filename: "[name].[contenthash].css"
-        }),
-        new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify("production")
-        }),
-        extractor,
         new HappyPack({
             loaders: [
                 "cache-loader",
@@ -48,7 +47,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.scss$/,
-                use: extractor.extract([
+                use: ExtractTextWebpackPlugin.extract([
                     "cache-loader",
                     "css-loader",
                     "resolve-url-loader",

@@ -149,6 +149,7 @@ export declare interface Person extends Document {
     username: string | null;
     name: { first: string; last: string };
     permissions: Permission[];
+    limits?: { days: number; books: number };
 }
 
 export declare interface Book extends Document {

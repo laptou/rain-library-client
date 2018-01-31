@@ -1,8 +1,8 @@
-import * as blobTools from '@lib/util/blob';
-import * as colors from 'color-convert';
-import * as dtob from 'dataurl-to-blob';
-import Unsplash, { toJson } from 'unsplash-js';
-import * as Vuex from 'vuex';
+import * as blobTools from "@lib/util/blob";
+import * as colors from "color-convert";
+import * as dtob from "dataurl-to-blob";
+import Unsplash, { toJson } from "unsplash-js";
+import * as Vuex from "vuex";
 
 export enum Theme {
     Colorful = "colorful",

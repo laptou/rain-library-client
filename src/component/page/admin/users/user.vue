@@ -72,6 +72,24 @@
                     </label>
                 </li>
             </template>
+            <li>
+                <input type="checkbox" id="permission-limits" 
+                    @input="hasLimitsChanged($event)"
+                    @loaded="hasLimitsChanged($event)" />
+                <label for="permission-limits">
+                    Limits
+                </label>
+                <ul class="checkbox-list" v-if="person.limits">
+                    <li>
+                        <input type="checkbox" id="permission-user" 
+                        value="user" 
+                        v-model="person.limits.books" />
+                        <label for="permission-user">
+                            Book limit: <input type="text" v-model.number="person.limits.books"/>
+                        </label>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <span class="subtitle" v-if="person.permissions.indexOf('admin') !== -1">
             Administrators have all permissions.
@@ -91,6 +109,16 @@ export default class AdminUserPage extends Vue {
 
     get user(): Person {
         return this.$store.state.auth.user;
+    }
+
+    hasLimitsChanged(evt: Event) {
+        console.log("ree");
+        if (!this.person) return false;
+
+        return !!this.person.limits;
+
+        // if (!this.person) return;
+        // this.person.limits = { days: 0, books: 0 };
     }
 
     @vue.Lifecycle

@@ -1,47 +1,36 @@
-import Admin from "@page/admin/admin.vue";
-import AdminBook from "@page/admin/books/book.vue";
-import AdminBooks from "@page/admin/books/books.vue";
-import AdminHome from "@page/admin/home/home.vue";
-import AdminUser from "@page/admin/users/user.vue";
-import AdminUsers from "@page/admin/users/users.vue";
-import Author from "@page/author/author.vue";
-import Book from "@page/book/book.vue";
-import Home from "@page/home/home.vue";
-import Login from "@page/login/login.vue";
 import { RouteConfig } from "vue-router";
 
 const routes: RouteConfig[] = [
-    { path: "/", component: Home },
-    { path: "/login", component: Login },
+    { path: "/", component: () => import("@page/home/home.vue") },
+    { path: "/login", component: () => import("@page/login/login.vue") },
     {
         path: "/admin",
-        component: Admin,
+        component: () => import("@page/admin/admin.vue"),
         meta: { permissions: ["admin"] },
         children: [
             {
                 path: "",
-                component: AdminHome
+                component: () => import("@page/admin/home/home.vue")
             },
             {
                 path: "users",
-                component: AdminUsers
+                component: () => import("@page/admin/users/users.vue")
             },
             {
                 path: "user/:id",
-                component: AdminUser
+                component: () => import("@page/admin/users/user.vue")
             },
             {
                 path: "books",
-                component: AdminBooks,
-                children: []
+                component: () => import("@page/admin/books/books.vue")
             },
             {
                 path: "book/:isbn",
-                component: AdminBook
+                component: () => import("@page/admin/books/book.vue")
             }
         ]
     },
-    { path: "/book/:isbn", component: Book },
-    { path: "/author/:id", component: Author }
+    { path: "/book/:isbn", component: () => import("@page/book/book.vue") },
+    { path: "/author/:id", component: () => import("@page/author/author.vue") }
 ];
 export default routes;

@@ -79,6 +79,12 @@ input[type="checkbox"]
 label
 {
     font-family: $font-header;
+
+    & > input[type='text']
+    {
+        display: inline-block;
+        margin-left: 1em;
+    }
 }
 
 button
@@ -126,6 +132,11 @@ button
     {
         @include elevation($i);
     }
+}
+
+ul ul
+{
+    margin-left: 1em;
 }
 
 ul.flat-list
@@ -209,7 +220,7 @@ ul.checkbox-list
     li
     {
         position: relative;
-        
+
         & > label
         {
             display: block;
