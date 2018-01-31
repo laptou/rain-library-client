@@ -2,31 +2,84 @@
 @import "_content";
 @import "../../../res/base.scss";
 
-#root {
+#root
+{
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
 }
 
-#menu-container {
+#menu-button
+{
+    font-weight: bold;
+
     width: 100%;
-    margin: 0;
-    padding: 1em;
+    height: 100%;
 
-    list-style: none;
+    background: transparent;
+}
 
-    li,
-    button {
-        width: 100%;
+#menu-container
+{
+    width: auto;
+
+    .acrylic
+    {
+        display: inline-block;
+
+        width: 3.2em;
+        height: 3.2em;
+
+        transition-duration: 0.15s;
+        transition-property: width;
     }
 
-    button a {
-        color: white;
+    ul
+    {
+        width: 100%;
+        margin: 0;
+        margin-top: -100%;
+
+        list-style: none;
+
+        transition-duration: 0.15s;
+
+        li, button
+        {
+            width: 100%;
+        }
+
+        button a
+        {
+            color: white;
+        }
+    }
+
+    &.menu-open
+    {
+        width: 100%;
+
+        .acrylic
+        {
+            width: 100%;
+        }
+
+        #menu-button
+        {
+            width: 100%;
+        }
+
+        ul
+        {
+            margin-top: 0;
+        }
     }
 }
 
-footer {
+
+footer
+{
     margin: 2em auto 0;
     padding: 2em;
 
@@ -35,20 +88,40 @@ footer {
     background-color: $bg-light;
 }
 
-#content-container {
+#content-container
+{
     padding: 1em;
 }
 
-@media (min-width: 800px) {
-    #menu-container {
+@media (min-width: 800px)
+{
+    #menu-container
+    {
         position: absolute;
         top: 0;
         right: 0;
 
+        display: box;
+
         width: auto;
+        padding: 1em;
+
+        .acrylic
+        {
+            display: none;
+        }
+
+        ul
+        {
+            position: relative;
+            z-index: 199;
+
+            margin-top: 0;
+        }
     }
 
-    #attribution-container {
+    #attribution-container
+    {
         max-width: 32em;
     }
 }
