@@ -1,7 +1,6 @@
 <template>
     <div v-if="author" id="root">
-        <acrylic :background="$store.getters['ui/background/url-blurred']"
-                 class="elevation-1">
+        <rl-acrylic class="elevation-1">
             <div id="wrapper">
                 <header>
                     <img id="logo" :src="require('@res/img/logo-sm.png')"/>
@@ -58,26 +57,22 @@
                     </button>
                 </section>
             </div>
-        </acrylic>
+        </rl-acrylic>
     </div>
 </template>
 
 <script lang="ts">
-import Acrylic from "@control/acrylic/acrylic.vue";
 import { Api, Book, Person } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-@vue.Component({ components: { Acrylic } })
-export default class AuthorPage extends Vue
-{
+@vue.Component
+export default class AuthorPage extends Vue {
     author: Person | null = null;
     books: Book[] | null = [];
 
-    get sortedBooks(): Book[] | null
-    {
-        if (this.books)
-        {
+    get sortedBooks(): Book[] | null {
+        if (this.books) {
             const books = this.books;
             books.sort((a, b) => a.name.localeCompare(b.name));
             return books;
@@ -87,14 +82,12 @@ export default class AuthorPage extends Vue
     }
 
     @vue.Lifecycle
-    created()
-    {
-        (async () =>
-        {
-            [this.author, this.books] =
-                await Promise.all([
-                    Api.getPersonById(this.$route.params.id),
-                    Api.getBooksByAuthor(this.$route.params.id)]);
+    created() {
+        (async () => {
+            [this.author, this.books] = await Promise.all([
+                Api.getPersonById(this.$route.params.id),
+                Api.getBooksByAuthor(this.$route.params.id)
+            ]);
         })();
     }
 }

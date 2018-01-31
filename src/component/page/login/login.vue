@@ -1,7 +1,6 @@
 <template>
     <div id="root" class="page-narrow">
-        <acrylic :background="$store.getters['ui/background/url-blurred']"
-                 class="elevation-1">
+        <rl-acrylic class="elevation-1">
             <form id="wrapper" method="post" @submit.prevent="onSubmit">
                 <header>
                     <img :src="require('@res/img/logo-md.png')" id="logo"/>
@@ -29,16 +28,15 @@
                     <button id="btn-login" class="btn-primary">Log in</button>
                 </section>
             </form>
-        </acrylic>
+        </rl-acrylic>
     </div>
 </template>
 
 <script lang="ts">
-import Acrylic from "@control/acrylic/acrylic.vue";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-@vue.Component({ components: { Acrylic } })
+@vue.Component
 export default class LoginPage extends Vue {
     username: string = "";
     password: string = "";

@@ -1,20 +1,19 @@
 <template>
     <div v-if="book" id="root">
-        <acrylic :background="$store.getters['ui/background/url-blurred']"
-                 class="elevation-1">
+        <rl-acrylic class="elevation-1">
             <div id="wrapper">
                 <header>
                     <img id="logo" :src="require('@res/img/logo-sm.png')"/>
                     <div id="title-wrapper">
                         <h1 class="title">{{ book.name }}</h1>
-                        <see-more class="subtitle" :inline="true">
+                        <rl-see-more class="subtitle" :inline="true">
                             <router-link tag="span"
                                 v-for="author in book.authors" 
                                 :to="`/author/${author._id}`"
                                 :key="author._id">
                                 <a>{{ author.name | name }}</a><span v-if="author._id != book.authors[book.authors.length - 1]._id">,&#32;<wbr/></span>
                             </router-link>
-                        </see-more>
+                        </rl-see-more>
                     </div>
                 </header>
                 <div id="content-wrapper">
@@ -83,19 +82,16 @@
                     </button>
                 </section>
             </div>
-        </acrylic>
+        </rl-acrylic>
     </div>
 </template>
 
 <script lang="ts">
-import Acrylic from "@control/acrylic/acrylic.vue";
-import SeeMore from "@control/see-more/see-more.vue";
-
 import { Api, Book, BookStatus, Status, Person } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-@vue.Component({ components: { Acrylic, SeeMore } })
+@vue.Component
 export default class BookPage extends Vue {
     book: Book | null = null;
     holdCount: number | null = null;

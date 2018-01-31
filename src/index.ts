@@ -1,3 +1,7 @@
+import App from '@component/app/app.vue';
+import Acrylic from '@component/control/acrylic/acrylic.vue';
+import Permission from '@component/control/permission/permission.vue';
+import SeeMore from '@component/control/see-more/see-more.vue';
 import routes from '@lib/routes';
 import store from '@lib/state';
 import axios from 'axios';
@@ -6,12 +10,13 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuebar from 'vuebar';
 
-import App from './component/app/app.vue';
-
 axios.defaults.headers["Accept"] = "application/json";
 
 Vue.use(Vuebar);
 Vue.use(VueRouter);
+Vue.component("rl-acrylic", Acrylic);
+Vue.component("rl-permission", Permission);
+Vue.component("rl-see-more", SeeMore);
 
 Vue.filter("name", (value: string | { first: string; last: string }) => {
     if (!value) return "";

@@ -18,33 +18,30 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class SeeMore extends Vue
-{
+export default class SeeMore extends Vue {
     @vue.Prop inline: boolean = vue.p({ type: Boolean, default: false });
     open: boolean = false;
     overflow: boolean = false;
 
-    @vue.Lifecycle mounted()
-    {
+    @vue.Lifecycle
+    mounted() {
         resize.addResizeListener(this.$refs.content, this.onResize);
 
         this.onResize();
     }
 
-    @vue.Lifecycle beforeDestroy()
-    {
+    @vue.Lifecycle
+    beforeDestroy() {
         resize.removeResizeListener(this.$refs.content, this.onResize);
     }
 
-    toggle()
-    {
+    toggle() {
         this.open = !this.open;
 
         this.onResize();
     }
 
-    private onResize(evt?: UIEvent)
-    {
+    private onResize(evt?: UIEvent) {
         const content: HTMLDivElement = this.$refs.content as HTMLDivElement;
         const wrapper: HTMLDivElement = this.$refs.wrapper as HTMLDivElement;
         this.overflow = content.scrollHeight > wrapper.clientHeight;
@@ -53,5 +50,6 @@ export default class SeeMore extends Vue
 </script>
 
 <style lang="scss" scoped src="./see-more.scss">
+
 
 </style>

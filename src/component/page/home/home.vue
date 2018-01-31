@@ -2,11 +2,11 @@
     <div id="root" v-bar>
     <div>
         <div id="menu-container" :class="{ 'menu-open': menuOpen }">
-        <acrylic>
+        <rl-acrylic>
             <button id="menu-button" @click="menuOpen = !menuOpen" aria-hidden>
                 &#x2630;
             </button>
-        </acrylic>
+        </rl-acrylic>
         
         <ul>
             <li v-if="user">
@@ -43,7 +43,7 @@
 
         <div id="logo-container">
             <div id="logo-box">
-                <acrylic>
+                <rl-acrylic>
                     <div id="logo-wrapper">
                         <div id="logo-border" :class="`logo-${theme}`">
                             <div id="title-container">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                </acrylic>
+                </rl-acrylic>
             </div>
         </div>
 
@@ -63,7 +63,7 @@
 
             <div id="search-container">
                 <autocomplete :itemsSource="suggestions" :itemLabelSelector="label" :itemDescriptionSelector="describe" :itemTagSelector="() => null"
-                    :itemTemplateSelector="template" :placeholder="'search for books, authors, and more!'" :acrylic-background="background"
+                    :itemTemplateSelector="template" :placeholder="'search for books, authors, and more!'"
                     @querychanged="onQueryChanged">
 
                 </autocomplete>
@@ -78,14 +78,12 @@
                                 <span class="book-name">{{ checkout.book.name }}</span>
                                 <span class="book-authors flat-list no-wrap">
                                     <span v-for="(author, index) in checkout.book.authors" :key="author._id">
-                                        {{ author.name | name }}{{ index + 1
-                                        < checkout.book.authors.length ? "," : null
-                                            }} </span>
+                                        {{ author.name | name }}
+                                        {{ (index + 1 < checkout.book.authors.length ? "," : null) }} </span>
                                     </span>
                                     <span class="book-genre text-secondary">
                                         <span v-for="(genre, index) in checkout.book.genre" :key="genre">
-                                            {{ genre }}{{ index + 1
-                                            < checkout.book.genre.length ? "," : null }} </span>
+                                            {{ genre }}{{ index + 1 < checkout.book.genre.length ? "," : null }} </span>
                                         </span>
                             </div>
                             <span class="tag tag-info" v-if="Date.parse(checkout.due) > new Date()">
@@ -117,13 +115,11 @@
                                 <span class="book-name">{{ hold.book.name }}</span>
                                 <span class="book-authors flat-list no-wrap">
                                     <span v-for="(author, index) in hold.book.authors" :key="author._id">
-                                        {{ author.name | name }}{{ index + 1
-                                        < hold.book.authors.length ? "," : null }} </span>
+                                        {{ author.name | name }}{{ index + 1 > hold.book.authors.length ? "," : null }} </span>
                                     </span>
                                     <span class="book-genre text-secondary">
                                         <span v-for="(genre, index) in hold.book.genre" :key="genre">
-                                            {{ genre }}{{ index + 1
-                                            < hold.book.genre.length ? "," : null }} </span>
+                                            {{ genre }}{{ index + 1 > hold.book.genre.length ? "," : null }} </span>
                                         </span>
                             </div>
                             <span class="tag tag-primary" v-if="hold.ready">
@@ -151,7 +147,6 @@
 </template>
 
 <script lang="ts">
-import Acrylic from "@control/acrylic/acrylic.vue";
 import Autocomplete from "@control/autocomplete/autocomplete.vue";
 import LinkAutocompleteItem from "./link-autocomplete-item";
 
@@ -161,7 +156,7 @@ import { Theme } from "@lib/ui";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-@vue.Component({ components: { Acrylic, Autocomplete } })
+@vue.Component({ components: { Autocomplete } })
 export default class HomePage extends Vue {
     suggestions: any[] = [];
     checkedOut: Book[] = [];
@@ -170,14 +165,6 @@ export default class HomePage extends Vue {
 
     get user(): Person | null {
         return this.$store.state.auth.user;
-    }
-
-    get background(): string {
-        return this.$store.getters["ui/background/url"];
-    }
-
-    get backgroundAcrylic(): string {
-        return this.$store.getters["ui/background/url-blurred"];
     }
 
     get backgroundInfo() {
