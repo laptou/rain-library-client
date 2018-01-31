@@ -9,13 +9,9 @@
                     </div>
                 </header>
                 <div id="content-wrapper">
-                    <section id="content">
-                        <ul>
-                            <li>
-                                <router-link to="/admin/users"
-                            </li>
-                        </ul>
-                    </section>
+                    <transition name="page">
+                        <router-view id="content" />
+                    </transition>
                 </div>
                 <section id="actions">
                     <button @click="$router.back()" class="btn-auxilary">
@@ -40,6 +36,6 @@ export default class AdminPage extends Vue {
 }
 </script>
 
-<style scoped src="../page.scss" lang="scss">
+<style src="../page.scss" lang="scss">
 
 </style>

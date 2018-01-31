@@ -14,10 +14,12 @@
             </div>
         </transition>
 
-        <div id="scroll-root">
-            <transition name="page">
-                <router-view/>
-            </transition>
+        <div id="scroll-root" v-bar>
+            <div>
+                <transition name="page">
+                    <router-view/>
+                </transition>
+            </div>
         </div>
     </div>
 </template>
@@ -27,19 +29,19 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class App extends Vue
-{
-    get background(): string
-    {
+export default class App extends Vue {
+    get background(): string {
         return this.$store.getters["ui/background/url"];
     }
 
-    urls: { front: string | null, back: string | null } = { front: null, back: null };
+    urls: { front: string | null; back: string | null } = {
+        front: null,
+        back: null
+    };
     bg: "front" | "back" = "front";
 
     @vue.Watch("background")
-    backgroundChanged(current: string, old: string)
-    {
+    backgroundChanged(current: string, old: string) {
         this.bg = "front";
         this.urls.front = old;
         this.urls.back = current;
@@ -47,8 +49,7 @@ export default class App extends Vue
     }
 
     @vue.Lifecycle
-    created()
-    {
+    created() {
         this.urls = { front: this.background, back: null };
 
         setTimeout(() => this.$store.dispatch("ui/background/refresh"), 0);
@@ -56,4 +57,6 @@ export default class App extends Vue
 }
 </script>
 
-<style src="./app.scss" lang="scss"></style>
+<style src="./app.scss" lang="scss">
+
+</style>

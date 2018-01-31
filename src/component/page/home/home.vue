@@ -1,5 +1,5 @@
 <template>
-    <div id="root" v-bar>
+    <div id="root">
     <div>
         <div id="menu-container" :class="{ 'menu-open': menuOpen }">
         <rl-acrylic>
@@ -155,6 +155,8 @@ import { Theme } from "@lib/ui";
 
 import * as vue from "av-ts";
 import Vue from "vue";
+
+export declare type NextFunc = ((vm: Vue) => void) | (() => void);
 
 @vue.Component({ components: { Autocomplete } })
 export default class HomePage extends Vue {
