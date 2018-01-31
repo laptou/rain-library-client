@@ -1,94 +1,128 @@
 @import "../../../res/base.scss";
 
-.autocomplete {
-    border-radius: 4pt;
+.autocomplete
+{
     font-family: $font-body;
 
-    .acrylic {
+    border-radius: 4pt;
+
+    .acrylic
+    {
         border-radius: 4pt;
     }
 
-    .autocomplete-input {
+    .autocomplete-input
+    {
         font-size: 20pt;
-        height: 2.5em;
-        outline: none;
-        text-align: center;
-        width: 100%;
-        border: 1px solid grey;
+
         box-sizing: border-box;
-    }
+        width: 100%;
+        height: 2.5em;
 
-    .autocomplete-suggestions-container {
-        margin-top: 4pt;
-        position: relative;
-    }
+        text-align: center;
 
-    .autocomplete-suggestions {
-        background: $bg-light-textured;
+        border: none;
+        border-bottom: 1px solid grey;
         border-radius: 4pt;
-        margin: 0;
-        padding: 0;
+        outline: none;
+        background: transparent linear-gradient(to top, hsla(0, 0%, 93%, 0.8), hsla(0, 0%, 100%, 0.8));
+    }
+
+    .autocomplete-suggestions-container
+    {
+        position: relative;
+
+        margin-top: 4pt;
+    }
+
+    .autocomplete-suggestions
+    {
+        overflow: auto;
+
         width: 100%;
         max-height: 0;
-        overflow: auto;
+        margin: 0;
+        padding: 0;
+
         transition-duration: 0.15s;
 
-        &.focused {
-            max-height: 30em;
+        border-radius: 4pt;
+        background: $bg-light-textured;
+
+        &.focused
+        {
             overflow: auto;
+
+            max-height: 30em;
         }
 
-        .autocomplete-item {
+        .autocomplete-item
+        {
             font-size: 1.25rem;
+
             padding: 0.75em;
-            text-align: left;
+
+            cursor: pointer;
             transition-duration: 0.15s;
             transition-property: background-color;
-            cursor: pointer;
+            text-align: left;
 
-            .autocomplete-item-desc {
+            .autocomplete-item-desc
+            {
                 font-size: 0.7em;
+
                 opacity: 0.7;
             }
 
-            .autocomplete-item-label {
+            .autocomplete-item-label
+            {
                 font-family: "Noto Serif";
             }
 
-            &:hover {
-                background-color: transparentize(white, 0.5);
+            &:hover
+            {
                 outline: none;
+                background-color: transparentize(white, 0.5);
             }
 
-            &:active,
-            &:focus {
-                background-color: transparentize(white, 0.25);
+            &:active, &:focus
+            {
                 outline: none;
+                background-color: transparentize(white, 0.25);
             }
         }
     }
 
-    .vb {
-        .vb-dragger {
-            right: 0;
-            width: 12px;
+    .vb
+    {
+        .vb-dragger
+        {
             z-index: 5;
+            right: 0;
 
-            .vb-dragger-styler {
-                background-color: rgba(0, 0, 0, 0.1);
-                border-radius: 20px;
+            width: 12px;
+
+            .vb-dragger-styler
+            {
                 display: block;
+
                 height: calc(100% - 10px);
                 margin: 5px 5px 5px 0;
+
                 transition-duration: 0.15s;
                 transition-property: background-color;
+
+                border-radius: 20px;
+                background-color: rgba(0, 0, 0, 0.1);
+
                 mix-blend-mode: exclusion;
             }
         }
 
-        &.vb-scrolling-phantom,
-        &.vb-dragging {
-            .vb-dragger-styler {
+        &.vb-scrolling-phantom, &.vb-dragging
+        {
+            .vb-dragger-styler
+            {
                 background-color: rgba(0, 0, 0, 0.5);
             }
         }

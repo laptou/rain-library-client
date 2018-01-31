@@ -28,7 +28,8 @@ const routes: RouteConfig[] = [
                 });
 
             const user: Person = state.auth.user;
-            if (!user || user.permissions.indexOf("admin") === -1) next("/");
+            if (!user || (user && user.permissions.indexOf("admin") === -1))
+                next("/");
             else next();
         }
     },

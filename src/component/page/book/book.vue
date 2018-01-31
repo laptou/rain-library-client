@@ -96,20 +96,17 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component({ components: { Acrylic, SeeMore } })
-export default class BookPage extends Vue
-{
+export default class BookPage extends Vue {
     book: Book | null = null;
     holdCount: number | null = null;
     status: Status | null = null;
 
     @vue.Lifecycle
-    created()
-    {
-        (async () =>
-        {
+    created() {
+        (async () => {
             this.book = await Api.getBookByIsbn(this.$route.params.isbn);
 
-            if (this.book && this.user)            {
+            if (this.book && this.user) {
                 [this.holdCount, this.status] = await Promise.all([
                     Api.getHoldCountForBook(this.book.isbn),
                     Api.getStatus(this.book.isbn)
@@ -118,47 +115,38 @@ export default class BookPage extends Vue
         })();
     }
 
-    get user(): Person { return this.$store.state.auth.user; }
+    get user(): Person {
+        return this.$store.state.auth.user;
+    }
 
-    get mode()
-    {
-        if (!this.status)
-        {
-            if (!this.user)
-                return "log_in";
+    get mode() {
+        if (!this.status) {
+            if (!this.user) return "log_in";
             return "none";
         }
 
-        switch (this.status.status)
-        {
+        switch (this.status.status) {
             case null:
             case BookStatus.None:
                 if (this.user.permissions.indexOf("place_hold") === -1)
                     return "none";
-                else
-                    return "place_hold";
+                else return "place_hold";
             case BookStatus.OnHold:
-                if (this.status.position === 0)
-                    return "ready";
-                else
-                    return "on_hold";
+                if (this.status.position === 0) return "ready";
+                else return "on_hold";
             default:
                 return this.status.status;
         }
     }
 
-    async placeHold()
-    {
-        if (this.book && await Api.placeHold(this.book.isbn))
-        {
+    async placeHold() {
+        if (this.book && (await Api.placeHold(this.book.isbn))) {
             this.status = await Api.getStatus(this.book.isbn);
         }
     }
 
-    async cancelHold()
-    {
-        if (this.book && await Api.cancelHold(this.book.isbn))
-        {
+    async cancelHold() {
+        if (this.book && (await Api.cancelHold(this.book.isbn))) {
             this.status = await Api.getStatus(this.book.isbn);
         }
     }

@@ -1,10 +1,15 @@
 <template>
-    <div id="root">
+    <div id="root" class="page-narrow">
         <acrylic :background="$store.getters['ui/background/url-blurred']"
                  class="elevation-1">
             <form id="wrapper" method="post" @submit.prevent="onSubmit">
                 <header>
                     <img :src="require('@res/img/logo-md.png')" id="logo"/>
+                    <div id="title-wrapper">
+                        <h1>
+                            Log in
+                        </h1>
+                    </div>
                 </header>
                 <section id="content">
                     <div id="form">
@@ -29,44 +34,46 @@
 </template>
 
 <script lang="ts">
-    import Acrylic from "@control/acrylic/acrylic.vue";
-    import * as vue from "av-ts";
-    import Vue from "vue";
+import Acrylic from "@control/acrylic/acrylic.vue";
+import * as vue from "av-ts";
+import Vue from "vue";
 
-    @vue.Component({ components: { Acrylic } })
-    export default class LoginPage extends Vue
-    {
-        username: string = "";
-        password: string = "";
-        error: string | null = null;
+@vue.Component({ components: { Acrylic } })
+export default class LoginPage extends Vue {
+    username: string = "";
+    password: string = "";
+    error: string | null = null;
 
-        async onSubmit ()
-        {
-            if (!this.username || !this.password)
-            {
-                this.error = "You need a username and password.";
-                return;
-            }
+    async onSubmit() {
+        if (!this.username || !this.password) {
+            this.error = "You need a username and password.";
+            return;
+        }
 
-            const response = await this.$store.dispatch("auth/login", {
-                username: this.username,
-                password: this.password
-            });
+        const response = await this.$store.dispatch("auth/login", {
+            username: this.username,
+            password: this.password
+        });
 
-            switch (response)
-            {
-                case 200:
-                    this.$router.back();
-                    break;
-                case 401:
-                    this.error = "The username or password is wrong.";
-                    break;
-                default:
-                    this.error = "Something went wrong... Check your internet connection.";
-                    break;
-            }
+        switch (response) {
+            case 200:
+                this.$router.back();
+                break;
+            case 401:
+                this.error = "The username or password is wrong.";
+                break;
+            default:
+                this.error =
+                    "Something went wrong... Check your internet connection.";
+                break;
         }
     }
+}
 </script>
 
-<style src="./login.scss" lang="scss" scoped></style>
+<style src="../page.scss" lang="scss" scoped>
+
+</style>
+<style src="./login.scss" lang="scss" scoped>
+
+</style>
