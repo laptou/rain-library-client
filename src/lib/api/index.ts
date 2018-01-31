@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export enum BookStatus {
     None = "none",
@@ -111,6 +111,17 @@ export abstract class Api {
             if (limit) url += `?limit=${limit}`;
             const res = await axios.get(url);
             return res.data as Book[];
+        } catch {
+            return null;
+        }
+    }
+
+    static async searchPeople(query: string, limit?: number) {
+        try {
+            let url = `/api/person/search/${query}`;
+            if (limit) url += `?limit=${limit}`;
+            const res = await axios.get(url);
+            return res.data as Person[];
         } catch {
             return null;
         }

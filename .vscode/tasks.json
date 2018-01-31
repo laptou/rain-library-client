@@ -11,14 +11,12 @@
         {
             "type": "npm",
             "script": "lint",
-            "problemMatcher": [
-                "$tslint"
-            ]
+            "problemMatcher": ["$tslint"]
         },
         {
             "label": "Build & Publish to Staging",
             "type": "shell",
-            "command": "publish.bat",
+            "command": "publish.ps1",
             "problemMatcher": []
         }
     ]

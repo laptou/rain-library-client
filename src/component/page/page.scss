@@ -126,21 +126,11 @@ header
         font-size: 1.25em;
 
         padding: 1em;
-
-        &:first-child
-        {
-            border-top-left-radius: 4pt;
-        }
     }
-}
 
-@media (orientation: landscape)
-{
-    #content
+    & > button:first-child
     {
-        align-content: flex-start;
-        align-items: flex-start;
-        justify-content: flex-start;
+        border-top-left-radius: 4pt;
     }
 }
 

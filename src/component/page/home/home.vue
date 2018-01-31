@@ -119,8 +119,9 @@
                                     </span>
                                     <span class="book-genre text-secondary">
                                         <span v-for="(genre, index) in hold.book.genre" :key="genre">
-                                            {{ genre }}{{ index + 1 > hold.book.genre.length ? "," : null }} </span>
+                                            {{ genre }}{{ index + 1 > hold.book.genre.length ? "," : null }}
                                         </span>
+                                    </span>
                             </div>
                             <span class="tag tag-primary" v-if="hold.ready">
                                 ready for pickup

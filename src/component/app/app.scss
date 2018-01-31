@@ -51,22 +51,22 @@
     height: 100%;
 
     transition-duration: 0.15s;
-    transition-property: left;
+    transition-property: transform;
 }
 
 .page-enter
 {
-    left: 100%;
+    transform: translateX(100%);
 }
 
 .page-leave-to
 {
-    left: -100%;
+    transform: translateX(-100%);
 }
 
 .page-enter-to, .page-leave
 {
-    left: 0;
+    transform: translateX(0);
 }
 
 *
@@ -121,15 +121,13 @@ body, input
 
     .page-enter, .page-leave-to
     {
-        left: 0;
-
+        transform: none;
         opacity: 0;
     }
 
     .page-enter-to, .page-leave
     {
-        left: 0;
-
+        transform: none;
         opacity: 1;
     }
 }

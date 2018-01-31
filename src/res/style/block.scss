@@ -1,5 +1,6 @@
 input
 {
+    display: block;
     padding: 6pt;
 
     transition-duration: 0.15s;
@@ -26,6 +27,8 @@ input
     &::placeholder
     {
         transition-duration: 0.15s;
+        opacity: 0.7;
+        color: currentColor;
     }
 }
 
