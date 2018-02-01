@@ -1,7 +1,9 @@
 const merge = require("webpack-merge");
 const common = require("./webpack.common");
 const webpack = require("webpack");
+const join = require("path").join;
 
+const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HappyPack = require("happypack");
@@ -9,10 +11,11 @@ const HappyPack = require("happypack");
 const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 
 module.exports = merge(common, {
+    entry: ["vue", "lodash"],
     plugins: [
         // extract the CSS
         new ExtractTextPlugin({
-            filename: "[name].[contenthash].css",
+            filename: "[name].css",
             allChunks: true
         }),
         new webpack.DefinePlugin({
@@ -25,6 +28,14 @@ module.exports = merge(common, {
             uglifyOptions: {
                 ecma: 8
             }
+        }),
+        // gzip!!
+        new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.css$/,
+            threshold: 10240,
+            minRatio: 0.8
         }),
         new HappyPack({
             loaders: [
@@ -48,7 +59,6 @@ module.exports = merge(common, {
             {
                 test: /\.scss$/,
                 use: ExtractTextWebpackPlugin.extract([
-                    "cache-loader",
                     "css-loader",
                     "resolve-url-loader",
                     "sass-loader"

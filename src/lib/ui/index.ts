@@ -200,15 +200,21 @@ export namespace Background {
 
 interface VuexState {
     theme: Theme;
+    loading: boolean;
 }
 
 export const vuexModule: Vuex.Module<VuexState, object> = {
     state: {
-        theme: Theme.Colorful
+        theme: Theme.Colorful,
+        loading: false
     },
     mutations: {
         setTheme: (state: VuexState, payload: Theme) => {
             state.theme = payload;
+        },
+
+        setLoading: (state: VuexState, payload: boolean) => {
+            state.loading = payload;
         }
     },
     namespaced: true,

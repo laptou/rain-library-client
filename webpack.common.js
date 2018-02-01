@@ -3,6 +3,7 @@ const webpack = require("webpack");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const AutoDllWebpackPlugin = require("autodll-webpack-plugin");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 
 const plugins = [
@@ -10,18 +11,23 @@ const plugins = [
     new webpack.optimize.CommonsChunkPlugin({
         async: true
     }),
-    new HtmlWebpackPlugin(
-        {
-            inject: false,
-            template: "src/index.html",
-            xhtml: true
-        }),
+    new HtmlWebpackPlugin({
+        inject: true,
+        template: "src/index.html",
+        xhtml: true
+    }),
+    new AutoDllWebpackPlugin({
+        inject: true, // will inject the DLL bundles to index.html
+        filename: "[name].dll.js",
+        entry: {
+            vendor: ["vue", "moment", "lodash"]
+        }
+    }),
     new CleanWebpackPlugin(["dist"], {
         verbose: false,
-        exclude:
-            ["vue", "moment", "lodash"]
-                .map(j => [j + ".bundle.js", j + "-manifest.json"])
-                .reduce((p, c) => p.concat(c))
+        exclude: ["vue", "moment", "lodash"]
+            .map(j => [j + ".dll.js", j + ".json"])
+            .reduce((p, c) => p.concat(c))
     }),
     new HardSourceWebpackPlugin()
 ];
@@ -37,18 +43,10 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.scss$/,
-                loaders: [
-                    "cache-loader",
-                    "css-loader",
-                    "resolve-url-loader",
-                    "sass-loader"
-                ]
-            },
-            {
                 test: /\.ts$/,
                 use: {
-                    loader: "ts-loader", options: { appendTsSuffixTo: [/\.vue$/], silent: true }
+                    loader: "ts-loader",
+                    options: { appendTsSuffixTo: [/\.vue$/], silent: true }
                 },
                 exclude: /node_modules/
             },
@@ -62,7 +60,7 @@ module.exports = {
     resolve: {
         extensions: [".vue", ".ts", ".js"],
         alias: {
-            "vue$": "vue/dist/vue.esm.js",
+            vue$: "vue/dist/vue.esm.js",
             "@lib": path.join(__dirname, "src/lib"),
             "@component": path.join(__dirname, "src/component"),
             "@control": path.join(__dirname, "src/component/control"),

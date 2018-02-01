@@ -21,6 +21,10 @@
                 </transition>
             </div>
         </div>
+
+        <div class="overlay" v-show="$store.state.ui.loading">
+            <img :src="require('@res/img/loading.svg')" />
+        </div>
     </div>
 </template>
 
