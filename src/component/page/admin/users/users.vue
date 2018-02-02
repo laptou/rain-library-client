@@ -30,6 +30,11 @@ export default class AdminUsersPage extends Vue {
         return this.$store.state.auth.user;
     }
 
+    @vue.Lifecycle
+    mounted() {
+        this.$emit("buttonupdate", []);
+    }
+
     @vue.Watch("query")
     onQueryChanged(newVal: string, oldVal: string) {
         (async () => {

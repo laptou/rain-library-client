@@ -44,8 +44,10 @@ module.exports = merge(common, {
                     loader: "vue-loader",
                     options: {
                         loaders: {
-                            scss:
-                                "cache-loader!vue-style-loader!css-loader!sass-loader"
+                            scss: ExtractTextPlugin.extract({
+                                use: "cache-loader!css-loader!sass-loader",
+                                fallback: "vue-style-loader"
+                            })
                         },
                         extractCSS: true
                     }
