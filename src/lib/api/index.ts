@@ -98,7 +98,22 @@ export abstract class Api {
 
     static async getPersonById(id: string) {
         try {
-            const res = await axios.get(`/api/person/id/${id}`);
+            const res = await axios.get(`/api/person/${id}`);
+            return res.data as Person;
+        } catch {
+            return null;
+        }
+    }
+
+    static async setPersonById(id: string, person: Person) {
+        try {
+            const data = Object.assign({}, person);
+
+            // id cannot be set, and server returns error if you try
+            delete data._id;
+            delete data.id;
+
+            const res = await axios.post(`/api/person/${id}`, data);
             return res.data as Person;
         } catch {
             return null;
@@ -147,6 +162,8 @@ export declare type Permission =
 
 export declare interface Person extends Document {
     username: string | null;
+    wiki?: string;
+    bio?: string;
     name: { first: string; last: string };
     permissions: Permission[];
     limits?: { days: number; books: number };

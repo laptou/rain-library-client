@@ -1,114 +1,130 @@
 <template>
 <div>
-<form v-if="person">
-    <h2>Name</h2>
-    <label>Username</label>
-    <input type="text" v-model="person.username" v-if="person.permissions.indexOf('user') !== -1" />
-    <input type="text" v-model="person.username" disabled="disabled" placeholder="Must be a user to have a username" v-else />
+    <form v-if="person">
+        <h2>Name</h2>
+        <label>Username</label>
+        <input type="text" v-model="person.username" v-if="person.permissions.indexOf('user') !== -1" />
+        <input type="text" v-model="person.username" disabled="disabled" placeholder="Must be a user to have a username" v-else />
 
-    <label>First Name</label>
-    <input type="text" v-model="person.name.first" />
+        <label>First Name</label>
+        <input type="text" v-model="person.name.first" />
 
-    <label>Last Name</label>
-    <input type="text" v-model="person.name.last" />
+        <label>Last Name</label>
+        <input type="text" v-model="person.name.last" />
 
-    <h2>Permissions</h2>
+        <h2>Permissions</h2>
 
-    <ul class="checkbox-list">
-
-        <li>
-            <input type="checkbox" id="permission-admin" value="admin" v-model="person.permissions" />
-            <label for="permission-admin">
-                Administrator
-                <span class="subtitle" v-if="person.permissions.indexOf('admin') !== -1">
-                    Administrators have all permissions.
-                </span>
-            </label>
-        </li>
-        <template v-if="person.permissions.indexOf('admin') === -1">
-
-            <li>
-                <input type="checkbox" id="permission-check-out" value="check_out" v-model="person.permissions" />
-                <label for="permission-check-out">
-                    Can check out books
-                </label>
-            </li>
-
-            <li>
-                <input type="checkbox" id="permission-place-hold" value="place_hold" v-model="person.permissions" />
-                <label for="permission-place-hold">
-                    Can place holds
-                </label>
-            </li>
-
-            <li>
-                <input type="checkbox" id="permission-modify-hold" value="modify_hold" v-model="person.permissions" />
-                <label for="permission-modify-hold">
-                    Can manage holds
-                </label>
-            </li>
-
-            <li>
-                <input type="checkbox" id="permission-modify-book" value="modify_book" v-model="person.permissions" />
-                <label for="permission-modify-book">
-                    Can manage books
-                </label>
-            </li>
-
-            <li>
-                <input type="checkbox" id="permission-modify-fine" value="modify_fine" v-model="person.permissions" />
-                <label for="permission-modify-fine">
-                    Can manage fines
-                </label>
-            </li>
-
-            <li>
-                <input type="checkbox" id="permission-modify-person" value="modify_person" v-model="person.permissions" />
-                <label for="permission-modify-person">
-                    Can manage users
-                </label>
-            </li>
-
-            <li>
-                <input type="checkbox" id="permission-author" value="author" v-model="person.permissions" />
-                <label for="permission-author">
-                    Can be an author
-                </label>
-            </li>
-
-            <li>
-                <input type="checkbox" id="permission-user" value="user" v-model="person.permissions" />
-                <label for="permission-user">
-                    Can be a user
-                </label>
-            </li>
-        </template>
-
-        <li>
-            <input type="checkbox" id="permission-limits" @change="$set(person, 'limits', $event.srcElement.checked ? {} : null)" />
-            <label for="permission-limits">
-                Limits
-            </label>
-            <ul class="checkbox-list" v-if="person.limits">
-
+        <ul class="checkbox-list">
+            <rl-permission :permissions="'admin'">
                 <li>
-                    <input type="checkbox" id="permission-book-limit" value="user" @change="$set(person.limits, 'books', $event.srcElement.checked ? 7 : null)"
-                        :checked.prop="person.limits.books" />
-                    <label for="permission-book-limit">Book limit:</label>
-                    <input type="number" min="1" v-model.number="person.limits.books" class="inline" /> 
-                    &nbsp;<span>books</span>
+                    <input type="checkbox" id="permission-admin" value="admin" v-model="person.permissions" />
+                    <label for="permission-admin">
+                        Administrator
+                        <span class="subtitle" v-if="person.permissions.indexOf('admin') !== -1">
+                            Administrators have all permissions.
+                        </span>
+                    </label>
                 </li>
+            </rl-permission>
+            <template v-if="person.permissions.indexOf('admin') === -1">
+                <rl-permission :permissions="'check_out'">
+                    <li>
+                        <input type="checkbox" id="permission-check-out" value="check_out" v-model="person.permissions" />
+                        <label for="permission-check-out">
+                            Can check out books
+                        </label>
+                    </li>
+                </rl-permission>
+                <rl-permission :permissions="'place_hold'">
+                    <li>
+                        <input type="checkbox" id="permission-place-hold" value="place_hold" v-model="person.permissions" />
+                        <label for="permission-place-hold">
+                            Can place holds
+                        </label>
+                    </li>
+                </rl-permission>
 
+                <rl-permission :permissions="'modify_hold'">
+                    <li>
+                        <input type="checkbox" id="permission-modify-hold" value="modify_hold" v-model="person.permissions" />
+                        <label for="permission-modify-hold">
+                            Can manage holds
+                        </label>
+                    </li>
+                </rl-permission>
+
+                <rl-permission :permissions="'modify_book'">
+                    <li>
+                        <input type="checkbox" id="permission-modify-book" value="modify_book" v-model="person.permissions" />
+                        <label for="permission-modify-book">
+                            Can manage books
+                        </label>
+                    </li>
+                </rl-permission>
+
+                <rl-permission :permissions="'modify_fine'">
+                    <li>
+                        <input type="checkbox" id="permission-modify-fine" value="modify_fine" v-model="person.permissions" />
+                        <label for="permission-modify-fine">
+                            Can manage fines
+                        </label>
+                    </li>
+                </rl-permission>
+
+                <rl-permission :permissions="'modify_person'">
+                    <li>
+                        <input type="checkbox" id="permission-modify-person" value="modify_person" v-model="person.permissions" />
+                        <label for="permission-modify-person">
+                            Can manage users
+                        </label>
+                    </li>
+                </rl-permission>
+
+                <rl-permission :permissions="'modify_person'">
+                    <li>
+                        <input type="checkbox" id="permission-author" value="author" v-model="person.permissions" />
+                        <label for="permission-author">
+                            Can be an author
+                        </label>
+                    </li>
+                </rl-permission>
+
+                <rl-permission :permissions="'modify_person'">
+                    <li>
+                        <input type="checkbox" id="permission-user" value="user" v-model="person.permissions" />
+                        <label for="permission-user">
+                            Can be a user
+                        </label>
+                    </li>
+                </rl-permission>
+            </template>
+            <rl-permission :permissions="'modify_person'">
                 <li>
-                    <input type="checkbox" id="permission-day-limit" value="user" @change="$set(person.limits, 'days', $event.srcElement.checked ? 7 : null)"
-                        :checked.prop="person.limits.days" />
-                    <label for="permission-day-limit">Checkout length limit:</label>
-                    <input type="number" min="1" max="364" v-model.number="person.limits.days" class="inline" /><span>&nbsp;days</span>
+                    <input type="checkbox" id="permission-limits" @change="$set(person, 'limits', $event.srcElement.checked ? {} : null)" />
+                    <label for="permission-limits">
+                        Limits
+                    </label>
+                    <ul class="checkbox-list" v-if="person.limits">
+                        <li>
+                            <input type="checkbox" id="permission-book-limit" value="user" @change="$set(person.limits, 'books', $event.srcElement.checked ? 7 : null)"
+                                :checked.prop="person.limits.books" />
+                            <label for="permission-book-limit">Book limit:</label>
+                            <input type="number" min="1" v-model.number="person.limits.books" class="inline" /> &nbsp;
+                            <span>books</span>
+                        </li>
+
+                        <li>
+                            <input type="checkbox" id="permission-day-limit" value="user" @change="$set(person.limits, 'days', $event.srcElement.checked ? 7 : null)"
+                                :checked.prop="person.limits.days" />
+                            <label for="permission-day-limit">Checkout length limit:</label>
+                            <input type="number" min="1" max="364" v-model.number="person.limits.days" class="inline" />
+                            <span>&nbsp;days</span>
+                        </li>
+                    </ul>
                 </li>
-            </ul>
-        </li>
-    </ul>
-</form>
+            </rl-permission>
+        </ul>
+    </form>
 </div>
 </template>
 
@@ -144,8 +160,12 @@ export default class AdminUserPage extends Vue {
         ]);
     }
 
-    save() {
-        return new Promise((r, e) => setTimeout(r, 5000));
+    async save() {
+        if (!this.person) return;
+
+        this.person =
+            (await Api.setPersonById(this.person.id, this.person)) ||
+            this.person;
     }
 }
 </script>

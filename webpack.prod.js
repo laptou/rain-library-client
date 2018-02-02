@@ -45,7 +45,14 @@ module.exports = merge(common, {
                     options: {
                         loaders: {
                             scss: ExtractTextPlugin.extract({
-                                use: "cache-loader!css-loader!sass-loader",
+                                use: [
+                                    "cache-loader",
+                                    {
+                                        loader: "css-loader",
+                                        options: { minimize: true }
+                                    },
+                                    "sass-loader"
+                                ],
                                 fallback: "vue-style-loader"
                             })
                         },
@@ -61,7 +68,7 @@ module.exports = merge(common, {
             {
                 test: /\.scss$/,
                 use: ExtractTextWebpackPlugin.extract([
-                    "css-loader",
+                    { loader: "css-loader", options: { minimize: true } },
                     "resolve-url-loader",
                     "sass-loader"
                 ])

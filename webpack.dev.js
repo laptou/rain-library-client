@@ -3,6 +3,7 @@ const common = require("./webpack.common");
 const webpack = require("webpack");
 const happypack = require("happypack");
 const CompressionPlugin = require("compression-webpack-plugin");
+const WriteFilePlugin = require("write-file-webpack-plugin");
 
 module.exports = merge(common, {
     devtool: "source-map",
@@ -18,6 +19,7 @@ module.exports = merge(common, {
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("development")
         }),
+        new WriteFilePlugin(), // force webpack-dev-server to use filesystem instead of mem system
         new happypack({
             loaders: [
                 {
