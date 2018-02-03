@@ -52,7 +52,7 @@ if (module.hot) {
 const v = new Vue({
     el: "#app",
     router: require("@lib/routes").default,
-    template: "<div id='app'><App /></div>",
+    template: "<App />",
     store,
     components: {
         App
@@ -62,3 +62,16 @@ const v = new Vue({
         require("@lib/auth").vueInit(this);
     }
 });
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker
+            .register("/sw.js")
+            .then(registration => {
+                console.log("SW registered: ", registration);
+            })
+            .catch(registrationError => {
+                console.log("SW registration failed: ", registrationError);
+            });
+    });
+}

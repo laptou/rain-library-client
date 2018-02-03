@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="app-root">
         <transition :duration="1500" name="fade">
             <div class="background"
                  :style="{ 'background-image': urls.back }"
@@ -23,7 +23,7 @@
         </div>
 
         <div class="overlay" v-show="$store.state.ui.loading">
-            <img :src="require('@res/img/loading.svg')" />
+            <img :src="require('@res/img/indeterminate.svg')" />
         </div>
     </div>
 </template>

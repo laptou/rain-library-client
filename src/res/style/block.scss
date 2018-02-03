@@ -91,6 +91,25 @@ label
     font-family: $font-header;
 }
 
+%btn-state
+{
+    left: 0;
+
+    display: inline-block;
+
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: 0.4em;
+
+    content: " ";
+    transition-duration: 0.15s;
+    transition-property: opacity, left;
+    vertical-align: bottom;
+
+    opacity: 1;
+    background-size: contain;
+}
+
 button
 {
     font-family: $font-action;
@@ -123,27 +142,32 @@ button
         background-color: white;
     }
 
+    &.btn-success
+    {
+        background-color: #28a428;
+    }
+
+    &.btn-error
+    {
+        background-color: #a42828;
+    }
+
     &::after
     {
+        position: relative;
+        left: -1.2em;
+
+        display: inline-block;
+
         opacity: 0;
     }
 
+
     &.btn-working::after
     {
-        display: inline-block;
+        background-image: url("~@res/img/indeterminate-white.svg");
 
-        width: 1.2em;
-        height: 1.2em;
-        margin-left: 0.4em;
-
-        content: " ";
-        transition-duration: 0.15s;
-        transition-property: opacity;
-        vertical-align: bottom;
-
-        opacity: 1;
-        background-image: url("~@res/img/loading-btn.svg");
-        background-size: contain;
+@extend %btn-state;
     }
 }
 

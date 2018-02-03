@@ -107,6 +107,7 @@ export abstract class Api {
 
     static async setPersonById(id: string, person: Person) {
         try {
+            // duplicate object b/c objects are passed by reference
             const data = Object.assign({}, person);
 
             // id cannot be set, and server returns error if you try

@@ -1,0 +1,13 @@
+{
+    "name": "Rain Institute Library",
+    "short_name": "RI Library",
+    "start_url": ".",
+    "display": "fullscreen",
+    "background_color": "#eee",
+    "description": "The official app of the Rain Institute Library.",
+    "icons": [
+        {
+            "src": ""
+        }
+    ]
+}

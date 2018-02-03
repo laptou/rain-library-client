@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const AutoDllWebpackPlugin = require("autodll-webpack-plugin");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+const WebpackPWAManifest = require("webpack-pwa-manifest");
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 
 const plugins = [
     // Generate skeleton HTML file
@@ -22,6 +24,27 @@ const plugins = [
         entry: {
             vendor: ["vue", "moment", "lodash"]
         }
+    }),
+    // manifest for fanciness
+    new WebpackPWAManifest({
+        name: "Rain Institute Library",
+        short_name: "RI Library",
+        start_url: ".",
+        display: "fullscreen",
+        background_color: "#eee",
+        description: "The official app of the Rain Institute Library.",
+        theme_color: "#eee",
+        icons: [
+            {
+                src: path.resolve("src/res/img/logo-lg.png"),
+                sizes: [96, 128, 192, 256, 384, 512]
+            }
+        ]
+    }),
+    // offline caching!
+    new WorkboxWebpackPlugin({
+        clientsClaim: true,
+        skipWaiting: true
     }),
     new CleanWebpackPlugin(["dist"], {
         verbose: false,
@@ -53,7 +76,7 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 loader: "file-loader",
-                options: { name: "[name].[ext]", publicPath: "/" }
+                options: { name: "[path][name].[ext]", publicPath: "/" }
             }
         ]
     },

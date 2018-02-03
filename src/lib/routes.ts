@@ -18,26 +18,31 @@ const router = new VueRouter({
             children: [
                 {
                     path: "",
+                    meta: { permissions: ["admin"] },
                     component: () =>
                         import(/* webpackChunkName: "admin" */ "@page/admin/home/home.vue")
                 },
                 {
                     path: "users",
+                    meta: { permissions: ["admin"] },
                     component: () =>
                         import(/* webpackChunkName: "admin" */ "@page/admin/users/users.vue")
                 },
                 {
                     path: "user/:id",
+                    meta: { permissions: ["admin"] },
                     component: () =>
                         import(/* webpackChunkName: "admin" */ "@page/admin/users/user.vue")
                 },
                 {
                     path: "books",
+                    meta: { permissions: ["admin"] },
                     component: () =>
                         import(/* webpackChunkName: "admin" */ "@page/admin/books/books.vue")
                 },
                 {
                     path: "book/:isbn",
+                    meta: { permissions: ["admin"] },
                     component: () =>
                         import(/* webpackChunkName: "admin" */ "@page/admin/books/book.vue")
                 }

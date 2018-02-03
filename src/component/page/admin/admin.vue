@@ -45,7 +45,7 @@ interface Button {
     action?: (evt?: Event) => void | Promise<void>;
     link?: string;
     type: "primary" | "secondary" | "danger" | "auxilary" | "fake";
-    status: "working" | "success" | null;
+    status: "working" | "success" | "error" | null;
 }
 
 @vue.Component
@@ -67,15 +67,23 @@ export default class AdminPage extends Vue {
 
         const p = btn.action(evt);
 
-        if (p instanceof Promise) {
-            await p;
+        try {
+            if (p instanceof Promise) {
+                await p;
+            }
+
+            btn.status = "success";
+
+            setTimeout(() => {
+                btn.status = null;
+            }, 2000);
+        } catch {
+            btn.status = "error";
+
+            setTimeout(() => {
+                btn.status = null;
+            }, 2000);
         }
-
-        btn.status = "success";
-
-        setTimeout(() => {
-            btn.status = null;
-        }, 1000);
     }
 }
 </script>
