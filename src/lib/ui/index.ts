@@ -140,13 +140,19 @@ export namespace Background {
         getters: {
             url: (state: BackgroundVuexState) => {
                 if (state.background && state.background.data)
+                    return blobTools.getBlobAsObjectURL(state.background.data);
+
+                return null;
+            },
+            "css-url": (state: BackgroundVuexState) => {
+                if (state.background && state.background.data)
                     return `url(${blobTools.getBlobAsObjectURL(
                         state.background.data
                     )})`;
 
                 return null;
             },
-            "url-blurred": (state: BackgroundVuexState) => {
+            "css-url-blurred": (state: BackgroundVuexState) => {
                 if (state.blurredBackground && state.blurredBackground.data)
                     return `url(${blobTools.getBlobAsObjectURL(
                         state.blurredBackground.data

@@ -35,7 +35,7 @@ import Vue from "vue";
 @vue.Component
 export default class App extends Vue {
     get background(): string {
-        return this.$store.getters["ui/background/url"];
+        return this.$store.getters["ui/background/css-url"];
     }
 
     urls: { front: string | null; back: string | null } = {

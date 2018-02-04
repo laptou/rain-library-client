@@ -100,7 +100,9 @@
             </template>
             <rl-permission :permissions="'modify_person'">
                 <li>
-                    <input type="checkbox" id="permission-limits" @change="$set(person, 'limits', $event.srcElement.checked ? {} : null)" />
+                    <input type="checkbox" id="permission-limits" 
+                        @change="$set(person, 'limits', $event.srcElement.checked ? {} : null)"
+                        :checked="person.limits" />
                     <label for="permission-limits">
                         Limits
                     </label>

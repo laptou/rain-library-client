@@ -36,7 +36,7 @@ const plugins = [
         theme_color: "#eee",
         icons: [
             {
-                src: path.resolve("src/res/img/logo-lg.png"),
+                src: path.resolve(__dirname, "src/res/img/logo-lg.png"),
                 sizes: [96, 128, 192, 256, 384, 512]
             }
         ]

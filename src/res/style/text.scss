@@ -27,11 +27,17 @@
     color: $accent-danger;
 }
 
+label
+{
+    font-family: $font-header;
+    font-weight: 700;
+}
+
 h1, h2
 {
     font-family: $font-header;
     font-size: 2em;
-    font-weight: bold;
+    font-weight: 700;
 
     display: block;
 
