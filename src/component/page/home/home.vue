@@ -10,19 +10,20 @@
         
         <ul>
             <li v-if="user">
-                <button class="btn-auxilary">
+                <button class="btn-fake">
                     Welcome, {{ user.name.first + " " + user.name.last }}
                 </button>
             </li>
 
-            <router-link tag="li" to="/admin" v-if="user && user.permissions.indexOf('admin') !== -1">
+            <rl-permission :permissions="'admin'">
+            <router-link tag="li" to="/admin">
                 <a>
                     <button class="btn-primary">
                         Manage Library
                     </button>
                 </a>
             </router-link>
-
+</rl-permission>
             <li v-if="user">
                 <a href="javascript:void(0)" @click="$store.dispatch('auth/logout')">
                     <button class="btn-secondary">

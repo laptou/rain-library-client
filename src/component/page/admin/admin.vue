@@ -8,10 +8,10 @@
                         <h1 class="title">Manage Library</h1>
                     </div>
                 </header>
-                <div id="content-scroll-wrapper" v-bar>
-                    <div id="content-wrapper">
+                <div class="content-scroll-wrapper" v-bar>
+                    <div class="content-wrapper">
                         <transition name="page">
-                            <router-view id="content" @buttonupdate="onButtonsUpdated" />
+                            <router-view class="content" @buttonupdate="onButtonsUpdated" />
                         </transition>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
     <div class="autocomplete" @focusin="onFocus" @focusout="onBlur">
         <rl-acrylic>
             <input class="autocomplete-input" title="title"
+                    type="search"
                    :placeholder="placeholder" v-model="query"
                    ref="input"/>
         </rl-acrylic>

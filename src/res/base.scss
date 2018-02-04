@@ -2,3 +2,9 @@
 @import "style/theme";
 @import "style/text";
 @import "style/block";
+
+*
+{
+    box-sizing: border-box;
+    transition-duration: 0.15s;
+}
