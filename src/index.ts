@@ -18,27 +18,34 @@ Vue.component("rl-acrylic", Acrylic);
 Vue.component("rl-permission", Permission);
 Vue.component("rl-see-more", SeeMore);
 
-Vue.filter("name", (value: string | { first: string; last: string }) => {
+Vue.filter("name", (value: string | { first: string; last: string }) =>
+{
     if (!value) return "";
 
     if (value instanceof String) return value;
     else return value.first + " " + value.last;
 });
 
-Vue.filter("status", (value: Api.Permission[]) => {
+Vue.filter("status", (value: Api.Permission[]) =>
+{
+    if (value.indexOf("user") === -1) return "Author";
+
     if (value.indexOf("admin") !== -1) return "Administrator";
-    if (value.indexOf("user") !== -1) return "User";
-    return "Author";
+    if (value.indexOf("check_out") !== -1) return "Librarian";
+    return "User";
 });
 
-Vue.filter("relative-time", (time: string | Date) => {
+Vue.filter("relative-time", (time: string | Date) =>
+{
     if (!time) return "";
 
     return moment(time).fromNow(true);
 });
 
-if (module.hot) {
-    module.hot.accept(["./lib/state"], () => {
+if (module.hot)
+{
+    module.hot.accept(["./lib/state"], () =>
+    {
         const newStore = require("./lib/state");
         // swap in the new actions and mutationsa
         store.hotUpdate({
@@ -57,20 +64,25 @@ const v = new Vue({
     components: {
         App
     },
-    created() {
+    created()
+    {
         require("@lib/ui").vueInit(this);
         require("@lib/auth").vueInit(this);
     }
 });
 
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
+if ("serviceWorker" in navigator)
+{
+    window.addEventListener("load", () =>
+    {
         navigator.serviceWorker
             .register("/sw.js")
-            .then(registration => {
+            .then(registration =>
+            {
                 console.log("SW registered: ", registration);
             })
-            .catch(registrationError => {
+            .catch(registrationError =>
+            {
                 console.log("SW registration failed: ", registrationError);
             });
     });
