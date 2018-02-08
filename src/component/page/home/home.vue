@@ -15,18 +15,25 @@
                 </button>
             </li>
 
-            <rl-permission :permissions="'admin'">
-            <router-link tag="li" to="/admin">
-                <a>
+            <rl-permission tag="li" permissions="admin">
+                <router-link to="/admin">
                     <button class="btn-primary">
                         Manage Library
                     </button>
-                </a>
-            </router-link>
-</rl-permission>
+                </router-link>
+            </rl-permission>
+
+             <rl-permission tag="li" permissions="check_out">
+                <router-link to="/checkout">
+                    <button class="btn-primary">
+                        Manage Checkouts
+                    </button>
+                </router-link>
+            </rl-permission>
+
             <li v-if="user">
                 <a href="javascript:void(0)" @click="$store.dispatch('auth/logout')">
-                    <button class="btn-secondary">
+                    <button class="btn-auxilary">
                         Log Out
                     </button>
                 </a>
@@ -34,7 +41,7 @@
 
             <router-link v-else to="/login" tag="li">
                 <a>
-                    <button class="btn-primary">
+                    <button class="btn-auxilary">
                         Log In
                     </button>
                 </a>
@@ -73,19 +80,17 @@
                 <section id="info-checkout" v-if="user">
                     <h2>Checked out</h2>
                     <ul v-if="checkedOut.length">
-                        <router-link tag="li" v-for="checkout in checkedOut" :key="checkout._id" :to="`/book/${checkout.book.isbn}`" class="checkout"
+                        <router-link tag="li" v-for="checkout in checkedOut" :key="checkout._id" 
+                            :to="`/book/${checkout.book.isbn}`" class="checkout"
                             :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
                             <div class="content">
                                 <span class="book-name">{{ checkout.book.name }}</span>
-                                <span class="book-authors flat-list no-wrap">
-                                    <span v-for="(author, index) in checkout.book.authors" :key="author._id">
-                                        {{ author.name | name }}
-                                        {{ (index + 1 < checkout.book.authors.length ? "," : null) }} </span>
-                                    </span>
-                                    <span class="book-genre text-secondary">
-                                        <span v-for="(genre, index) in checkout.book.genre" :key="genre">
-                                            {{ genre }}{{ index + 1 < checkout.book.genre.length ? "," : null }} </span>
-                                        </span>
+                                <span class="book-authors no-wrap">
+                                    {{ checkout.book.authors.map(a => a.name) | name-list }}
+                                </span>
+                                <span class="book-genre text-secondary">
+                                    {{ checkout.book.genre | list }}
+                                </span>
                             </div>
                             <span class="tag tag-info" v-if="Date.parse(checkout.due) > new Date()">
                                 <span>{{ checkout.due | relative-time }}</span>
@@ -161,32 +166,32 @@ import Vue from "vue";
 export declare type NextFunc = ((vm: Vue) => void) | (() => void);
 
 @vue.Component({ components: { Autocomplete } })
-export default class HomePage extends Vue {
+export default class HomePage extends Vue{
     suggestions: any[] = [];
     checkedOut: Book[] = [];
     holds: Hold[] = [];
     menuOpen: boolean = false;
 
-    get user(): Person | null {
+    get user(): Person | null    {
         return this.$store.state.auth.user;
     }
 
-    get backgroundInfo() {
+    get backgroundInfo()    {
         return this.$store.state.ui.background.background;
     }
 
-    get theme(): Theme {
+    get theme(): Theme    {
         return this.$store.state.ui.theme;
     }
 
     @vue.Lifecycle
-    created() {
+    created()    {
         this.$watch(() => this.user, this.onUserChanged);
         this.onUserChanged(this.user, null);
     }
 
-    async onUserChanged(newVal: Person | null, oldVal: Person | null) {
-        if (newVal) {
+    async onUserChanged(newVal: Person | null, oldVal: Person | null)    {
+        if (newVal)        {
             this.checkedOut = ((await Api.getCheckedOut()) as Book[]) || [];
             this.holds = ((await Api.getPendingHolds()) as Hold[]) || [];
             this.holds = this.holds.sort(
@@ -195,10 +200,10 @@ export default class HomePage extends Vue {
         }
     }
 
-    async onQueryChanged(newVal: string) {
-        if (newVal) {
+    async onQueryChanged(newVal: string)    {
+        if (newVal)        {
             const suggestions: Book[] = [];
-            try {
+            try            {
                 const books = await Api.searchBooks(newVal, 7);
                 if (books) suggestions.push(...books);
             } catch {
@@ -209,14 +214,14 @@ export default class HomePage extends Vue {
         } else this.suggestions = [];
     }
 
-    label(item: any): string {
+    label(item: any): string    {
         if (item.title) return item.title;
         if (typeof item.name === "string") return item.name;
         return item.name.first + " " + item.name.last;
     }
 
-    describe(item: any): string {
-        if (item.authors) {
+    describe(item: any): string    {
+        if (item.authors)        {
             const book = item as Book;
             const authors = book.authors as Person[];
             let info = authors
@@ -230,7 +235,7 @@ export default class HomePage extends Vue {
         return "";
     }
 
-    template(item: any) {
+    template(item: any)    {
         return LinkAutocompleteItem;
     }
 }

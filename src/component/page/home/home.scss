@@ -22,9 +22,10 @@
 
 #menu-container
 {
+    z-index: 199;
+
     width: auto;
     height: 3.2em;
-    z-index: 199;
 
     .acrylic
     {
@@ -37,6 +38,8 @@
 
     ul
     {
+        z-index: 199;
+
         visibility: collapse;
 
         width: 100%;
@@ -49,11 +52,12 @@
         transform: translateY(-100%);
 
         opacity: 0;
-        z-index: 199;
 
         li, button
         {
             width: 100%;
+
+            margin-bottom: 1pt;            
         }
 
         button a
@@ -84,6 +88,8 @@
             transform: translateY(0);
 
             opacity: 1;
+
+            
         }
     }
 }

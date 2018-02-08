@@ -18,13 +18,18 @@ Vue.component("rl-acrylic", Acrylic);
 Vue.component("rl-permission", Permission);
 Vue.component("rl-see-more", SeeMore);
 
-Vue.filter("name", (value: string | { first: string; last: string }) =>
+type Name = string | { first: string; last: string };
+let nameFormatter = (value: Name) =>
 {
     if (!value) return "";
 
     if (value instanceof String) return value;
     else return value.first + " " + value.last;
-});
+};
+Vue.filter("name", nameFormatter);
+Vue.filter("name-list", (names: Name[]) => names.map(nameFormatter).join(", "));
+Vue.filter("list", (f: any[]) =>
+    f.map(g => g.toString()).join(", "));
 
 Vue.filter("status", (value: Api.Permission[]) =>
 {

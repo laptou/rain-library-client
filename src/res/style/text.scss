@@ -27,6 +27,14 @@
     color: $accent-danger;
 }
 
+.no-wrap
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-wrap: nowrap;
+}
+
 label
 {
     font-family: $font-header;
