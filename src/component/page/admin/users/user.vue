@@ -15,131 +15,178 @@
         <h2>Permissions</h2>
 
         <ul class="checkbox-list">
-            <rl-permission :permissions="'admin'">
-                <li>
-                    <input type="checkbox" id="permission-admin" value="admin" v-model="person.permissions" />
-                    <label for="permission-admin">
-                        Administrator
-                        <span class="subtitle" v-if="person.permissions.indexOf('admin') !== -1">
-                            Administrators have all permissions.
-                        </span>
-                    </label>
-                </li>
+            <rl-permission tag="li" :permissions="'admin'">
+                <input type="checkbox" id="permission-admin" value="admin" v-model="person.permissions" />
+                <label for="permission-admin">
+                    Administrator
+                    <span class="subtitle" v-if="person.permissions.indexOf('admin') !== -1">
+                        Administrators have all permissions.
+                    </span>
+                </label>
             </rl-permission>
             <template v-if="person.permissions.indexOf('admin') === -1">
-                <rl-permission :permissions="'check_out'">
-                    <li>
-                        <input type="checkbox" id="permission-check-out" value="check_out" v-model="person.permissions" />
-                        <label for="permission-check-out">
-                            Can check out books
-                        </label>
-                    </li>
+                <rl-permission tag="li" :permissions="'check_out'">
+                    <input type="checkbox" id="permission-check-out" value="check_out" v-model="person.permissions" />
+                    <label for="permission-check-out">
+                        Can check out books
+                    </label>
                 </rl-permission>
-                <rl-permission :permissions="'place_hold'">
-                    <li>
-                        <input type="checkbox" id="permission-place-hold" value="place_hold" v-model="person.permissions" />
-                        <label for="permission-place-hold">
-                            Can place holds
-                        </label>
-                    </li>
+                <rl-permission tag="li" :permissions="'place_hold'">
+                    <input type="checkbox" id="permission-place-hold" value="place_hold" v-model="person.permissions" />
+                    <label for="permission-place-hold">
+                        Can place holds
+                    </label>
                 </rl-permission>
-
-                <rl-permission :permissions="'modify_hold'">
-                    <li>
-                        <input type="checkbox" id="permission-modify-hold" value="modify_hold" v-model="person.permissions" />
-                        <label for="permission-modify-hold">
-                            Can manage holds
-                        </label>
-                    </li>
+                <rl-permission tag="li" :permissions="'modify_hold'">
+                    <input type="checkbox" id="permission-modify-hold" value="modify_hold" v-model="person.permissions" />
+                    <label for="permission-modify-hold">
+                        Can manage holds
+                    </label>
                 </rl-permission>
-
-                <rl-permission :permissions="'modify_book'">
-                    <li>
-                        <input type="checkbox" id="permission-modify-book" value="modify_book" v-model="person.permissions" />
-                        <label for="permission-modify-book">
-                            Can manage books
-                        </label>
-                    </li>
+                <rl-permission tag="li" :permissions="'modify_book'">
+                    <input type="checkbox" id="permission-modify-book" value="modify_book" v-model="person.permissions" />
+                    <label for="permission-modify-book">
+                        Can manage books
+                    </label>
                 </rl-permission>
-
-                <rl-permission :permissions="'modify_fine'">
-                    <li>
-                        <input type="checkbox" id="permission-modify-fine" value="modify_fine" v-model="person.permissions" />
-                        <label for="permission-modify-fine">
-                            Can manage fines
-                        </label>
-                    </li>
+                <rl-permission tag="li" :permissions="'modify_fine'">
+                    <input type="checkbox" id="permission-modify-fine" value="modify_fine" v-model="person.permissions" />
+                    <label for="permission-modify-fine">
+                        Can manage fines
+                    </label>
                 </rl-permission>
-
-                <rl-permission :permissions="'modify_person'">
-                    <li>
-                        <input type="checkbox" id="permission-modify-person" value="modify_person" v-model="person.permissions" />
-                        <label for="permission-modify-person">
-                            Can manage users
-                        </label>
-                    </li>
+                <rl-permission tag="li" :permissions="'modify_person'">
+                    <input type="checkbox" id="permission-modify-person" value="modify_person" v-model="person.permissions" />
+                    <label for="permission-modify-person">
+                        Can manage users
+                    </label>
                 </rl-permission>
-
-                <rl-permission :permissions="'modify_person'">
-                    <li>
-                        <input type="checkbox" id="permission-author" value="author" v-model="person.permissions" />
-                        <label for="permission-author">
-                            Can be an author
-                        </label>
-                    </li>
+                <rl-permission tag="li" :permissions="'modify_person'">
+                    <input type="checkbox" id="permission-author" value="author" v-model="person.permissions" />
+                    <label for="permission-author">
+                        Can be an author
+                    </label>
                 </rl-permission>
-
-                <rl-permission :permissions="'modify_person'">
-                    <li>
-                        <input type="checkbox" id="permission-user" value="user" v-model="person.permissions" />
-                        <label for="permission-user">
-                            Can be a user
-                        </label>
-                    </li>
+                <rl-permission tag="li" :permissions="'modify_person'">
+                    <input type="checkbox" id="permission-user" value="user" v-model="person.permissions" />
+                    <label for="permission-user">
+                        Can be a user
+                    </label>
                 </rl-permission>
             </template>
-            <rl-permission :permissions="'modify_person'">
-                <li>
-                    <input type="checkbox" id="permission-limits" 
-                        @change="$set(person, 'limits', $event.srcElement.checked ? {} : null)"
-                        :checked="person.limits" />
-                    <label for="permission-limits">
-                        Limits
-                    </label>
-                    <ul class="checkbox-list" v-if="person.limits">
-                        <li>
-                            <input type="checkbox" id="permission-book-limit" value="user" @change="$set(person.limits, 'books', $event.srcElement.checked ? 7 : null)"
-                                :checked.prop="person.limits.books" />
-                            <label for="permission-book-limit">Book limit:</label>
-                            <input type="number" min="1" v-model.number="person.limits.books" class="inline" /> &nbsp;
-                            <span>books</span>
-                        </li>
+            <rl-permission tag="li" :permissions="'modify_person'">
+                <input type="checkbox" id="permission-limits" @change="$set(person, 'limits', $event.srcElement.checked ? {} : null)" :checked="person.limits"
+                />
+                <label for="permission-limits">
+                    Limits
+                </label>
+                <ul class="checkbox-list" v-if="person.limits">
+                    <li>
+                        <input type="checkbox" id="permission-book-limit" value="user" @change="$set(person.limits, 'books', $event.srcElement.checked ? 7 : null)"
+                            :checked.prop="person.limits.books" />
+                        <label for="permission-book-limit">Book limit:</label>
+                        <input type="number" min="1" v-model.number="person.limits.books" class="inline" /> &nbsp;
+                        <span>books</span>
+                    </li>
 
-                        <li>
-                            <input type="checkbox" id="permission-day-limit" value="user" @change="$set(person.limits, 'days', $event.srcElement.checked ? 7 : null)"
-                                :checked.prop="person.limits.days" />
-                            <label for="permission-day-limit">Checkout length limit:</label>
-                            <input type="number" min="1" max="364" v-model.number="person.limits.days" class="inline" />
-                            <span>&nbsp;days</span>
-                        </li>
-                    </ul>
-                </li>
+                    <li>
+                        <input type="checkbox" id="permission-day-limit" value="user" @change="$set(person.limits, 'days', $event.srcElement.checked ? 7 : null)"
+                            :checked.prop="person.limits.days" />
+                        <label for="permission-day-limit">Checkout length limit:</label>
+                        <input type="number" min="1" max="364" v-model.number="person.limits.days" class="inline" />
+                        <span>&nbsp;days</span>
+                    </li>
+                </ul>
             </rl-permission>
+        </ul>
+
+        <h2>Activity</h2>
+        <h3>On hold</h3>
+
+        <ul class="tile-list" v-if="activities">
+            <li v-for="hold in activities.filter(a =>  a.type === 'hold')" :key="hold.id">
+                <h4>
+                    <router-link :to="`/book/${hold.book.isbn}`">{{ hold.book.name }}</router-link>
+                </h4>
+                <table class="info">
+                    <tr>
+                        <td>Hold placed</td>
+                        <td>{{ hold.date | time }}</td>
+                    </tr>
+                </table>
+            </li>
+        </ul>
+
+        <h3>Checked out</h3>
+
+        <ul class="tile-list" v-if="activities">
+            <li v-for="checkout in activities.filter(a =>  a.type === 'checkout' && !a.completed)" :key="checkout.id">
+                <h4>
+                    <router-link :to="`/book/${checkout.book.isbn}`">{{ checkout.book.name }}</router-link>
+                </h4>
+                <table class="info">
+                    <tr>
+                        <td>Checked out</td>
+                        <td>{{ checkout.start | time }}</td>
+                    </tr>
+                    <tr>
+                        <td>Due</td>
+                        <td>{{ checkout.due | time }}</td>
+                    </tr>
+                    <tr v-if="checkout.penalty !== 1">
+                        <td>Fine Multiplier</td>
+                        <td>{{ checkout.penalty }}</td>
+                    </tr>
+                </table>
+            </li>
+        </ul>
+
+        <h3>Returned</h3>
+        <ul class="tile-list" v-if="activities">
+            <li v-for="checkout in activities.filter(a => a.type === 'checkout' && a.completed)" :key="checkout.id">
+                <h4>
+                    <router-link :to="`/book/${checkout.book.isbn}`">{{ checkout.book.name }}</router-link>
+                </h4>
+                <table class="info">
+                    <tr>
+                        <td>Checked out</td>
+                        <td>{{ checkout.start | time }}</td>
+                    </tr>
+                    <tr>
+                        <td>Due</td>
+                        <td>{{ checkout.due | time }}</td>
+                    </tr>
+                    <tr>
+                        <td>Checked in</td>
+                        <td>{{ checkout.end | time }}</td>
+                    </tr>
+                    <tr v-if="checkout.penalty !== 1">
+                        <td>Fine Multiplier</td>
+                        <td>{{ checkout.penalty }}</td>
+                    </tr>
+                    <tr v-if="checkout.fine">
+                        <td>Fine Amount</td>
+                        <td>{{ checkout.fine.amount }}</td>
+                    </tr>
+                </table>
+            </li>
         </ul>
     </form>
 </div>
 </template>
 
 <script lang="ts">
-import { Api, Person } from "@lib/api";
+import { Api, Person, Activity } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
+import { vuexModule } from "@lib/auth";
 
 @vue.Component
-export default class AdminUserPage extends Vue {
+export default class AdminUserPage extends Vue{
     person: Person | null = null;
+    activities: Activity[] | null = null;
 
-    get user(): Person {
+    get user(): Person    {
         return this.$store.state.auth.user;
     }
 
@@ -148,21 +195,37 @@ export default class AdminUserPage extends Vue {
         to: any,
         from: any,
         next: ((vm: Vue) => void) | (() => void)
-    ) {
-        (async () => {
+        )    {
+        (async () =>        {
             const person = await Api.getPersonById(to.params.id);
             (next as any)((vm: AdminUserPage) => (vm.person = person));
         })();
     }
 
     @vue.Lifecycle
-    mounted() {
+    beforeRouteUpdate(
+        to: any,
+        from: any,
+        next: ((vm: Vue) => void) | (() => void)
+        )    {
+        (async () =>        {
+            const person = await Api.getPersonById(to.params.id);
+            (next as any)((vm: AdminUserPage) => (vm.person = person));
+        })();
+    }
+
+    @vue.Lifecycle
+    mounted()    {
+        (async () =>        {
+            this.activities = await Api.getActivities(this.$route.params.id);
+        })();
+
         this.$emit("buttonupdate", [
             { name: "Save", action: this.save, type: "primary", status: null }
         ]);
     }
 
-    async save() {
+    async save()    {
         if (!this.person) return;
 
         this.person =

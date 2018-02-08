@@ -41,10 +41,9 @@ label
     font-weight: 700;
 }
 
-h1, h2
+h1, h2, h3, h4
 {
     font-family: $font-header;
-    font-size: 2em;
     font-weight: 700;
 
     display: block;
@@ -64,9 +63,24 @@ h1, h2
     }
 }
 
+h1
+{
+    font-size: 2em;
+}
+
 h2
 {
     font-size: 1.5em;
+}
+
+h3
+{
+    font-size: 1.25em;
+}
+
+h4
+{
+    font-size: 1.15em;
 }
 
 ul

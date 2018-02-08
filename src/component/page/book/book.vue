@@ -105,7 +105,7 @@ export default class BookPage extends Vue {
             if (this.book && this.user) {
                 [this.holdCount, this.status] = await Promise.all([
                     Api.getHoldCountForBook(this.book.isbn),
-                    Api.getStatus(this.book.isbn)
+                    Api.getStatusForBook(this.book.isbn)
                 ]);
             }
         })();
@@ -137,13 +137,13 @@ export default class BookPage extends Vue {
 
     async placeHold() {
         if (this.book && (await Api.placeHold(this.book.isbn))) {
-            this.status = await Api.getStatus(this.book.isbn);
+            this.status = await Api.getStatusForBook(this.book.isbn);
         }
     }
 
     async cancelHold() {
         if (this.book && (await Api.cancelHold(this.book.isbn))) {
-            this.status = await Api.getStatus(this.book.isbn);
+            this.status = await Api.getStatusForBook(this.book.isbn);
         }
     }
 }

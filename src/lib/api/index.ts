@@ -14,6 +14,7 @@ type NoneStatus = { status: BookStatus.None };
 type HoldStatus = { status: BookStatus.OnHold; hold: Hold; position: number };
 type CheckoutStatus = { status: BookStatus.CheckedOut; checkout: Checkout };
 export type Status = CheckoutStatus | HoldStatus | NoneStatus;
+export type Activity = (Checkout & { type: "checkout" }) | (Hold & { type: "hold" });
 
 export abstract class Api
 {
@@ -61,45 +62,46 @@ export abstract class Api
         }
     }
 
-    static async getHolds(): Promise<Hold[] | null>
+    static async getStatusForBook(isbn: string): Promise<Status | null>
     {
         try
         {
-            const res = await axios.get(`/api/hold/me`);
-            return res.data as Hold[];
-        } catch {
-            return null;
-        }
-    }
-
-    static async getPendingHolds(): Promise<Hold[] | null>
-    {
-        try
-        {
-            const res = await axios.get(`/api/hold/me/pending`);
-            return res.data as Hold[];
-        } catch {
-            return null;
-        }
-    }
-
-    static async getStatus(isbn: string): Promise<Status | null>
-    {
-        try
-        {
-            const res = await axios.get(`/api/book/status/${isbn}`);
+            const res = await axios.get(`/api/person/me/status/${isbn}`);
             return res.data as Status;
         } catch {
             return null;
         }
     }
 
-    static async getCheckedOut(): Promise<Book[] | null>
+    static async getCurrentCheckedOut(id?: string): Promise<Checkout[] | null>
     {
         try
         {
-            const res = await axios.get(`/api/book/status/checkedout`);
-            return res.data as Book[];
+            const res = await axios.get(`/api/person/${id || "me"}/status/checkedout`);
+            return res.data;
+        } catch {
+            return null;
+        }
+    }
+
+    static async getCurrentHolds(id?: string): Promise<Hold[] | null>
+    {
+        try
+        {
+            const res = await axios.get(`/api/person/${id || "me"}/status/onhold`);
+            return res.data;
+        } catch {
+            return null;
+        }
+    }
+
+
+    static async getActivities(id?: string): Promise<Activity[] | null>
+    {
+        try
+        {
+            const res = await axios.get(`/api/person/${id || "me"}/status/all`);
+            return res.data;
         } catch {
             return null;
         }

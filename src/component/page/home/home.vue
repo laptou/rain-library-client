@@ -79,8 +79,8 @@
             <div id="info-container">
                 <section id="info-checkout" v-if="user">
                     <h2>Checked out</h2>
-                    <ul v-if="checkedOut.length">
-                        <router-link tag="li" v-for="checkout in checkedOut" :key="checkout._id" 
+                    <ul v-if="activities && activities.some(a => a.type === 'checkout')">
+                        <router-link tag="li" v-for="checkout in activities.filter(a => a.type === 'checkout')" :key="checkout._id" 
                             :to="`/book/${checkout.book.isbn}`" class="checkout"
                             :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
                             <div class="content">
@@ -115,8 +115,9 @@
 
                 <section id="info-holds" v-if="user">
                     <h2>Holds</h2>
-                    <ul v-if="holds.length">
-                        <router-link tag="li" v-for="hold in holds" :key="hold._id" :to="`/book/${hold.book.isbn}`">
+                    <ul v-if="activities && activities.some(a => a.type === 'hold')">
+                        <router-link tag="li" v-for="hold in activities.filter(a => a.type === 'hold')" 
+                            :key="hold._id" :to="`/book/${hold.book.isbn}`">
                             <div class="content">
                                 <span class="book-name">{{ hold.book.name }}</span>
                                 <span class="book-authors no-wrap">
@@ -154,7 +155,7 @@
 import Autocomplete from "@control/autocomplete/autocomplete.vue";
 import LinkAutocompleteItem from "./link-autocomplete-item";
 
-import { Api, Book, Person, Hold } from "@lib/api";
+import { Api, Book, Person, Hold, Checkout, Activity } from "@lib/api";
 import { Theme } from "@lib/ui";
 
 import * as vue from "av-ts";
@@ -165,8 +166,7 @@ export declare type NextFunc = ((vm: Vue) => void) | (() => void);
 @vue.Component({ components: { Autocomplete } })
 export default class HomePage extends Vue{
     suggestions: any[] = [];
-    checkedOut: Book[] = [];
-    holds: Hold[] = [];
+    activities: Activity[] = [];
     menuOpen: boolean = false;
 
     get user(): Person | null    {
@@ -189,11 +189,7 @@ export default class HomePage extends Vue{
 
     async onUserChanged(newVal: Person | null, oldVal: Person | null)    {
         if (newVal)        {
-            this.checkedOut = ((await Api.getCheckedOut()) as Book[]) || [];
-            this.holds = ((await Api.getPendingHolds()) as Hold[]) || [];
-            this.holds = this.holds.sort(
-                (a, b) => (a.ready > b.ready ? 1 : a.ready < b.ready ? -1 : 0)
-            );
+            this.activities = await Api.getActivities() || [];
         }
     }
 
