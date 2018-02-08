@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export enum BookStatus {
+export enum BookStatus
+{
     None = "none",
     OnHold = "on_hold",
     CheckedOut = "checked_out",
@@ -14,18 +15,23 @@ type HoldStatus = { status: BookStatus.OnHold; hold: Hold; position: number };
 type CheckoutStatus = { status: BookStatus.CheckedOut; checkout: Checkout };
 export type Status = CheckoutStatus | HoldStatus | NoneStatus;
 
-export abstract class Api {
-    static async placeHold(isbn: string): Promise<boolean> {
-        try {
-            const res = await axios.post(`/api/hold/me`, { isbn });
+export abstract class Api
+{
+    static async placeHold(isbn: string): Promise<boolean>
+    {
+        try
+        {
+            const res = await axios.post(`/api/hold/me/${isbn}`);
             return res.status === 200;
         } catch {
             return false;
         }
     }
 
-    static async cancelHold(isbn: string): Promise<boolean> {
-        try {
+    static async cancelHold(isbn: string): Promise<boolean>
+    {
+        try
+        {
             const res = await axios.delete(`/api/hold/me/${isbn}`);
             return res.status === 200;
         } catch {
@@ -33,8 +39,10 @@ export abstract class Api {
         }
     }
 
-    static async getBooksByAuthor(id: string) {
-        try {
+    static async getBooksByAuthor(id: string)
+    {
+        try
+        {
             const res = await axios.get(`/api/book/author/${id}`);
             return res.data as Book[];
         } catch {
@@ -42,8 +50,10 @@ export abstract class Api {
         }
     }
 
-    static async getBookByIsbn(isbn: string) {
-        try {
+    static async getBookByIsbn(isbn: string)
+    {
+        try
+        {
             const res = await axios.get(`/api/book/${isbn}`);
             return res.data as Book;
         } catch {
@@ -51,8 +61,10 @@ export abstract class Api {
         }
     }
 
-    static async getHolds(): Promise<Hold[] | null> {
-        try {
+    static async getHolds(): Promise<Hold[] | null>
+    {
+        try
+        {
             const res = await axios.get(`/api/hold/me`);
             return res.data as Hold[];
         } catch {
@@ -60,8 +72,10 @@ export abstract class Api {
         }
     }
 
-    static async getPendingHolds(): Promise<Hold[] | null> {
-        try {
+    static async getPendingHolds(): Promise<Hold[] | null>
+    {
+        try
+        {
             const res = await axios.get(`/api/hold/me/pending`);
             return res.data as Hold[];
         } catch {
@@ -69,8 +83,10 @@ export abstract class Api {
         }
     }
 
-    static async getStatus(isbn: string): Promise<Status | null> {
-        try {
+    static async getStatus(isbn: string): Promise<Status | null>
+    {
+        try
+        {
             const res = await axios.get(`/api/book/status/${isbn}`);
             return res.data as Status;
         } catch {
@@ -78,17 +94,21 @@ export abstract class Api {
         }
     }
 
-    static async getCheckedOut(): Promise<Book[] | null> {
-        try {
-            const res = await axios.get(`/api/book/status/checked_out`);
+    static async getCheckedOut(): Promise<Book[] | null>
+    {
+        try
+        {
+            const res = await axios.get(`/api/book/status/checkedout`);
             return res.data as Book[];
         } catch {
             return null;
         }
     }
 
-    static async getHoldCountForBook(isbn: string) {
-        try {
+    static async getHoldCountForBook(isbn: string)
+    {
+        try
+        {
             const res = await axios.get(`/api/hold/book/${isbn}/count`);
             return res.data as number;
         } catch {
@@ -96,8 +116,10 @@ export abstract class Api {
         }
     }
 
-    static async getPersonById(id: string) {
-        try {
+    static async getPersonById(id: string)
+    {
+        try
+        {
             const res = await axios.get(`/api/person/${id}`);
             return res.data as Person;
         } catch {
@@ -105,8 +127,10 @@ export abstract class Api {
         }
     }
 
-    static async setPersonById(id: string, person: Person) {
-        try {
+    static async setPersonById(id: string, person: Person)
+    {
+        try
+        {
             // duplicate object b/c objects are passed by reference
             const data = Object.assign({}, person);
 
@@ -121,8 +145,10 @@ export abstract class Api {
         }
     }
 
-    static async searchBooks(query: string, limit?: number) {
-        try {
+    static async searchBooks(query: string, limit?: number)
+    {
+        try
+        {
             let url = `/api/book/search/${query}`;
             if (limit) url += `?limit=${limit}`;
             const res = await axios.get(url);
@@ -132,8 +158,10 @@ export abstract class Api {
         }
     }
 
-    static async searchPeople(query: string, limit?: number) {
-        try {
+    static async searchPeople(query: string, limit?: number)
+    {
+        try
+        {
             let url = `/api/person/search/${query}`;
             if (limit) url += `?limit=${limit}`;
             const res = await axios.get(url);
@@ -144,7 +172,8 @@ export abstract class Api {
     }
 }
 
-export declare interface Document {
+export declare interface Document
+{
     id: string;
     _id: string;
 }
@@ -161,7 +190,8 @@ export declare type Permission =
     | "user"
     | "test";
 
-export declare interface Person extends Document {
+export declare interface Person extends Document
+{
     username: string | null;
     wiki?: string;
     bio?: string;
@@ -170,7 +200,8 @@ export declare interface Person extends Document {
     limits?: { days: number; books: number };
 }
 
-export declare interface Book extends Document {
+export declare interface Book extends Document
+{
     name: string;
     edition: { version: number; publisher: string };
     authors: Person[] | string[];
@@ -180,7 +211,8 @@ export declare interface Book extends Document {
     isbn: string;
 }
 
-export interface Checkout extends Document {
+export interface Checkout extends Document
+{
     start: Date;
     due: Date | null;
     completed: boolean;
@@ -189,7 +221,8 @@ export interface Checkout extends Document {
     person: string | Person;
 }
 
-export interface Hold extends Document {
+export interface Hold extends Document
+{
     date: Date;
     completed: boolean;
     isbn: string;
@@ -197,7 +230,8 @@ export interface Hold extends Document {
     ready: boolean;
 }
 
-export interface Fine extends Document {
+export interface Fine extends Document
+{
     date: Date;
     completed: boolean;
     amount: number;
