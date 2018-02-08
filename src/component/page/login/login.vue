@@ -10,7 +10,7 @@
                         </h1>
                     </div>
                 </header>
-                <section class="content">
+                <section class="page-content">
                     <form>
                         <label for="input-username" id="label-username">Username </label>
                         <input name="username" id="input-username" type="text" v-model="username"/>

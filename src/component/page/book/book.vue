@@ -16,8 +16,8 @@
                         </rl-see-more>
                     </div>
                 </header>
-                <div class="content-wrapper">
-                <section class="content">
+                <div class="page-content-wrapper">
+                <section class="page-content">
                     <table class="info">
                         <tr>
                             <td>{{ book.genre.length === 1 ? "Genre" : "Genres" }}</td>

@@ -8,10 +8,10 @@
                         <h1 class="title">Manage Library</h1>
                     </div>
                 </header>
-                <div class="content-scroll-wrapper" v-bar>
-                    <div class="content-wrapper">
+                <div class="page-content-scroll-wrapper" v-bar>
+                    <div class="page-content-wrapper">
                         <transition name="page">
-                            <router-view class="content" @buttonupdate="onButtonsUpdated" />
+                            <router-view class="page-content" @buttonupdate="onButtonsUpdated" />
                         </transition>
                     </div>
                 </div>
@@ -40,7 +40,7 @@ import { Api, Person } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-interface Button {
+interface Button{
     name: string;
     action?: (evt?: Event) => void | Promise<void>;
     link?: string;
@@ -49,38 +49,38 @@ interface Button {
 }
 
 @vue.Component
-export default class AdminPage extends Vue {
+export default class AdminPage extends Vue{
     buttons: Button[] = [];
 
-    get user(): Person {
+    get user(): Person    {
         return this.$store.state.auth.user;
     }
 
-    onButtonsUpdated(buttons: Button[]) {
+    onButtonsUpdated(buttons: Button[])    {
         this.buttons = buttons;
     }
 
-    async action(btn: Button, evt: Event) {
+    async action(btn: Button, evt: Event)    {
         if (!btn.action) return;
 
         btn.status = "working";
 
         const p = btn.action(evt);
 
-        try {
-            if (p instanceof Promise) {
+        try        {
+            if (p instanceof Promise)            {
                 await p;
             }
 
             btn.status = "success";
 
-            setTimeout(() => {
+            setTimeout(() =>            {
                 btn.status = null;
             }, 2000);
         } catch {
             btn.status = "error";
 
-            setTimeout(() => {
+            setTimeout(() =>            {
                 btn.status = null;
             }, 2000);
         }

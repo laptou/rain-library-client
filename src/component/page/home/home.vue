@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <div id="content-container">
+        <div id="page-content-container">
 
             <div id="search-container">
                 <autocomplete :itemsSource="suggestions" :itemLabelSelector="label" :itemDescriptionSelector="describe" :itemTagSelector="() => null"
@@ -83,7 +83,7 @@
                         <router-link tag="li" v-for="checkout in checkedOut" :key="checkout._id" 
                             :to="`/book/${checkout.book.isbn}`" class="checkout"
                             :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
-                            <div class="content">
+                            <div class="page-content">
                                 <span class="book-name">{{ checkout.book.name }}</span>
                                 <span class="book-authors no-wrap">
                                     {{ checkout.book.authors.map(a => a.name) | name-list }}
@@ -117,7 +117,7 @@
                     <h2>Holds</h2>
                     <ul v-if="holds.length">
                         <router-link tag="li" v-for="hold in holds" :key="hold._id" :to="`/book/${hold.book.isbn}`">
-                            <div class="content">
+                            <div class="page-content">
                                 <span class="book-name">{{ hold.book.name }}</span>
                                 <span class="book-authors flat-list no-wrap">
                                     <span v-for="(author, index) in hold.book.authors" :key="author._id">

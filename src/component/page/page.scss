@@ -58,18 +58,18 @@ header
     }
 }
 
-.content-scroll-wrapper
+.page-content-scroll-wrapper
 {
     height: 100%;
 }
 
-.content-scroll-wrapper, .content-wrapper, .content
+.page-content-scroll-wrapper, .page-content-wrapper, .page-content
 {
     flex-grow: 1;
     flex-shrink: 1;
 }
 
-.content
+.page-content
 {
     display: flex;
     flex-direction: column;
@@ -184,7 +184,7 @@ header
         padding: 2em 2em 1em;
     }
 
-    .content
+    .page-content
     {
         padding: 0.5em 2em;
     }
@@ -219,7 +219,7 @@ header
         height: 80vh;
     }
 
-    .content
+    .page-content
     {
         min-width: 32rem;
 
@@ -249,7 +249,7 @@ header
 
     .page-narrow
     {
-        .content
+        .page-content
         {
             min-width: auto;
         }

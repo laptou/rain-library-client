@@ -9,9 +9,9 @@
                         <span class="subtitle">Author</span>
                     </div>
                 </header>
-                <div class="content-scroll-wrapper" v-bar>
-                    <div class="content-wrapper">
-                        <section class="content">
+                <div class="page-content-scroll-wrapper" v-bar>
+                    <div class="page-content-wrapper">
+                        <section class="page-content">
                             <table class="info">
                                 <tr v-if="author.bio">
                                     <td>Bio</td>
