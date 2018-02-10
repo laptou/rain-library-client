@@ -53,7 +53,7 @@
 
     #title
     {
-        font-family: "Roboto Condensed", sans-serif;
+        font: "Roboto Condensed", sans-serif;
         font-size: 14vw;
         font-weight: bold;
 
@@ -104,7 +104,7 @@
 
         & > h2
         {
-            font-family: $font-header;
+            font: $font-header;
             font-size: 1em;
 
             display: block;
@@ -129,12 +129,11 @@
                 cursor: pointer;
 
                 grid-template-columns: auto 1fr;
-
                 grid-template-columns: auto 6em;
 
                 .book-name
                 {
-                    font-family: $font-decor;
+                    font: $font-decor;
                 }
 
                 .book-genre
@@ -162,7 +161,7 @@
 
                 .tag
                 {
-                    font-family: $font-action;
+                    font: $font-action;
 
                     display: grid;
                     align-content: center;
@@ -226,7 +225,7 @@
 
 .autocomplete .autocomplete-item-label
 {
-    font-family: $font-decor;
+    font: $font-decor;
 }
 
 @media #{$screen-md}

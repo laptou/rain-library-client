@@ -2,7 +2,7 @@
 
 .autocomplete
 {
-    font-family: $font-body;
+    font: $font-body;
 
     border-radius: 4pt;
 
@@ -76,7 +76,7 @@
 
             .autocomplete-item-label
             {
-                font-family: "Noto Serif";
+                font: "Noto Serif";
             }
 
             &:hover

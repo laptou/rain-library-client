@@ -65,6 +65,8 @@ header
 
 .page-content-scroll-wrapper, .page-content-wrapper, .page-content
 {
+    position: relative;
+
     flex-grow: 1;
     flex-shrink: 1;
 }
@@ -103,8 +105,10 @@ header
 
                 &:first-child
                 {
-                    padding-right: 1em;
                     font-weight: bold;
+
+                    padding-right: 1em;
+
                     text-align: right;
                 }
             }
@@ -244,8 +248,9 @@ header
 
         .btn-back
         {
-            border-top-left-radius: 4pt;
             order: -1;
+
+            border-top-left-radius: 4pt;
         }
     }
 

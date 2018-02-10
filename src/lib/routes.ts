@@ -57,22 +57,31 @@ const router = new VueRouter({
             path: "/author/:id",
             component: () =>
                 import(/* webpackChunkName: "info" */ "@page/author/author.vue")
-        }
+        },
+        {
+            path: "/checkout",
+            component: () =>
+                import(/* webpackChunkName: "library" */ "@page/library/scanner/scanner.vue")
+        },
     ],
     mode: process.env.NODE_ENV === "development" ? "hash" : "history"
 });
 
-router.afterEach((to, from) => {
+router.afterEach((to, from) =>
+{
     store.commit("ui/setLoading", false);
 });
 
-router.beforeResolve((to, from, next) => {
+router.beforeResolve((to, from, next) =>
+{
     store.commit("ui/setLoading", true);
     next();
 });
 
-router.beforeEach(async (to, from, next) => {
-    if (!to.meta.permissions) {
+router.beforeEach(async (to, from, next) =>
+{
+    if (!to.meta.permissions)
+    {
         next();
         return;
     }
@@ -80,10 +89,12 @@ router.beforeEach(async (to, from, next) => {
     const state = store.state as any;
 
     if (!state.auth.initialized)
-        await new Promise((resolve, reject) => {
+        await new Promise((resolve, reject) =>
+        {
             const handle = store.watch(
                 s => (s as any).auth.user,
-                (val, old) => {
+                (val, old) =>
+                {
                     resolve(val);
                     handle();
                 }

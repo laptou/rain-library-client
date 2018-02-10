@@ -88,6 +88,6 @@ export default class AdminPage extends Vue{
 }
 </script>
 
-<style src="../page.scss" lang="scss">
+<style src="@page/page.scss" lang="scss">
 
 </style>
