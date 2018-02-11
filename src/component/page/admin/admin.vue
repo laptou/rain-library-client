@@ -37,53 +37,14 @@
 
 <script lang="ts">
 import { Api, Person } from "@lib/api";
+import { Page } from "@page/page";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-interface Button{
-    name: string;
-    action?: (evt?: Event) => void | Promise<void>;
-    link?: string;
-    type: "primary" | "secondary" | "danger" | "auxilary" | "fake";
-    status: "working" | "success" | "error" | null;
-}
-
 @vue.Component
-export default class AdminPage extends Vue{
-    buttons: Button[] = [];
-
+export default class AdminPage extends Page{
     get user(): Person    {
         return this.$store.state.auth.user;
-    }
-
-    onButtonsUpdated(buttons: Button[])    {
-        this.buttons = buttons;
-    }
-
-    async action(btn: Button, evt: Event)    {
-        if (!btn.action) return;
-
-        btn.status = "working";
-
-        const p = btn.action(evt);
-
-        try        {
-            if (p instanceof Promise)            {
-                await p;
-            }
-
-            btn.status = "success";
-
-            setTimeout(() =>            {
-                btn.status = null;
-            }, 2000);
-        } catch {
-            btn.status = "error";
-
-            setTimeout(() =>            {
-                btn.status = null;
-            }, 2000);
-        }
     }
 }
 </script>

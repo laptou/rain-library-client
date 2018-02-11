@@ -1,4 +1,5 @@
 // tslint:disable:no-console
+import { Api, Book } from "@lib/api";
 import * as vue from "av-ts";
 import quagga from "quagga";
 import Vue from "vue";
@@ -7,7 +8,8 @@ import Vue from "vue";
 export default class ScannerPage extends Vue
 {
     confidence: number = 0;
-    isbn: string | null = null;
+    id: string | null = null;
+    book: Book | null = null;
     prompt: string | null = null;
 
     @vue.Lifecycle
@@ -26,8 +28,9 @@ export default class ScannerPage extends Vue
                     height: vf.clientHeight
                 }
             },
-            decoder: { readers: ["ean_reader"] }
-        }, (err: any) =>
+            decoder: { readers: ["code_39_reader"] }
+        },
+            (err: any) =>
             {
                 if (err)
                 {
@@ -35,22 +38,31 @@ export default class ScannerPage extends Vue
                     return;
                 }
 
-                quagga.onDetected((result: any) =>
+                quagga.onDetected(async (result: any) =>
                 {
                     if (result.codeResult)
                     {
-                        if (this.isbn === result.codeResult.code)
+                        if (this.id === result.codeResult.code)
                             this.confidence++;
                         else
                             this.confidence = 0;
 
-                        this.isbn = result.codeResult.code;
+                        this.id = result.codeResult.code;
                     }
 
                     if (this.confidence > 10)
                     {
-                        this.prompt = "Detected: " + this.isbn;
+                        this.prompt = "Detected: " + this.id;
                         quagga.stop();
+
+                        this.book = await Api.getBookById(this.id as string);
+
+                        if (!this.book)
+                        {
+                            quagga.start();
+                            this.confidence = 0;
+                            this.prompt = "The book could not be found. Try again.";
+                        }
                     }
                     else if (this.confidence > 0)
                     {
@@ -58,13 +70,13 @@ export default class ScannerPage extends Vue
                     }
                     else
                     {
-                        this.prompt = "Scan an ISBN barcode.";
+                        this.prompt = "Scan an ID barcode.";
                     }
                 });
 
                 quagga.start();
 
-                this.prompt = "Scan an ISBN barcode.";
+                this.prompt = "Scan an ID barcode.";
             });
     }
 

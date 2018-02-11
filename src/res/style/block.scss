@@ -154,6 +154,15 @@ button
         background-color: #a42828;
     }
 
+    &.btn-ceremonial
+    {
+        font-size: 1.25em;
+
+        margin: 1.5em;
+
+        box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.25);
+    }
+
     &::after
     {
         position: relative;
@@ -232,38 +241,40 @@ ul.tile-list
     list-style: none;
 
     column-gap: 0.25em;
+}
 
-    li
-    {
-        margin-bottom: 0.25em;
-        padding: 0.75em;
+ul.tile-list li, div.tile-link
+{
+    font-weight: initial;
 
-        transition-duration: 0.15s;
-        transition-property: transform;
-        transform: perspective(400px);
+    margin-bottom: 0.25em;
+    padding: 0.75em;
 
-        background-color: $bg-light;
+    transition-duration: 0.15s;
+    transition-property: transform;
+    transform: perspective(400px);
+
+    background-color: $bg-light;
 
 @include elevation(1);
 
-        &:first-child
+    &:first-child
+    {
+        margin-top: 0;
+    }
+
+    &.tile-link
+    {
+        cursor: pointer;
+
+        &:hover
         {
-            margin-top: 0;
+            transform: perspective(400px) translateZ(4px);
         }
 
-        &.tile-link
+        &:active
         {
-            cursor: pointer;
-
-            &:hover
-            {
-                transform: perspective(400px) translateZ(4px);
-            }
-
-            &:active
-            {
-                transform: perspective(400px) translateZ(-4px);
-            }
+            transform: perspective(400px) translateZ(-4px);
         }
     }
 }

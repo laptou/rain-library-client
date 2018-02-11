@@ -11,9 +11,9 @@
                 </div>
                 <transition name="fade">
                     <div class="viewfinder-overlay" v-show="confidence > 10">
-                        <span>ISBN scanned</span>
+                        <span>Barcode scanned</span>
                         <img :src="require('@res/img/check-white.svg')" />
-                        <span>{{ isbn }}</span>
+                        <span v-if="!!book">{{ book.name }}</span>
                     </div>
                 </transition>
             </div>

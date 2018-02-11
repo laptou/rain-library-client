@@ -24,7 +24,7 @@
             </rl-permission>
 
              <rl-permission tag="li" permissions="check_out">
-                <router-link to="/checkout">
+                <router-link to="/library">
                     <button class="btn-primary">
                         Manage Checkouts
                     </button>

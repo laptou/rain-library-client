@@ -59,9 +59,17 @@ const router = new VueRouter({
                 import(/* webpackChunkName: "info" */ "@page/author/author.vue")
         },
         {
-            path: "/checkout",
+            path: "/library",
             component: () =>
-                import(/* webpackChunkName: "library" */ "@page/library/scanner/scanner.vue")
+                import(/* webpackChunkName: "library" */ "@page/library/library.vue")
+        },
+        {
+            path: "/library/scanner",
+            component: () => import(/* webpackChunkName: "library" */ "@page/library/scanner/scanner.vue")
+        },
+        {
+            path: "/library/book/:id",
+            component: () => import(/* webpackChunkName: "library" */ "@page/library/book/book.vue")
         },
     ],
     mode: process.env.NODE_ENV === "development" ? "hash" : "history"

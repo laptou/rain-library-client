@@ -18,6 +18,42 @@ export type Activity = (Checkout & { type: "checkout" }) | (Hold & { type: "hold
 
 export abstract class Api
 {
+    static async getCheckoutForBook(id: string): Promise<Checkout | null>
+    {
+        try
+        {
+            const res = await axios.get(`/api/book/copy/${id}/checkout`);
+            return res.data;
+        } catch {
+            return null;
+        }
+    }
+
+    static async checkIn(id: string): Promise<boolean>
+    {
+        try
+        {
+            const res = await axios.post(`/api/book/copy/${id}/checkin`);
+            return res.status === 200;
+        } catch {
+            return false;
+        }
+    }
+
+    static async checkOut(id: string, user: string, length?: number, penalty?: number): Promise<boolean>
+    {
+        try
+        {
+            const res = await axios.post(`/api/book/copy/${id}/checkout`,
+                {
+                    user, length, penalty
+                });
+            return res.status === 200;
+        } catch {
+            return false;
+        }
+    }
+
     static async placeHold(isbn: string): Promise<boolean>
     {
         try
@@ -62,6 +98,17 @@ export abstract class Api
         }
     }
 
+    static async getBookById(id: string)
+    {
+        try
+        {
+            const res = await axios.get(`/api/book/copy/${id}`);
+            return res.data as Book;
+        } catch {
+            return null;
+        }
+    }
+
     static async getStatusForBook(isbn: string): Promise<Status | null>
     {
         try
@@ -100,7 +147,7 @@ export abstract class Api
     {
         try
         {
-            const res = await axios.get(`/api/person/${id || "me"}/status/all`);
+            const res = await axios.get(`/api/person/${id || "me"}/status/current`);
             return res.data;
         } catch {
             return null;
@@ -113,6 +160,28 @@ export abstract class Api
         {
             const res = await axios.get(`/api/hold/book/${isbn}/count`);
             return res.data as number;
+        } catch {
+            return null;
+        }
+    }
+
+    static async getHoldsForBook(isbn: string)
+    {
+        try
+        {
+            const res = await axios.get(`/api/hold/book/${isbn}`);
+            return res.data as Hold[];
+        } catch {
+            return null;
+        }
+    }
+
+    static async getPersonByUsername(username: string)
+    {
+        try
+        {
+            const res = await axios.get(`/api/person/u/${username}`);
+            return res.data as Person;
         } catch {
             return null;
         }
@@ -215,17 +284,17 @@ export declare interface Book extends Document
 
 export interface Checkout extends Document
 {
-    start: Date;
-    due: Date | null;
+    start: Date | string;
+    due: Date | string | null;
     completed: boolean;
-    penalty_factor: number;
+    penalty: number;
     book: string | Book;
     person: string | Person;
 }
 
 export interface Hold extends Document
 {
-    date: Date;
+    date: Date | string;
     completed: boolean;
     isbn: string;
     person: string | Person;
@@ -234,7 +303,7 @@ export interface Hold extends Document
 
 export interface Fine extends Document
 {
-    date: Date;
+    date: Date | string;
     completed: boolean;
     amount: number;
     book: string | Book;

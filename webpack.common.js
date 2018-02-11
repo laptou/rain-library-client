@@ -61,6 +61,7 @@ module.exports = {
     plugins,
     output: {
         path: require("./config").output,
+        publicPath: "/",
         filename: "bundle.js"
     },
     module: {

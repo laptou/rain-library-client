@@ -47,6 +47,13 @@ Vue.filter("relative-time", (time: string | Date) =>
     return moment(time).fromNow(true);
 });
 
+Vue.filter("relative-time-verbose", (time: string | Date) =>
+{
+    if (!time) return "";
+
+    return moment(time).fromNow(false);
+});
+
 Vue.filter("time", (time: string | Date) =>
 {
     if (!time) return "";
