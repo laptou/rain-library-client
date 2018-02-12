@@ -7,7 +7,7 @@
                 <h3>{{ checkout.book.name }}</h3>
             </router-link>
             <span class="subtitle">
-                Checked out by {{ checkout.person.name | name }}
+                Checked out by <router-link :to="`/admin/user/${checkout.person.id}`">{{ checkout.person.name | name }}</router-link>
             </span>
             <table>
                 <tr>

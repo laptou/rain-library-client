@@ -128,20 +128,14 @@
 
                 cursor: pointer;
 
-                grid-template-columns: auto 1fr;
-                grid-template-columns: auto 6em;
+                grid-template-columns: 1fr auto;
 
                 .book-name
                 {
                     font: $font-decor;
                 }
 
-                .book-genre
-                {
-                    font-size: 0.8em;
-                }
-
-                .book-authors
+                .book-info
                 {
                     font-size: 0.8em;
                 }
@@ -166,6 +160,7 @@
                     display: grid;
                     align-content: center;
 
+                    width: 6em;
                     padding: 1em;
 
                     text-align: center;

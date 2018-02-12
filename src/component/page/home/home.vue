@@ -77,6 +77,28 @@
                 </autocomplete>
             </div>
             <div id="info-container">
+                <section id="info-fines" v-if="user && activities.some(a => a.type === 'fine')">
+                    <h2>Fines</h2>
+                    <ul>
+                        <router-link tag="li" v-for="fine in activities.filter(a => a.type === 'fine')"
+                            :key="fine.id" 
+                            :to="`/book/${fine.book.isbn}`" class="fine">
+                            <div class="content">
+                                <span class="book-name">{{ fine.book.name }}</span>
+                                <span class="book-info text-secondary">
+                                    copy {{fine.copy}}
+                                </span>
+                                <span class="book-info text-secondary">
+                                    {{ fine.book.genre | list }}
+                                </span>
+                            </div>
+                            <span class="tag tag-danger">
+                                ${{ parseFloat(fine.amount["$numberDecimal"]).toFixed(2) }}
+                            </span>
+                        </router-link>
+                    </ul>
+                </section>
+
                 <section id="info-checkout" v-if="user">
                     <h2>Checked out</h2>
                     <ul v-if="activities && activities.some(a => a.type === 'checkout')">
@@ -85,10 +107,10 @@
                             :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
                             <div class="content">
                                 <span class="book-name">{{ checkout.book.name }}</span>
-                                <span class="book-authors no-wrap">
+                                <span class="book-info no-wrap">
                                     {{ checkout.book.authors.map(a => a.name) | name-list }}
                                 </span>
-                                <span class="book-genre text-secondary">
+                                <span class="book-info text-secondary">
                                     {{ checkout.book.genre | list }}
                                 </span>
                             </div>
@@ -106,7 +128,7 @@
                     </span>
                 </section>
 
-                <section id="info-trending">
+                <section id="info-trending" v-if="false">
                     <h2>Trending</h2>
                     <span class="empty-message">
                         This feature hasn't been implemented yet.
@@ -120,10 +142,10 @@
                             :key="hold._id" :to="`/book/${hold.book.isbn}`">
                             <div class="content">
                                 <span class="book-name">{{ hold.book.name }}</span>
-                                <span class="book-authors no-wrap">
+                                <span class="book-info no-wrap">
                                     {{ hold.book.authors.map(a => a.name) | name-list }}
                                 </span>
-                                <span class="book-genre text-secondary">
+                                <span class="book-info text-secondary">
                                     {{ hold.book.genre | list }}
                                 </span>
                             </div>
@@ -189,7 +211,7 @@ export default class HomePage extends Vue{
 
     async onUserChanged(newVal: Person | null, oldVal: Person | null)    {
         if (newVal)        {
-            this.activities = await Api.getActivities() || [];
+            this.activities = await Api.getCurrentActivities() || [];
         }
     }
 

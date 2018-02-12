@@ -110,10 +110,15 @@ export abstract class Api
         return res.data;
     }
 
+    static async getCurrentActivities(id?: string): Promise<Activity[]>
+    {
+        const res = await axios.get(`/api/person/${id || "me"}/status/current`);
+        return res.data;
+    }
 
     static async getActivities(id?: string): Promise<Activity[]>
     {
-        const res = await axios.get(`/api/person/${id || "me"}/status/current`);
+        const res = await axios.get(`/api/person/${id || "me"}/status/all`);
         return res.data;
     }
 
