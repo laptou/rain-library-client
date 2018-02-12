@@ -1,5 +1,8 @@
 <template>
 <div>
+    <transition name="fade">
+        <div v-if="error" class="banner banner-error banner-top">{{ error }}</div>
+    </transition>
     <form v-if="person">
         <h2>Name</h2>
         <label>Username</label>
@@ -179,10 +182,10 @@
 import { Api, Person, Activity } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
-import { vuexModule } from "@lib/auth";
 
 @vue.Component
 export default class AdminUserPage extends Vue{
+    error: string | null = null;
     person: Person | null = null;
     activities: Activity[] | null = null;
 
@@ -217,6 +220,8 @@ export default class AdminUserPage extends Vue{
     @vue.Lifecycle
     mounted()    {
         (async () =>        {
+            if (!this.person)
+                this.person = await Api.getPersonById(this.$route.params.id);
             this.activities = await Api.getActivities(this.$route.params.id);
         })();
 
@@ -228,9 +233,16 @@ export default class AdminUserPage extends Vue{
     async save()    {
         if (!this.person) return;
 
-        this.person =
-            (await Api.setPersonById(this.person.id, this.person)) ||
-            this.person;
+        try        {
+            this.person =
+                (await Api.setPersonById(this.person.id, this.person)) ||
+                this.person;
+        }
+        catch (err)
+        {
+            this.error = err.response.statusText;
+            setTimeout(() => this.error = null, 2000);
+        }
     }
 }
 </script>

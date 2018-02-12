@@ -3,7 +3,9 @@
         <rl-acrylic >
             <div id="wrapper">
                 <header>
-                    <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                    <router-link to="/">
+                        <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                    </router-link>
                     <div id="title-wrapper">
                         <h1 class="title">{{ book.name }}</h1>
                         <rl-see-more class="subtitle" :inline="true">
@@ -51,14 +53,12 @@
                 </section>
                 </div>
                 <section id="actions">
-                    <router-link v-if="mode === 'log_in'" to="/login">
-                        <button class="btn-secondary">
-                            Log in
-                            <br/>
-                            <span class="subtitle">
-                                to place hold
-                            </span>
-                        </button>
+                    <router-link v-if="mode === 'log_in'" to="/login" tag="button" class="btn-secondary">
+                        Log in
+                        <br/>
+                        <span class="subtitle">
+                            to place hold
+                        </span>
                     </router-link>
                     <button v-else-if="mode === 'place_hold'" class="btn-primary" @click="placeHold">
                         Place hold

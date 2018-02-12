@@ -3,7 +3,9 @@
         <rl-acrylic >
             <div id="wrapper">
                 <header>
-                    <img id="logo" :src="require('@res/img/logo-sm.png')" />
+                    <router-link to="/">
+                        <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                    </router-link>
                     <div id="title-wrapper">
                         <h1 class="title">Manage Checkouts</h1>
                     </div>

@@ -1,6 +1,5 @@
 <template>
     <div id="root">
-    <div>
         <div id="menu-container" :class="{ 'menu-open': menuOpen }">
         <rl-acrylic>
             <button id="menu-button" @click="menuOpen = !menuOpen" aria-hidden>
@@ -170,7 +169,6 @@
             © 2017-2018 Ibiyemi Abiodun
         </footer>
     </div>
-</div>
 </template>
 
 <script lang="ts">

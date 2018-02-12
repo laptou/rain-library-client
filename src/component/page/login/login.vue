@@ -3,7 +3,9 @@
         <rl-acrylic >
             <form id="wrapper" method="post" @submit.prevent="onSubmit">
                 <header>
-                    <img :src="require('@res/img/logo-md.png')" id="logo"/>
+                    <router-link to="/">
+                        <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                    </router-link>
                     <div id="title-wrapper">
                         <h1>
                             Log in

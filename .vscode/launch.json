@@ -13,6 +13,16 @@
             "sourceMapPathOverrides": {
                 "webpack:///./src/*": "${workspaceFolder}/src/*"
             }
+        },
+        {
+            "type": "chrome",
+            "name": "Client (HTTPS)",
+            "request": "launch",
+            "url": "https://localhost:8001/",
+            "webRoot": "${workspaceFolder}/dist",
+            "sourceMapPathOverrides": {
+                "webpack:///./src/*": "${workspaceFolder}/src/*"
+            }
         }
     ]
 }

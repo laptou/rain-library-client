@@ -254,8 +254,6 @@ ul.tile-list li, div.tile-link
 
     background-color: $bg-light;
 
-@include elevation(1);
-
     &:first-child
     {
         margin-top: 0;

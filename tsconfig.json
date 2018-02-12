@@ -5,18 +5,31 @@
         "target": "es2015",
         "sourceMap": true,
         "strict": true,
+        "suppressImplicitAnyIndexErrors": true,
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "baseUrl": ".",
         "paths": {
-            "@lib/*": ["src/lib/*"],
-            "@component/*": ["src/component/*"],
-            "@page/*": ["src/component/page/*"],
-            "@control/*": ["src/component/control/*"],
-            "*": ["src/typings/*"]
+            "@lib/*": [
+                "src/lib/*"
+            ],
+            "@component/*": [
+                "src/component/*"
+            ],
+            "@page/*": [
+                "src/component/page/*"
+            ],
+            "@control/*": [
+                "src/component/control/*"
+            ],
+            "*": [
+                "src/typings/*"
+            ]
         }
     },
-    "exclude": ["node_modules"]
+    "exclude": [
+        "node_modules"
+    ]
 }

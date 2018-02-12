@@ -2,6 +2,8 @@
 
 #logo-container
 {
+    max-width: 100vw;
+
     text-align: center;
 
     .acrylic-content
@@ -145,6 +147,11 @@
                     display: grid;
                     align-items: center;
 
+// Firefox sets the min-width of grid items to auto
+                    // which causes problems because it won't wrap the text
+                    // dude
+
+                    min-width: 0;
                     padding: 1em;
                 }
 

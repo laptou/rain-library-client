@@ -3,7 +3,9 @@
         <rl-acrylic >
             <div id="wrapper">
                 <header>
-                    <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                    <router-link to="/">
+                        <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                    </router-link>
                     <div id="title-wrapper">
                         <h1>{{ author.name | name }}</h1>
                         <span class="subtitle">Author</span>
