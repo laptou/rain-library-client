@@ -1,6 +1,6 @@
 <template>
     <div id="root">
-        <rl-acrylic class="elevation-1">
+        <rl-acrylic >
             <div id="wrapper">
                 <header>
                     <img id="logo" :src="require('@res/img/logo-sm.png')" />
@@ -8,9 +8,13 @@
                         <h1 class="title">Check in/out</h1>
                     </div>
                 </header>
-                <div class="page-content-scroll-content" v-bar>
+                <div class="page-content-scroll-wrapper" v-bar>
                     <div class="page-content-wrapper">
                     <section class="page-content">
+                        <transition name="fade">
+                            <span class="banner banner-error banner-top" v-if="error">{{ error }}</span>
+                        </transition>
+                        
                         <template v-if="checkout">
                             <h2>
                                 <router-link v-if="book" :to="`/book/${book.isbn}`">
@@ -44,21 +48,25 @@
                             <br/>
                             <h3>Information</h3>
                             <div>
-                            <template v-if="hold">
-                                {{ hold.person.name | name }} ({{hold.person.username}}) 
-                                currently has a hold on this book.
-                            </template>
+                                <template v-if="hold">
+                                    {{ hold.person.name | name }} ({{hold.person.username}}) 
+                                    currently has a hold on this book.
+                                </template>
+                                <template v-if="[hold].every(_ => !_)">
+                                    <span class="text-secondary">N/A</span>
+                                </template>
                             </div>
 
                             <br/>
                             <h3>Check out</h3>
                             <label>Username:&ensp;<input class="inline" type="text" v-model="username"/></label>
-                            <label>Due in:&ensp;<input class="inline" type="number" v-model="due"/>&ensp;days</label><br/>
+                            <label>Due in:&ensp;<input class="inline" type="number" min="1" v-model.number="due"/>&ensp;days</label><br/>
 
                             <button class="btn-ceremonial" 
-                                :class="{'btn-disabled': !username || !due, 'btn-primary': username && due }"
-                                @click="checkOut">Check out</button>                        
+                                :class="{'btn-disabled': !username || !(due > 0), 'btn-primary': username && due > 0 }"
+                                @click="checkOut">Check out</button>
                         </template>
+                        
                     </section>
                     </div>
                 </div>
@@ -90,28 +98,44 @@ export default class LibraryBookPage extends Vue
     username: string | null = null;
     due: number | null = null;
 
+    error: string | null = null;
+
     @vue.Lifecycle
     mounted()    {
         this.init();
     }
 
+    setError(error: string)    {
+        this.error = error;
+        setTimeout(() => this.error = null, 5000);
+    }
+
     async init()
     {
-        const id = this.$route.params.id;
-        this.checkout = await Api.getCheckoutForBook(id);
+        this.error = null;
 
-        if (this.checkout)
-            this.book = this.checkout.book as Book;
-        else
+        try
         {
-            this.book = await Api.getBookById(id);
+            const id = this.$route.params.id;
+            this.checkout = await Api.getCheckoutForBook(id);
 
-            if (this.book)
+            if (this.checkout)
+                this.book = this.checkout.book as Book;
+            else
             {
-                const holds = await Api.getHoldsForBook(this.book.isbn);
+                this.book = await Api.getBookById(id);
 
-                this.hold = (holds && holds.length) ? holds[0] : null;
+                if (this.book)
+                {
+                    const holds = await Api.getHoldsForBook(this.book.isbn);
+
+                    this.hold = (holds && holds.length) ? holds[0] : null;
+                }
             }
+        }
+        catch (err)
+        {
+            this.setError(err.response.statusText);
         }
     }
 
@@ -131,27 +155,45 @@ export default class LibraryBookPage extends Vue
         }
     }
 
-    async checkIn() 
+    async checkIn()
     {
+        this.error = null;
+
         const id = this.$route.params.id;
 
-        if (await Api.checkIn(id))
+        try 
         {
-            await this.init();
+            if (await Api.checkIn(id))
+            {
+                await this.init();
+            }
+        }
+        catch (err)
+        {
+            this.setError(err.response.statusText);
         }
     }
 
     async checkOut()
     {
-        const id = this.$route.params.id;
+        this.error = null;
 
-        const person = await Api.getPersonByUsername(this.username as string);
+        try 
+        {
+            const id = this.$route.params.id;
 
-        if (!person) return;
+            const person = await Api.getPersonByUsername(this.username as string);
 
-        if (!await Api.checkOut(id, person.id, this.due as number)) return;
+            if (!person) return;
 
-        await this.init();
+            if (!await Api.checkOut(id, person.id, this.due as number)) return;
+
+            await this.init();
+        }
+        catch (err)
+        {
+            this.setError(err.response.statusText);
+        }
     }
 }
 </script>

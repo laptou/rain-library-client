@@ -1,10 +1,24 @@
-@import "style/mixin";
 @import "style/theme";
 @import "style/text";
-@import "style/block";
+@import "style/mixin";
 
-*
+@media screen
 {
-    box-sizing: border-box;
-    transition-duration: 0.15s;
+    @import "style/block";
+
+    *
+    {
+        box-sizing: border-box;
+
+        transition-duration: 0.15s;
+    }
+}
+
+
+@media print
+{
+    footer
+    {
+        display: none;
+    }
 }

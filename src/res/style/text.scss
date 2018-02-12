@@ -1,6 +1,16 @@
 @import "theme";
 @import "responsive";
 
+a
+{
+    font-weight: bold;
+
+    text-decoration: none;
+    word-break: keep-all;
+
+    color: darken($accent-primary, 20%);
+}
+
 .subtitle
 {
     font: $font-header;

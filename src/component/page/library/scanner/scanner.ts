@@ -12,23 +12,41 @@ export default class ScannerPage extends Vue
     book: Book | null = null;
     prompt: string | null = null;
 
+    onBlur(ev: FocusEvent)
+    {
+        quagga.stop();
+    }
+
+    onFocus(ev: FocusEvent)
+    {
+        quagga.start();
+    }
+
     @vue.Lifecycle
     mounted()
     {
+        window.addEventListener("blur", this.onBlur);
+        window.addEventListener("focus", this.onFocus);
+
         const vf = this.$refs.viewfinder as Element;
+
+        const constraints: any = {
+            facingMode: "environment",
+            width: { min: vf.clientWidth },
+            height: { min: vf.clientHeight }
+        };
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getSupportedConstraints().aspectRatio)
+            constraints.aspectRatio = 0.5;
+
         quagga.init({
             inputStream: {
                 name: "Live",
                 type: "LiveStream",
-                locate: false,
                 target: vf,
-                constraints: {
-                    facingMode: "environment",
-                    width: vf.clientWidth,
-                    height: vf.clientHeight
-                }
+                constraints
             },
-            decoder: { readers: ["code_39_reader"] }
+            decoder: { readers: ["code_93_reader"] }
         },
             (err: any) =>
             {
@@ -62,6 +80,14 @@ export default class ScannerPage extends Vue
                             quagga.start();
                             this.confidence = 0;
                             this.prompt = "The book could not be found. Try again.";
+                        }
+                        else
+                        {
+                            setTimeout(() =>
+                            {
+                                if (this.id)
+                                    this.$router.push(`/library/book/${this.id.toLowerCase()}`);
+                            }, 1000);
                         }
                     }
                     else if (this.confidence > 0)

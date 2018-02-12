@@ -1,6 +1,6 @@
 <template>
     <div v-if="author" id="root">
-        <rl-acrylic class="elevation-1">
+        <rl-acrylic >
             <div id="wrapper">
                 <header>
                     <img id="logo" :src="require('@res/img/logo-sm.png')"/>
@@ -67,12 +67,12 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class AuthorPage extends Vue {
+export default class AuthorPage extends Vue{
     author: Person | null = null;
     books: Book[] | null = [];
 
-    get sortedBooks(): Book[] | null {
-        if (this.books) {
+    get sortedBooks(): Book[] | null    {
+        if (this.books)        {
             const books = this.books;
             books.sort((a, b) => a.name.localeCompare(b.name));
             return books;
@@ -82,8 +82,8 @@ export default class AuthorPage extends Vue {
     }
 
     @vue.Lifecycle
-    created() {
-        (async () => {
+    created()    {
+        (async () =>        {
             [this.author, this.books] = await Promise.all([
                 Api.getPersonById(this.$route.params.id),
                 Api.getBooksByAuthor(this.$route.params.id)

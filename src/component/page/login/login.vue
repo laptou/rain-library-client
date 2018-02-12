@@ -1,6 +1,6 @@
 <template>
     <div id="root" class="page-narrow">
-        <rl-acrylic class="elevation-1">
+        <rl-acrylic >
             <form id="wrapper" method="post" @submit.prevent="onSubmit">
                 <header>
                     <img :src="require('@res/img/logo-md.png')" id="logo"/>
@@ -37,13 +37,13 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class LoginPage extends Vue {
+export default class LoginPage extends Vue{
     username: string = "";
     password: string = "";
     error: string | null = null;
 
-    async onSubmit() {
-        if (!this.username || !this.password) {
+    async onSubmit()    {
+        if (!this.username || !this.password)        {
             this.error = "You need a username and password.";
             return;
         }
@@ -53,7 +53,7 @@ export default class LoginPage extends Vue {
             password: this.password
         });
 
-        switch (response) {
+        switch (response)        {
             case 200:
                 this.$router.back();
                 break;

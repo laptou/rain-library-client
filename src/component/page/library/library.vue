@@ -1,6 +1,6 @@
 <template>
     <div id="root">
-        <rl-acrylic class="elevation-1">
+        <rl-acrylic >
             <div id="wrapper">
                 <header>
                     <img id="logo" :src="require('@res/img/logo-sm.png')" />
@@ -11,7 +11,11 @@
                 <section class="page-content">
                     <ul class="link-list">
                         <li>
-                            <h2>Enter a book ID:&emsp;<input type="text" v-model="bookId" class="inline"/></h2>
+                            <h2>
+                                Enter a book ID:&ensp;
+                                <input type="text" v-model="bookId" class="inline"
+                                    placeholder="bef9d3fbc8a5885159da132d"/>
+                            </h2>
                             
                             <router-link :to="`/library/book/${bookId}`" v-if="book">
                                 <br/>
@@ -20,11 +24,6 @@
                                     <span class="text-secondary no-wrap">{{ book.authors.map(a => a.name) | name-list }}</span><br/>
                                     <span class="text-secondary no-wrap">{{ book.year }}</span>
                                 </div>
-                            </router-link>
-                        </li>
-                        <li>
-                            <router-link to="/library/scanner">
-                                <h2>Scan a barcode</h2>
                             </router-link>
                         </li>
                     </ul>

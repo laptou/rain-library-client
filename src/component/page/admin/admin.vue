@@ -1,6 +1,6 @@
 <template>
     <div id="root">
-        <rl-acrylic class="elevation-1">
+        <rl-acrylic >
             <div id="wrapper">
                 <header>
                     <img id="logo" :src="require('@res/img/logo-sm.png')" />

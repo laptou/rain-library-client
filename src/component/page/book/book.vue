@@ -1,6 +1,6 @@
 <template>
     <div v-if="book" id="root">
-        <rl-acrylic class="elevation-1">
+        <rl-acrylic >
             <div id="wrapper">
                 <header>
                     <img id="logo" :src="require('@res/img/logo-sm.png')"/>
@@ -42,6 +42,10 @@
                         <tr>
                             <td>ISBN</td>
                             <td class="text-secondary">{{ book.isbn }}</td>
+                        </tr>
+                         <tr>
+                            <td>IDs of Copies</td>
+                            <td class="text-secondary"><span :key="copy" v-for="copy in book.copies">{{ copy }}<br/></span></td>
                         </tr>
                     </table>
                 </section>
@@ -92,17 +96,17 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class BookPage extends Vue {
+export default class BookPage extends Vue{
     book: Book | null = null;
     holdCount: number | null = null;
     status: Status | null = null;
 
     @vue.Lifecycle
-    created() {
-        (async () => {
+    created()    {
+        (async () =>        {
             this.book = await Api.getBookByIsbn(this.$route.params.isbn);
 
-            if (this.book && this.user) {
+            if (this.book && this.user)            {
                 [this.holdCount, this.status] = await Promise.all([
                     Api.getHoldCountForBook(this.book.isbn),
                     Api.getStatusForBook(this.book.isbn)
@@ -111,17 +115,17 @@ export default class BookPage extends Vue {
         })();
     }
 
-    get user(): Person {
+    get user(): Person    {
         return this.$store.state.auth.user;
     }
 
-    get mode() {
-        if (!this.status) {
+    get mode()    {
+        if (!this.status)        {
             if (!this.user) return "log_in";
             return "none";
         }
 
-        switch (this.status.status) {
+        switch (this.status.status)        {
             case null:
             case BookStatus.None:
                 if (this.user.permissions.indexOf("place_hold") === -1)
@@ -135,14 +139,14 @@ export default class BookPage extends Vue {
         }
     }
 
-    async placeHold() {
-        if (this.book && (await Api.placeHold(this.book.isbn))) {
+    async placeHold()    {
+        if (this.book && (await Api.placeHold(this.book.isbn)))        {
             this.status = await Api.getStatusForBook(this.book.isbn);
         }
     }
 
-    async cancelHold() {
-        if (this.book && (await Api.cancelHold(this.book.isbn))) {
+    async cancelHold()    {
+        if (this.book && (await Api.cancelHold(this.book.isbn)))        {
             this.status = await Api.getStatusForBook(this.book.isbn);
         }
     }

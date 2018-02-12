@@ -1,6 +1,6 @@
 <template lang="html">
 <div id="root">
-    <rl-acrylic class="elevation-1">
+    <rl-acrylic >
         <div id="wrapper">
             <div class="page-content">
                 <div class="viewfinder" ref="viewfinder">

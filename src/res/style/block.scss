@@ -16,8 +16,7 @@ input[type="text"], input[type="search"], input[type="password"], input[type="nu
     {
         border: none;
         background-color: white;
-
-@include elevation(1);
+        box-shadow: 0 0 4pt 0 rgba(0, 0, 0, 0.25);
 
         &::placeholder
         {
@@ -28,6 +27,7 @@ input[type="text"], input[type="search"], input[type="password"], input[type="nu
     &::placeholder
     {
         transition-duration: 0.15s;
+        text-overflow: ellipsis;
 
         opacity: 0.7;
         color: currentColor;
@@ -37,10 +37,7 @@ input[type="text"], input[type="search"], input[type="password"], input[type="nu
     {
         display: inline-block;
 
-        margin-top: 3pt;
-        margin-bottom: 3pt;
-        padding-top: 3pt;
-        padding-bottom: 3pt;
+        margin: 3pt;
     }
 }
 
@@ -263,6 +260,11 @@ ul.tile-list li, div.tile-link
         margin-top: 0;
     }
 
+    h1, h2, h3, h4
+    {
+        margin-top: 0;
+    }
+
     &.tile-link
     {
         cursor: pointer;
@@ -285,6 +287,7 @@ ul.checkbox-list
     {
         position: relative;
 
+
         & > label
         {
             display: inline-block;
@@ -300,13 +303,18 @@ ul.link-list
     li
     {
         margin-bottom: 1ex;
-        padding: 1ex 0;
+        padding: 1.2em 0;
 
         border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 
-        h1, h2
+        h1, h2, h3, h4
         {
             margin-top: 0;
+        }
+
+        input
+        {
+            font: $font-action;
         }
 
         a
@@ -319,4 +327,29 @@ ul.link-list
             }
         }
     }
+}
+
+.banner
+{
+    font: $font-action;
+
+    display: block;
+
+    padding: 1em;
+
+@include elevation(3);
+}
+
+.banner-error
+{
+    color: $text-light;
+    background-color: transparentize($accent-danger, 0.1);
+}
+
+.banner-top
+{
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    left: 1em;
 }
