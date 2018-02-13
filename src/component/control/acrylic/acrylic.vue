@@ -22,11 +22,14 @@ export default class Acrylic extends Vue {
     mode: string | Mode = vue.p({ type: String, default: Mode.Image });
 
     get style() {
+        if(window.matchMedia && window.matchMedia("print").matches)
+            return null;
+
         // this stuff just doesn't work in Chrome for Android, so gracefully fallback
         // to some plain old alpha transparency
         if (
             navigator.userAgent.indexOf("Chrome") !== -1 &&
-            navigator.userAgent.lastIndexOf("Android") !== -1
+            navigator.userAgent.indexOf("Android") !== -1
         )
             return { "background-color": "rgba(0, 0, 0, 0.3)" };
 

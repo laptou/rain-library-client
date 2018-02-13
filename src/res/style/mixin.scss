@@ -19,7 +19,7 @@
     {
         background-color: $color;
 
-        &:not(.btn-disabled)
+        &:not(.btn-disabled), &:not(:disabled)
         {
             &:hover, &:focus
             {

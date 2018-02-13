@@ -34,6 +34,7 @@
                     <button @click="$router.back()" class="btn-auxilary btn-back">
                         Back
                     </button>
+                    
                 </section>
             </div>
         </rl-acrylic>

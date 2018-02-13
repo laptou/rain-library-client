@@ -10,6 +10,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuebar from "vuebar";
 
+if (location.protocol !== 'https:')
+{
+    location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+}
+
 axios.defaults.headers["Accept"] = "application/json";
 
 Vue.use(Vuebar);
@@ -34,7 +39,6 @@ Vue.filter("list", (f: any[]) =>
 Vue.filter("status", (value: Api.Permission[]) =>
 {
     if (value.indexOf("user") === -1) return "Author";
-
     if (value.indexOf("admin") !== -1) return "Administrator";
     if (value.indexOf("check_out") !== -1) return "Librarian";
     return "User";

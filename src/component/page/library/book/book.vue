@@ -21,7 +21,9 @@
                             <h2>
                                 <router-link v-if="book" :to="`/book/${book.isbn}`">
                                 {{ book.name }}
-                                </router-link> is currently checked out to {{ checkout.person.name | name }}.</h2>
+                                </router-link> is currently checked out to 
+                                <router-link v-if="checkout.person" :to="`/admin/user/${checkout.person.id}`">
+                                {{ checkout.person.name | name }}</router-link>.</h2>
                             <br/>
                             <h3>Information</h3>
                             <h4>Checkout</h4>
@@ -39,9 +41,7 @@
                                     <td>Fine</td>
                                     <td>{{ checkoutPenalty }}</td>
                                 </tr>
-                            </table>
-
-                            <button class="btn-primary btn-ceremonial" @click="checkIn">Check in</button>                        
+                            </table>                     
                         </template>
                         <template v-else>
                             <h2><router-link v-if="book" :to="`/book/${book.isbn}`">
@@ -63,10 +63,6 @@
                             <h3>Check out</h3>
                             <label>Username:&ensp;<input class="inline" type="text" v-model="username"/></label>
                             <label>Due in:&ensp;<input class="inline" type="number" min="1" v-model.number="due"/>&ensp;days</label><br/>
-
-                            <button class="btn-ceremonial" 
-                                :class="{'btn-disabled': !username || !(due > 0), 'btn-primary': username && due > 0 }"
-                                @click="checkOut">Check out</button>
                         </template>
                         
                     </section>
@@ -76,6 +72,12 @@
                     <button @click="$router.back()" class="btn-auxilary btn-back">
                         Back
                     </button>
+                    <template v-for="(button, index) in buttons">
+                        <button
+                            @click="action(button, $event)" 
+                            :key="index" :disabled="!('enabled' in button ? button.enabled() : true)"
+                            :class="[`btn-${button.type}`, `btn-${button.status}`]">{{ button.name }}</button>
+                    </template>
                 </section>
             </div>
         </rl-acrylic>
@@ -91,7 +93,7 @@ import * as vue from 'av-ts';
 import Vue from 'vue';
 
 @vue.Component
-export default class LibraryBookPage extends Vue
+export default class LibraryBookPage extends Page
 {
     book: Book | null = null;
     checkout: Checkout | null = null;
@@ -122,7 +124,16 @@ export default class LibraryBookPage extends Vue
             this.checkout = await Api.getCheckoutForBook(id);
 
             if (this.checkout)
+            {
                 this.book = this.checkout.book as Book;
+
+                this.$emit("buttonupdate", [{
+                    name: "Check in",
+                    action: this.checkIn,
+                    status: null,
+                    type: "primary"
+                }]);
+            }
             else
             {
                 this.book = await Api.getBookById(id);
@@ -133,6 +144,19 @@ export default class LibraryBookPage extends Vue
 
                     this.hold = (holds && holds.length) ? holds[0] : null;
                 }
+
+                this.$emit("buttonupdate", [{
+                    name: "Check out",
+                    action: this.checkOut,
+                    type: "primary",
+                    status: null,
+                    enabled: () =>                    {
+                        const e = !!this.username && !!this.due && this.due > 0;
+                        console.log("enabled called: " + e);
+                        console.log({ u: this.username, d: this.due });
+                        return e;
+                    }
+                }]);
             }
         }
         catch (err)
@@ -167,12 +191,13 @@ export default class LibraryBookPage extends Vue
         {
             if (await Api.checkIn(id))
             {
-                await this.init();
+                this.init();
             }
         }
         catch (err)
         {
             this.setError(err.response.statusText);
+            throw err;
         }
     }
 
@@ -190,11 +215,12 @@ export default class LibraryBookPage extends Vue
 
             if (!await Api.checkOut(id, person.id, this.due as number)) return;
 
-            await this.init();
+            this.init();
         }
         catch (err)
         {
             this.setError(err.response.statusText);
+            throw err;
         }
     }
 }

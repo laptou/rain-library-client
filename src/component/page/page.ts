@@ -16,9 +16,16 @@ export class Page extends Vue
     buttons: Button[] = [];
     data: any = {};
 
+    @vue.Lifecycle
+    created()
+    {
+        this.$on("buttonupdate", this.onButtonsUpdated);
+        this.$on("dataupdate", this.onDataUpdated);
+    }
+
     onButtonsUpdated(buttons: Button[])
     {
-        this.buttons = buttons;
+        this.$set(this, "buttons", buttons);
     }
 
     onDataUpdated(data: any)

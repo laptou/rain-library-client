@@ -90,23 +90,17 @@ input[type="checkbox"]
     }
 }
 
-%btn-state
+@keyframes btn-working
 {
-    left: 0;
+    0%
+    {
+        background-color: $accent-primary;
+    }
 
-    display: inline-block;
-
-    width: 1.2em;
-    height: 1.2em;
-    margin-left: 0.4em;
-
-    content: " ";
-    transition-duration: 0.15s;
-    transition-property: opacity, left;
-    vertical-align: bottom;
-
-    opacity: 1;
-    background-size: contain;
+    100%
+    {
+        background-color: $accent-neutral;
+    }
 }
 
 button
@@ -126,7 +120,7 @@ button
     outline: none;
     background-color: $bg-dark;
 
-    &.btn-disabled
+    &.btn-disabled, &:disabled
     {
         cursor: default;
 
@@ -141,14 +135,14 @@ button
         background-color: white;
     }
 
-    &.btn-success
+    &.btn-working
     {
-        background-color: #28a428;
-    }
-
-    &.btn-error
-    {
-        background-color: #a42828;
+        animation-name: btn-working;
+        animation-duration: 1s;
+        animation-play-state: running;
+        animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
     }
 
     &.btn-ceremonial
@@ -169,14 +163,6 @@ button
 
         opacity: 0;
     }
-
-
-    &.btn-working::after
-    {
-        background-image: url("~@res/img/indeterminate-white.svg");
-
-@extend %btn-state;
-    }
 }
 
 @include btn(primary, $accent-primary);
@@ -184,6 +170,8 @@ button
 @include btn(auxilary, $accent-auxilary);
 @include btn(danger, $accent-danger);
 @include btn(neutral, $accent-neutral);
+@include btn(success, #28a428);
+@include btn(error, #a42828);
 
 @for $i from 1 through 6
 {
@@ -253,6 +241,8 @@ ul.tile-list li, div.tile-link
     transform: perspective(400px);
 
     background-color: $bg-light;
+
+    break-inside: avoid;
 
     &:first-child
     {
@@ -343,6 +333,12 @@ ul.link-list
 {
     color: $text-light;
     background-color: transparentize($accent-danger, 0.1);
+}
+
+.banner-info
+{
+    color: $text-light;
+    background-color: transparentize($accent-primary, 0.1);
 }
 
 .banner-top

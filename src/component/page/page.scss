@@ -294,8 +294,32 @@ header
 
 @media print
 {
-    #actions
+    #root
     {
-        display: none;
+        justify-content: stretch;
+
+        .acrylic
+        {
+            box-shadow: none;
+        }
+
+        #wrapper
+        {
+            max-width: none;
+            height: auto;
+            max-height: none;
+        }
+
+        #actions
+        {
+            display: none;
+        }
+
+        header
+        {
+            padding: 2em 2em 0;
+
+            background: none;
+        }
     }
 }

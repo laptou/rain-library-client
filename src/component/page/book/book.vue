@@ -128,7 +128,8 @@ export default class BookPage extends Vue{
         switch (this.status.status)        {
             case null:
             case BookStatus.None:
-                if (this.user.permissions.indexOf("place_hold") === -1)
+                if (this.user.permissions.indexOf("place_hold") === -1 &&
+                    this.user.permissions.indexOf("admin") === -1)
                     return "none";
                 else return "place_hold";
             case BookStatus.OnHold:

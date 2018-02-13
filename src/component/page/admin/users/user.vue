@@ -3,17 +3,24 @@
     <transition name="fade">
         <div v-if="error" class="banner banner-error banner-top">{{ error }}</div>
     </transition>
+    <transition name="fade">
+        <div v-if="message" class="banner banner-info banner-top">{{ message }}</div>
+    </transition>
     <form v-if="person">
         <h2>Name</h2>
-        <label>Username</label>
-        <input type="text" v-model="person.username" v-if="person.permissions.indexOf('user') !== -1" />
-        <input type="text" v-model="person.username" disabled="disabled" placeholder="Must be a user to have a username" v-else />
-
         <label>First Name</label>
         <input type="text" v-model="person.name.first" />
 
         <label>Last Name</label>
         <input type="text" v-model="person.name.last" />
+
+        <label>Username</label>
+        <input type="text" v-model="person.username" v-if="person.permissions.indexOf('user') !== -1" />
+        <input type="text" v-model="person.username" disabled="disabled" placeholder="Must be a user to have a username" v-else />
+
+        <label>Password</label>
+        <input type="password" v-model="person.password" v-if="person.permissions.indexOf('user') !== -1" />
+        <input type="password" v-model="person.password" disabled="disabled" placeholder="Must be a user to have a password" v-else />
 
         <h2>Permissions</h2>
 
@@ -104,6 +111,7 @@
         </ul>
 
         <h2>Activity</h2>
+        <template v-if="activities.some(a =>  a.type === 'hold')">
         <h3>On hold</h3>
 
         <ul class="tile-list" v-if="activities">
@@ -119,7 +127,9 @@
                 </table>
             </li>
         </ul>
+        </template>
 
+        <template v-if="activities.some(a =>  a.type === 'checkout' && !a.completed)">
         <h3>Checked out</h3>
 
         <ul class="tile-list" v-if="activities">
@@ -143,7 +153,9 @@
                 </table>
             </li>
         </ul>
+        </template>
 
+        <template v-if="activities.some(a =>  a.type === 'checkout' && a.completed)">
         <h3>Returned</h3>
         <ul class="tile-list" v-if="activities">
             <li v-for="checkout in activities.filter(a => a.type === 'checkout' && a.completed)" :key="checkout.id">
@@ -174,6 +186,11 @@
                 </table>
             </li>
         </ul>
+        </template>
+
+        <template v-if="activities.length === 0">
+            This user has never checked out any books or placed any holds.
+        </template>
     </form>
 </div>
 </template>
@@ -186,6 +203,7 @@ import Vue from "vue";
 @vue.Component
 export default class AdminUserPage extends Vue{
     error: string | null = null;
+    message: string | null = null;
     person: Person | null = null;
     activities: Activity[] | null = null;
 
@@ -237,11 +255,14 @@ export default class AdminUserPage extends Vue{
             this.person =
                 (await Api.setPersonById(this.person.id, this.person)) ||
                 this.person;
+            this.message = "User saved.";
+            setTimeout(() => this.message = null, 2000);
         }
         catch (err)
         {
             this.error = err.response.statusText;
             setTimeout(() => this.error = null, 2000);
+            throw err;
         }
     }
 }

@@ -1,0 +1,37 @@
+ul.tile-list li, div.tile-link
+{
+    font-weight: initial;
+
+    margin: 0;
+    margin-bottom: 0.25em;
+    padding: 0.75em;
+
+    border: 1px solid rgba(0, 0, 0, 0.25);
+
+    break-inside: avoid;
+
+    &:first-child
+    {
+        margin-top: 0;
+    }
+
+    h1, h2, h3, h4
+    {
+        margin-top: 0;
+    }
+
+    &.tile-link
+    {
+        cursor: pointer;
+
+        &:hover
+        {
+            transform: perspective(400px) translateZ(4px);
+        }
+
+        &:active
+        {
+            transform: perspective(400px) translateZ(-4px);
+        }
+    }
+}
