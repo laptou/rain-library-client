@@ -24,7 +24,7 @@ Vue.component("rl-permission", Permission);
 Vue.component("rl-see-more", SeeMore);
 
 type Name = string | { first: string; last: string };
-let nameFormatter = (value: Name) =>
+const nameFormatter = (value: Name) =>
 {
     if (!value) return "";
 
