@@ -13,8 +13,7 @@ const plugins = [
     new VueLoaderPlugin(),
     new ForkTsCheckerWebpackPlugin({
         tslint: true,
-        vue: true,
-        colors: false
+        vue: true
     }),
     // Generate skeleton HTML file
     new HtmlWebpackPlugin({
@@ -39,10 +38,10 @@ const plugins = [
     //     ]
     // }),
     // offline caching!
-    new WorkboxWebpackPlugin.GenerateSW({
-        clientsClaim: true,
-        skipWaiting: true
-    }),
+    // new WorkboxWebpackPlugin.GenerateSW({
+    //     clientsClaim: true,
+    //     skipWaiting: true
+    // }),
     new CleanWebpackPlugin(["dist"], {
         verbose: false,
         exclude: ["vendor-bundles"]

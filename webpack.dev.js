@@ -1,4 +1,4 @@
-
+const path = require("path");
 const merge = require("webpack-merge");
 const common = require("./webpack.common");
 const webpack = require("webpack");
@@ -8,21 +8,16 @@ const WriteFilePlugin = require("write-file-webpack-plugin");
 
 module.exports = merge(common, {
     devtool: "eval-source-map",
+    mode: "development",
     devServer: {
         noInfo: true
     },
-    entry: ["webpack-hot-middleware/client"],
+    // entry: ["webpack-hot-middleware/client"],
     plugins: [
-        new webpack.DllReferencePlugin({
-            manifest: "dist/vendor-bundles/vue.json"
-        }),
-        new webpack.DllReferencePlugin({
-            manifest: "dist/vendor-bundles/vendor.json"
-        }),
+
         new webpack.optimize.OccurrenceOrderPlugin(false),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("development")
         }),
