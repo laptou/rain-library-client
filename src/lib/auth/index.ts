@@ -1,7 +1,7 @@
-import { Person } from '@lib/api';
-import axios from 'axios';
-import Vue from 'vue';
-import * as Vuex from 'vuex';
+import { Person } from "@lib/api";
+import axios from "axios";
+import Vue from "vue";
+import * as Vuex from "vuex";
 
 async function getCurrentUser(): Promise<Person | null> {
     try {
@@ -10,7 +10,7 @@ async function getCurrentUser(): Promise<Person | null> {
         });
 
         if (res.status === 200) return res.data as Person;
-    } catch {}
+    } catch { }
 
     return null;
 }
@@ -66,5 +66,6 @@ export const vuexModule: Vuex.Module<VuexState, object> = {
     }
 };
 export const vueInit = async (vue: Vue) => {
-    vue.$store.dispatch("auth/update");
+    vue.$store.dispatch("auth/update")
+        .catch(console.error);
 };

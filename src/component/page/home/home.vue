@@ -1,51 +1,51 @@
 <template>
     <div id="root">
         <div id="menu-container" :class="{ 'menu-open': menuOpen }">
-        <rl-acrylic>
-            <button id="menu-button" @click="menuOpen = !menuOpen" aria-hidden>
-                &#x2630;
-            </button>
-        </rl-acrylic>
-        
-        <ul>
-            <li v-if="user">
-                <button class="btn-fake">
-                    Welcome, {{ user.name.first + " " + user.name.last }}
+            <rl-acrylic>
+                <button id="menu-button" @click="menuOpen = !menuOpen" aria-hidden>
+                    &#x2630;
                 </button>
-            </li>
+            </rl-acrylic>
 
-            <rl-permission tag="li" permissions="admin">
-                <router-link to="/admin">
-                    <button class="btn-primary">
-                        Manage Library
+            <ul>
+                <li v-if="user">
+                    <button class="btn-fake">
+                        Welcome, {{ user.name.first + " " + user.name.last }}
                     </button>
+                </li>
+
+                <rl-permission tag="li" permissions="admin">
+                    <router-link to="/admin">
+                        <button class="btn-primary">
+                            Manage Library
+                        </button>
+                    </router-link>
+                </rl-permission>
+
+                <rl-permission tag="li" permissions="check_out">
+                    <router-link to="/library">
+                        <button class="btn-primary">
+                            Manage Checkouts
+                        </button>
+                    </router-link>
+                </rl-permission>
+
+                <li v-if="user">
+                    <a href="javascript:void(0)" @click="$store.dispatch('auth/logout')">
+                        <button class="btn-auxilary">
+                            Log Out
+                        </button>
+                    </a>
+                </li>
+
+                <router-link v-else to="/login" tag="li">
+                    <a>
+                        <button class="btn-auxilary">
+                            Log In
+                        </button>
+                    </a>
                 </router-link>
-            </rl-permission>
-
-             <rl-permission tag="li" permissions="check_out">
-                <router-link to="/library">
-                    <button class="btn-primary">
-                        Manage Checkouts
-                    </button>
-                </router-link>
-            </rl-permission>
-
-            <li v-if="user">
-                <a href="javascript:void(0)" @click="$store.dispatch('auth/logout')">
-                    <button class="btn-auxilary">
-                        Log Out
-                    </button>
-                </a>
-            </li>
-
-            <router-link v-else to="/login" tag="li">
-                <a>
-                    <button class="btn-auxilary">
-                        Log In
-                    </button>
-                </a>
-            </router-link>
-        </ul>
+            </ul>
         </div>
 
         <div id="logo-container">
@@ -69,9 +69,7 @@
         <div id="content-container">
 
             <div id="search-container">
-                <autocomplete :itemsSource="suggestions" :itemLabelSelector="label" :itemDescriptionSelector="describe" :itemTagSelector="() => null"
-                    :itemTemplateSelector="template" :placeholder="'search for books, authors, and more!'"
-                    @querychanged="onQueryChanged">
+                <autocomplete :itemsSource="suggestions" :itemLabelSelector="label" :itemDescriptionSelector="describe" :itemTagSelector="() => null" :itemTemplateSelector="template" :placeholder="'search for books, authors, and more!'" @querychanged="onQueryChanged">
 
                 </autocomplete>
             </div>
@@ -79,9 +77,7 @@
                 <section id="info-fines" v-if="user && activities.some(a => a.type === 'fine')">
                     <h2>Fines</h2>
                     <ul>
-                        <router-link tag="li" v-for="fine in activities.filter(a => a.type === 'fine')"
-                            :key="fine.id" 
-                            :to="`/book/${fine.book.isbn}`" class="fine">
+                        <router-link tag="li" v-for="fine in activities.filter(a => a.type === 'fine')" :key="fine.id" :to="`/book/${fine.book.isbn}`" class="fine">
                             <div class="content">
                                 <span class="book-name">{{ fine.book.name }}</span>
                                 <span class="book-info text-secondary">
@@ -101,9 +97,7 @@
                 <section id="info-checkout" v-if="user">
                     <h2>Checked out</h2>
                     <ul v-if="activities && activities.some(a => a.type === 'checkout')">
-                        <router-link tag="li" v-for="checkout in activities.filter(a => a.type === 'checkout')" :key="checkout._id" 
-                            :to="`/book/${checkout.book.isbn}`" class="checkout"
-                            :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
+                        <router-link tag="li" v-for="checkout in activities.filter(a => a.type === 'checkout')" :key="checkout._id" :to="`/book/${checkout.book.isbn}`" class="checkout" :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
                             <div class="content">
                                 <span class="book-name">{{ checkout.book.name }}</span>
                                 <span class="book-info no-wrap">
@@ -137,8 +131,7 @@
                 <section id="info-holds" v-if="user">
                     <h2>Holds</h2>
                     <ul v-if="activities && activities.some(a => a.type === 'hold')">
-                        <router-link tag="li" v-for="hold in activities.filter(a => a.type === 'hold')" 
-                            :key="hold._id" :to="`/book/${hold.book.isbn}`">
+                        <router-link tag="li" v-for="hold in activities.filter(a => a.type === 'hold')" :key="hold._id" :to="`/book/${hold.book.isbn}`">
                             <div class="content">
                                 <span class="book-name">{{ hold.book.name }}</span>
                                 <span class="book-info no-wrap">
@@ -184,39 +177,40 @@ import Vue from "vue";
 export declare type NextFunc = ((vm: Vue) => void) | (() => void);
 
 @vue.Component({ components: { Autocomplete } })
-export default class HomePage extends Vue{
-    suggestions: any[] = [];
-    activities: Activity[] = [];
-    menuOpen: boolean = false;
+export default class HomePage extends Vue {
+    public suggestions: any[] = [];
+    public activities: Activity[] = [];
+    public menuOpen: boolean = false;
 
-    get user(): Person | null    {
+    get user(): Person | null {
         return this.$store.state.auth.user;
     }
 
-    get backgroundInfo()    {
+    get backgroundInfo() {
         return this.$store.state.ui.background.background;
     }
 
-    get theme(): Theme    {
+    get theme(): Theme {
         return this.$store.state.ui.theme;
     }
 
     @vue.Lifecycle
-    created()    {
-        this.$watch(() => this.user, this.onUserChanged);
-        this.onUserChanged(this.user, null);
+    public created() {
+        // this.$watch(() => this.user, this.onUserChanged);
+        // this.onUserChanged(this.user, null);
     }
 
-    async onUserChanged(newVal: Person | null, oldVal: Person | null)    {
-        if (newVal)        {
+    @vue.Watch("user")
+    public async onUserChanged(newVal: Person | null, oldVal: Person | null) {
+        if (newVal) {
             this.activities = await Api.getCurrentActivities() || [];
         }
     }
 
-    async onQueryChanged(newVal: string)    {
-        if (newVal)        {
+    public async onQueryChanged(newVal: string) {
+        if (newVal) {
             const suggestions: Book[] = [];
-            try            {
+            try {
                 const books = await Api.searchBooks(newVal, 7);
                 if (books) suggestions.push(...books);
             } catch {
@@ -227,18 +221,18 @@ export default class HomePage extends Vue{
         } else this.suggestions = [];
     }
 
-    label(item: any): string    {
+    public label(item: any): string {
         if (item.title) return item.title;
         if (typeof item.name === "string") return item.name;
-        return item.name.first + " " + item.name.last;
+        return `${item.name.first} ${item.name.last}`;
     }
 
-    describe(item: any): string    {
-        if (item.authors)        {
+    public describe(item: any): string {
+        if (item.authors) {
             const book = item as Book;
             const authors = book.authors as Person[];
             let info = authors
-                .map((a: Person) => a.name.first + " " + a.name.last)
+                .map((a: Person) => `${a.name.first} ${a.name.last}`)
                 .join(", ");
             info += " | ";
             info += book.genre.join(", ");
@@ -248,7 +242,7 @@ export default class HomePage extends Vue{
         return "";
     }
 
-    template(item: any)    {
+    public template(item: any) {
         return LinkAutocompleteItem;
     }
 }

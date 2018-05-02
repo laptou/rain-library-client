@@ -40,11 +40,11 @@ import Vue from "vue";
 
 @vue.Component
 export default class LoginPage extends Vue{
-    username: string = "";
-    password: string = "";
-    error: string | null = null;
+    public username: string = "";
+    public password: string = "";
+    public error: string | null = null;
 
-    async onSubmit()    {
+    public async onSubmit()    {
         if (!this.username || !this.password)        {
             this.error = "You need a username and password.";
             return;

@@ -10,19 +10,18 @@
 import * as vue from "av-ts";
 import Vue from "vue";
 
-enum Mode {
+enum Mode{
     Image = "image",
     Color = "color"
 }
 
 @vue.Component
-export default class Acrylic extends Vue {
-    @vue.Prop background = vue.p({ type: String });
-    @vue.Prop
-    mode: string | Mode = vue.p({ type: String, default: Mode.Image });
+export default class Acrylic extends Vue{
+    @vue.Prop public background = vue.p({ type: String });
+    @vue.Prop public mode: string | Mode = vue.p({ type: String, default: Mode.Image });
 
-    get style() {
-        if(window.matchMedia && window.matchMedia("print").matches)
+    get style()    {
+        if (window.matchMedia && window.matchMedia("print").matches)
             return null;
 
         // this stuff just doesn't work in Chrome for Android, so gracefully fallback
@@ -36,17 +35,16 @@ export default class Acrylic extends Vue {
         return this.mode === Mode.Color
             ? { "background-color": this.background }
             : {
-                  "background-image":
-                      this.background ||
-                      this.$store.getters["ui/background/css-url-blurred"]
-              };
+                "background-image":
+                    this.background ||
+                    this.$store.getters["ui/background/css-url-blurred"]
+            };
     }
 }
 </script>
 
 <style lang="scss">
-.acrylic
-{
+.acrylic {
     position: relative;
 
     overflow: hidden;
@@ -54,10 +52,8 @@ export default class Acrylic extends Vue {
     background-attachment: fixed;
     background-size: cover;
 }
-.acrylic-content
-{
+.acrylic-content {
     width: 100%;
     height: 100%;
 }
-
 </style>

@@ -10,9 +10,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuebar from "vuebar";
 
-if (location.protocol !== 'https:')
-{
-    location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+if (location.protocol !== 'https:') {
+    location.href = `https:${window.location.href.substring(window.location.protocol.length)}`;
 }
 
 axios.defaults.headers["Accept"] = "application/json";
@@ -24,51 +23,44 @@ Vue.component("rl-permission", Permission);
 Vue.component("rl-see-more", SeeMore);
 
 type Name = string | { first: string; last: string };
-const nameFormatter = (value: Name) =>
-{
+const nameFormatter = (value: Name) => {
     if (!value) return "";
 
-    if (value instanceof String) return value;
-    else return value.first + " " + value.last;
+    if (typeof value === "string") return value;
+    else return `${value.first} ${value.last}`;
 };
 Vue.filter("name", nameFormatter);
 Vue.filter("name-list", (names: Name[]) => names.map(nameFormatter).join(", "));
 Vue.filter("list", (f: any[]) =>
     f.map(g => g.toString()).join(", "));
 
-Vue.filter("status", (value: Api.Permission[]) =>
-{
+Vue.filter("status", (value: Api.Permission[]) => {
     if (value.indexOf("user") === -1) return "Author";
     if (value.indexOf("admin") !== -1) return "Administrator";
     if (value.indexOf("check_out") !== -1) return "Librarian";
     return "User";
 });
 
-Vue.filter("relative-time", (time: string | Date) =>
-{
+Vue.filter("relative-time", (time: string | Date) => {
     if (!time) return "";
 
     return moment(time).fromNow(true);
 });
 
-Vue.filter("relative-time-verbose", (time: string | Date) =>
-{
+Vue.filter("relative-time-verbose", (time: string | Date) => {
     if (!time) return "";
 
     return moment(time).fromNow(false);
 });
 
-Vue.filter("time", (time: string | Date) =>
-{
+Vue.filter("time", (time: string | Date) => {
     if (!time) return "";
 
     return moment(time).toLocaleString();
 });
 
-if (module.hot)
-{
-    module.hot.accept(["./lib/state"], () =>
-    {
+if (module.hot) {
+    module.hot.accept(["./lib/state"], () => {
         const newStore = require("./lib/state");
         // swap in the new actions and mutationsa
         store.hotUpdate({
@@ -87,25 +79,20 @@ const v = new Vue({
     components: {
         App
     },
-    created()
-    {
+    created: function created(this: Vue) {
         require("@lib/ui").vueInit(this);
         require("@lib/auth").vueInit(this);
     }
 });
 
-if ("serviceWorker" in navigator)
-{
-    window.addEventListener("load", () =>
-    {
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
         navigator.serviceWorker
             .register("/sw.js")
-            .then(registration =>
-            {
+            .then(registration => {
                 console.log("SW registered: ", registration);
             })
-            .catch(registrationError =>
-            {
+            .catch(registrationError => {
                 console.log("SW registration failed: ", registrationError);
             });
     });

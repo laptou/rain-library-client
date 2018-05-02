@@ -18,19 +18,19 @@ export type Activity = (Checkout & { type: "checkout" }) | (Hold & { type: "hold
 
 export abstract class Api
 {
-    static async getWeeklyCheckouts(): Promise<Checkout[] | null>
+    public static async getWeeklyCheckouts(): Promise<Checkout[] | null>
     {
         const res = await axios.get(`/api/book/all/checkedout?days=7`);
         return res.data;
     }
 
-    static async getWeeklyFines(): Promise<Fine[] | null>
+    public static async getWeeklyFines(): Promise<Fine[] | null>
     {
         const res = await axios.get(`/api/book/all/fined?days=7`);
         return res.data;
     }
 
-    static async getCheckoutForBook(id: string): Promise<Checkout | null>
+    public static async getCheckoutForBook(id: string): Promise<Checkout | null>
     {
         try
         {
@@ -47,13 +47,13 @@ export abstract class Api
         }
     }
 
-    static async checkIn(id: string): Promise<boolean>
+    public static async checkIn(id: string): Promise<boolean>
     {
         const res = await axios.post(`/api/book/copy/${id}/checkin`);
         return res.status === 200;
     }
 
-    static async checkOut(id: string, user: string, length?: number, penalty?: number): Promise<boolean>
+    public static async checkOut(id: string, user: string, length?: number, penalty?: number): Promise<boolean>
     {
         const res = await axios.post(`/api/book/copy/${id}/checkout`,
             {
@@ -62,94 +62,94 @@ export abstract class Api
         return res.status === 200;
     }
 
-    static async placeHold(isbn: string): Promise<boolean>
+    public static async placeHold(isbn: string): Promise<boolean>
     {
         const res = await axios.post(`/api/hold/me/${isbn}`);
         return res.status === 200;
     }
 
-    static async cancelHold(isbn: string): Promise<boolean>
+    public static async cancelHold(isbn: string): Promise<boolean>
     {
         const res = await axios.delete(`/api/hold/me/${isbn}`);
         return res.status === 200;
     }
 
-    static async getBooksByAuthor(id: string)
+    public static async getBooksByAuthor(id: string)
     {
         const res = await axios.get(`/api/book/author/${id}`);
         return res.data as Book[];
     }
 
-    static async getBookByIsbn(isbn: string)
+    public static async getBookByIsbn(isbn: string)
     {
         const res = await axios.get(`/api/book/${isbn}`);
         return res.data as Book;
     }
 
-    static async getBookById(id: string)
+    public static async getBookById(id: string)
     {
         const res = await axios.get(`/api/book/copy/${id}`);
         return res.data as Book;
     }
 
-    static async getStatusForBook(isbn: string): Promise<Status>
+    public static async getStatusForBook(isbn: string): Promise<Status>
     {
         const res = await axios.get(`/api/person/me/status/${isbn}`);
         return res.data as Status;
     }
 
-    static async getCurrentCheckedOut(id?: string): Promise<Checkout[]>
+    public static async getCurrentCheckedOut(id?: string): Promise<Checkout[]>
     {
         const res = await axios.get(`/api/person/${id || "me"}/status/checkedout`);
         return res.data;
     }
 
-    static async getCurrentHolds(id?: string): Promise<Hold[]>
+    public static async getCurrentHolds(id?: string): Promise<Hold[]>
     {
         const res = await axios.get(`/api/person/${id || "me"}/status/onhold`);
         return res.data;
     }
 
-    static async getCurrentActivities(id?: string): Promise<Activity[]>
+    public static async getCurrentActivities(id?: string): Promise<Activity[]>
     {
         const res = await axios.get(`/api/person/${id || "me"}/status/current`);
         return res.data;
     }
 
-    static async getActivities(id?: string): Promise<Activity[]>
+    public static async getActivities(id?: string): Promise<Activity[]>
     {
         const res = await axios.get(`/api/person/${id || "me"}/status/all`);
         return res.data;
     }
 
-    static async getHoldCountForBook(isbn: string)
+    public static async getHoldCountForBook(isbn: string)
     {
         const res = await axios.get(`/api/hold/book/${isbn}/count`);
         return res.data as number;
     }
 
-    static async getHoldsForBook(isbn: string)
+    public static async getHoldsForBook(isbn: string)
     {
         const res = await axios.get(`/api/hold/book/${isbn}`);
         return res.data as Hold[];
     }
 
-    static async getPersonByUsername(username: string)
+    public static async getPersonByUsername(username: string)
     {
         const res = await axios.get(`/api/person/u/${username}`);
         return res.data as Person;
     }
 
-    static async getPersonById(id: string)
+    public static async getPersonById(id: string)
     {
         const res = await axios.get(`/api/person/${id}`);
         return res.data as Person;
     }
 
-    static async setPersonById(id: string, person: Person)
+    public static async setPersonById(id: string, person: Person)
     {
         // duplicate object b/c objects are passed by reference
-        const data = Object.assign({}, person);
+        const data = { ...person };
 
         // id cannot be set, and server returns error if you try
         delete data._id;
@@ -159,7 +159,7 @@ export abstract class Api
         return res.data as Person;
     }
 
-    static async searchBooks(query: string, limit?: number)
+    public static async searchBooks(query: string, limit?: number)
     {
 
         let url = `/api/book/search/${query}`;
@@ -168,7 +168,7 @@ export abstract class Api
         return res.data as Book[];
     }
 
-    static async searchPeople(query: string, limit?: number)
+    public static async searchPeople(query: string, limit?: number)
     {
         let url = `/api/person/search/${query}`;
         if (limit) url += `?limit=${limit}`;

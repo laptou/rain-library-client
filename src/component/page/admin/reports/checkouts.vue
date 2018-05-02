@@ -36,20 +36,20 @@ import Vue from "vue";
 
 @vue.Component
 export default class AdminCheckoutReportPage extends Vue{
-    checkouts: Checkout[] = [];
+    public checkouts: Checkout[] = [];
 
     @vue.Lifecycle
-    mounted()    {
+    public mounted()    {
         this.$emit("buttonupdate", [{ name: "Print", action: () => window.print(), type: "secondary" }]);
-        (async () => 
-        {
-            this.checkouts = await Api.getWeeklyCheckouts() || [];
-            this.checkouts = this.checkouts.sort(
+        
+        Api.getWeeklyCheckouts()
+            .then(result => 
+            this.checkouts = (result ? result.sort(
                 (a, b) =>                {
                     if (a.start < b.start) return 1;
                     else return -1;
-                });
-        })();
+                }) : []))
+                .catch(console.error);
     }
 }
 </script>

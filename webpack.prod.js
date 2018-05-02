@@ -11,7 +11,7 @@ const HappyPack = require("happypack");
 const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 
 module.exports = merge(common, {
-    entry: ["vue", "lodash"],
+    // entry: ["vue", "lodash"],
     plugins: [
         // extract the CSS
         new ExtractTextPlugin({

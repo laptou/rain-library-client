@@ -29,54 +29,54 @@ import Vue from "vue";
 const AutocompleteItem = require("./autocomplete-item.vue").default;
 
 @vue.Component
-export default class Autocomplete extends Vue {
-    query = "";
-    focused = false;
+export default class Autocomplete extends Vue{
+    public query = "";
+    public focused = false;
 
     // appearance
-    @vue.Prop placeholder = vue.p(String);
+    @vue.Prop public placeholder = vue.p(String);
 
     // templating
-    @vue.Prop itemsSource = vue.p(Array);
+    @vue.Prop public itemsSource = vue.p(Array);
 
     @vue.Prop
-    itemTemplateSelector = vue.p({
+    public itemTemplateSelector = vue.p({
         type: Function,
         defaultFunc: () => AutocompleteItem
     });
 
     @vue.Prop
-    itemLabelSelector = vue.p({
+    public itemLabelSelector = vue.p({
         type: Function,
         defaultFunc: (item: any) => item
     });
 
     @vue.Prop
-    itemDescriptionSelector = vue.p({
+    public itemDescriptionSelector = vue.p({
         type: Function,
         defaultFunc: (item: any) => item
     });
 
     @vue.Watch("query")
-    onQueryChanged(newVal: string, oldVal: string) {
+    public onQueryChanged(newVal: string, oldVal: string)    {
         this.$emit("querychanged", newVal, oldVal);
     }
 
     @vue.Watch("itemsSource")
-    onItemSourceChanged(newVal: any[], oldVal: any[]) {
+    public onItemSourceChanged(newVal: any[], oldVal: any[])    {
         this.scrollTo();
     }
 
-    onFocus(evt: FocusEvent) {
+    public onFocus(evt: FocusEvent)    {
         this.focused = true;
         if (evt.srcElement === this.$refs.input) this.scrollTo();
     }
 
-    onBlur(evt: FocusEvent) {
+    public onBlur(evt: FocusEvent)    {
         this.focused = false;
     }
 
-    scrollTo() {
+    public scrollTo()    {
         const elem = this.$refs.input as Element;
 
         if (elem) elem.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -85,6 +85,5 @@ export default class Autocomplete extends Vue {
 </script>
 
 <style lang="scss" src="./autocomplete.scss">
-
 
 </style>

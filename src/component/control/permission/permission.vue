@@ -6,10 +6,10 @@ import Vue from "vue";
 
 @vue.Component
 export default class Permission extends Vue{
-    @vue.Prop permissions = vue.p({ required: true, type: String });
-    @vue.Prop tag = vue.p({ default: "div", type: String });
+    @vue.Prop public permissions = vue.p({ required: true, type: String });
+    @vue.Prop public tag = vue.p({ default: "div", type: String });
 
-    @vue.Render render(h: typeof Vue.prototype.$createElement)    {
+    @vue.Render public render(h: typeof Vue.prototype.$createElement)    {
         if (this.authenticated)
             return h(this.tag, {}, [this.$slots.default]);
     }

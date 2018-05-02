@@ -1,10 +1,10 @@
 <template>
     <div v-if="author" id="root">
-        <rl-acrylic >
+        <rl-acrylic>
             <div id="wrapper">
                 <header>
                     <router-link to="/">
-                        <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                        <img id="logo" :src="require('@res/img/logo-sm.png')" />
                     </router-link>
                     <div id="title-wrapper">
                         <h1>{{ author.name | name }}</h1>
@@ -25,31 +25,26 @@
                                 </tr>
                                 <tr v-if="author.wiki">
                                     <td>Wiki</td>
-                                    <td class="text-secondary"><a :href="author.wiki">Wikipedia</a></td>
+                                    <td class="text-secondary">
+                                        <a :href="author.wiki">Wikipedia</a>
+                                    </td>
                                 </tr>
                             </table>
 
                             <h2>Books</h2>
 
                             <ul v-if="books" class="tile-list tile-small">
-                                <router-link tag="li"
-                                    class="tile-link"
-                                    :to="`/book/${book.isbn}`" 
-                                    :key="book._id"
-                                    v-for="book in sortedBooks">
+                                <router-link tag="li" class="tile-link" :to="`/book/${book.isbn}`" :key="book._id" v-for="book in sortedBooks">
                                     {{ book.name }}
                                     <span class="subtitle" v-if="book.authors.length > 1">
                                         + {{ book.authors.length - 1 }} {{ book.authors.length > 2 ? "authors" : "author" }}
                                     </span>
                                     <span class="subtitle">
-                                        <br/>
-                                        {{ book.year }}
-                                        &nbsp;&bullet;&nbsp;
-                                        {{ book.genre.join(", ") }}
+                                        <br/> {{ book.year }} &nbsp;&bullet;&nbsp; {{ book.genre.join(", ") }}
                                     </span>
                                 </router-link>
                             </ul>
-                            
+
                         </section>
                     </div>
                 </div>
@@ -69,12 +64,12 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class AuthorPage extends Vue{
-    author: Person | null = null;
-    books: Book[] | null = [];
+export default class AuthorPage extends Vue {
+    public author: Person | null = null;
+    public books: Book[] | null = [];
 
-    get sortedBooks(): Book[] | null    {
-        if (this.books)        {
+    get sortedBooks(): Book[] | null {
+        if (this.books) {
             const books = this.books;
             books.sort((a, b) => a.name.localeCompare(b.name));
             return books;
@@ -84,13 +79,13 @@ export default class AuthorPage extends Vue{
     }
 
     @vue.Lifecycle
-    created()    {
-        (async () =>        {
-            [this.author, this.books] = await Promise.all([
-                Api.getPersonById(this.$route.params.id),
-                Api.getBooksByAuthor(this.$route.params.id)
-            ]);
-        })();
+    public created() {
+        Promise.all([
+            Api.getPersonById(this.$route.params.id),
+            Api.getBooksByAuthor(this.$route.params.id)
+        ])
+            .then(res => [this.author, this.books] = res)
+            .catch(console.error);
     }
 }
 </script>

@@ -1,10 +1,10 @@
 <template>
     <div id="root">
-        <rl-acrylic >
+        <rl-acrylic>
             <div id="wrapper">
                 <header>
                     <router-link to="/">
-                        <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                        <img id="logo" :src="require('@res/img/logo-sm.png')" />
                     </router-link>
                     <div id="title-wrapper">
                         <h1 class="title">Check in/out</h1>
@@ -12,60 +12,60 @@
                 </header>
                 <div class="page-content-scroll-wrapper" v-bar>
                     <div class="page-content-wrapper">
-                    <section class="page-content">
-                        <transition name="fade">
-                            <span class="banner banner-error banner-top" v-if="error">{{ error }}</span>
-                        </transition>
-                        
-                        <template v-if="checkout">
-                            <h2>
-                                <router-link v-if="book" :to="`/book/${book.isbn}`">
-                                {{ book.name }}
-                                </router-link> is currently checked out to 
-                                <router-link v-if="checkout.person" :to="`/admin/user/${checkout.person.id}`">
-                                {{ checkout.person.name | name }}</router-link>.</h2>
-                            <br/>
-                            <h3>Information</h3>
-                            <h4>Checkout</h4>
+                        <section class="page-content">
+                            <transition name="fade">
+                                <span class="banner banner-error banner-top" v-if="error">{{ error }}</span>
+                            </transition>
 
-                            <table>
-                                <tr>
-                                    <td>Borrowed</td>
-                                    <td>{{ checkout.start | relative-time-verbose }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Due</td>
-                                    <td>{{ checkout.due | relative-time-verbose }}</td>
-                                </tr>
-                                <tr v-if="checkoutOverdue">
-                                    <td>Fine</td>
-                                    <td>{{ checkoutPenalty }}</td>
-                                </tr>
-                            </table>                     
-                        </template>
-                        <template v-else>
-                            <h2><router-link v-if="book" :to="`/book/${book.isbn}`">
-                                {{ book.name }}
-                                </router-link> is not currently checked out.</h2>
-                            <br/>
-                            <h3>Information</h3>
-                            <div>
-                                <template v-if="hold">
-                                    {{ hold.person.name | name }} ({{hold.person.username}}) 
-                                    currently has a hold on this book.
-                                </template>
-                                <template v-if="[hold].every(_ => !_)">
-                                    <span class="text-secondary">N/A</span>
-                                </template>
-                            </div>
+                            <template v-if="checkout">
+                                <h2>
+                                    <router-link v-if="book" :to="`/book/${book.isbn}`">
+                                        {{ book.name }}
+                                    </router-link> is currently checked out to
+                                    <router-link v-if="checkout.person" :to="`/admin/user/${checkout.person.id}`">
+                                        {{ checkout.person.name | name }}</router-link>.</h2>
+                                <br/>
+                                <h3>Information</h3>
+                                <h4>Checkout</h4>
 
-                            <br/>
-                            <h3>Check out</h3>
-                            <label>Username:&ensp;<input class="inline" type="text" v-model="username"/></label>
-                            <label>Due in:&ensp;<input class="inline" type="number" min="1" v-model.number="due"/>&ensp;days</label><br/>
-                        </template>
-                        
-                    </section>
+                                <table>
+                                    <tr>
+                                        <td>Borrowed</td>
+                                        <td>{{ checkout.start | relative-time-verbose }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Due</td>
+                                        <td>{{ checkout.due | relative-time-verbose }}</td>
+                                    </tr>
+                                    <tr v-if="checkoutOverdue">
+                                        <td>Fine</td>
+                                        <td>{{ checkoutPenalty }}</td>
+                                    </tr>
+                                </table>
+                            </template>
+                            <template v-else>
+                                <h2>
+                                    <router-link v-if="book" :to="`/book/${book.isbn}`">
+                                        {{ book.name }}
+                                    </router-link> is not currently checked out.</h2>
+                                <br/>
+                                <h3>Information</h3>
+                                <div>
+                                    <template v-if="hold">
+                                        {{ hold.person.name | name }} ({{hold.person.username}}) currently has a hold on this book.
+                                    </template>
+                                    <template v-if="[hold].every(_ => !_)">
+                                        <span class="text-secondary">N/A</span>
+                                    </template>
+                                </div>
+
+                                <br/>
+                                <h3>Check out</h3>
+                                <label>Username:&ensp;<input class="inline" type="text" v-model="username" /></label>
+                                <label>Due in:&ensp;<input class="inline" type="number" min="1" v-model.number="due" />&ensp;days</label><br/>
+                            </template>
+
+                        </section>
                     </div>
                 </div>
                 <section id="actions">
@@ -73,10 +73,7 @@
                         Back
                     </button>
                     <template v-for="(button, index) in buttons">
-                        <button
-                            @click="action(button, $event)" 
-                            :key="index" :disabled="!('enabled' in button ? button.enabled() : true)"
-                            :class="[`btn-${button.type}`, `btn-${button.status}`]">{{ button.name }}</button>
+                        <button @click="action(button, $event)" :key="index" :disabled="!('enabled' in button ? button.enabled() : true)" :class="[`btn-${button.type}`, `btn-${button.status}`]">{{ button.name }}</button>
                     </template>
                 </section>
             </div>
@@ -93,38 +90,34 @@ import * as vue from 'av-ts';
 import Vue from 'vue';
 
 @vue.Component
-export default class LibraryBookPage extends Page
-{
-    book: Book | null = null;
-    checkout: Checkout | null = null;
-    hold: Hold | null = null;
+export default class LibraryBookPage extends Page {
+    public book: Book | null = null;
+    public checkout: Checkout | null = null;
+    public hold: Hold | null = null;
 
-    username: string | null = null;
-    due: number | null = null;
+    public username: string | null = null;
+    public due: number | null = null;
 
-    error: string | null = null;
+    public error: string | null = null;
 
     @vue.Lifecycle
-    mounted()    {
-        this.init();
+    public mounted() {
+        this.init().catch(alert);
     }
 
-    setError(error: string)    {
+    public setError(error: string) {
         this.error = error;
         setTimeout(() => this.error = null, 5000);
     }
 
-    async init()
-    {
+    public async init() {
         this.error = null;
 
-        try
-        {
+        try {
             const id = this.$route.params.id;
             this.checkout = await Api.getCheckoutForBook(id);
 
-            if (this.checkout)
-            {
+            if (this.checkout) {
                 this.book = this.checkout.book as Book;
 
                 this.$emit("buttonupdate", [{
@@ -134,12 +127,10 @@ export default class LibraryBookPage extends Page
                     type: "primary"
                 }]);
             }
-            else
-            {
+            else {
                 this.book = await Api.getBookById(id);
 
-                if (this.book)
-                {
+                if (this.book) {
                     const holds = await Api.getHoldsForBook(this.book.isbn);
 
                     this.hold = (holds && holds.length) ? holds[0] : null;
@@ -150,63 +141,48 @@ export default class LibraryBookPage extends Page
                     action: this.checkOut,
                     type: "primary",
                     status: null,
-                    enabled: () =>                    {
-                        const e = !!this.username && !!this.due && this.due > 0;
-                        console.log("enabled called: " + e);
-                        console.log({ u: this.username, d: this.due });
-                        return e;
-                    }
+                    enabled: () => !!this.username && !!this.due && this.due > 0
                 }]);
             }
         }
-        catch (err)
-        {
+        catch (err) {
             this.setError(err.response.statusText);
         }
     }
 
-    get checkoutOverdue()
-    {
+    get checkoutOverdue() {
         if (this.checkout)
             return Date.parse(this.checkout.due as string) < Date.now();
     }
 
-    get checkoutPenalty()
-    {
-        if (this.checkout)
-        {
+    get checkoutPenalty() {
+        if (this.checkout) {
             let days = (Date.now() - Date.parse(this.checkout.due as string)) / 86400000;
             days = Math.ceil(days);
-            return "$" + (days * this.checkout.penalty).toFixed(2);
+            return `$${(days * this.checkout.penalty).toFixed(2)}`;
         }
     }
 
-    async checkIn()
-    {
+    public async checkIn() {
         this.error = null;
 
         const id = this.$route.params.id;
 
-        try 
-        {
-            if (await Api.checkIn(id))
-            {
-                this.init();
+        try {
+            if (await Api.checkIn(id)) {
+                await this.init();
             }
         }
-        catch (err)
-        {
+        catch (err) {
             this.setError(err.response.statusText);
             throw err;
         }
     }
 
-    async checkOut()
-    {
+    public async checkOut() {
         this.error = null;
 
-        try 
-        {
+        try {
             const id = this.$route.params.id;
 
             const person = await Api.getPersonByUsername(this.username as string);
@@ -215,10 +191,9 @@ export default class LibraryBookPage extends Page
 
             if (!await Api.checkOut(id, person.id, this.due as number)) return;
 
-            this.init();
+            await this.init();
         }
-        catch (err)
-        {
+        catch (err) {
             this.setError(err.response.statusText);
             throw err;
         }

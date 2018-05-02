@@ -13,27 +13,27 @@ export interface Button
 @vue.Component
 export class Page extends Vue
 {
-    buttons: Button[] = [];
-    data: any = {};
+    public buttons: Button[] = [];
+    public data: any = {};
 
     @vue.Lifecycle
-    created()
+    public created()
     {
         this.$on("buttonupdate", this.onButtonsUpdated);
         this.$on("dataupdate", this.onDataUpdated);
     }
 
-    onButtonsUpdated(buttons: Button[])
+    public onButtonsUpdated(buttons: Button[])
     {
         this.$set(this, "buttons", buttons);
     }
 
-    onDataUpdated(data: any)
+    public onDataUpdated(data: any)
     {
-        this.data = Object.assign(this.data, data);
+        Object.assign(this.data, data);
     }
 
-    async action(btn: Button, evt: Event)
+    public async action(btn: Button, evt: Event)
     {
         if (!btn.action) return;
 

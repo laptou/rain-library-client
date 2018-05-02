@@ -51,15 +51,15 @@ import Vue from 'vue';
 @vue.Component
 export default class LibraryPage extends Vue
 {
-    bookId: string = "";
-    book: Book | null = null;
+    public bookId: string = "";
+    public book: Book | null = null;
 
     get isIdValid()    {
         return !!this.bookId.match(/^[a-z0-9]{24}$/i);
     }
 
     @vue.Lifecycle
-    mounted()    {
+    public mounted()    {
         this.$watch("isIdValid", async (n: any, old: any) =>        {
             if (n)
             {

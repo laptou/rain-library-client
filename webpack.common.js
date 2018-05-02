@@ -1,56 +1,51 @@
 const path = require("path");
 const webpack = require("webpack");
+const config = require("./config");
 
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const AutoDllWebpackPlugin = require("autodll-webpack-plugin");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
-const WebpackPWAManifest = require("webpack-pwa-manifest");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const { VueLoaderPlugin } = require("vue-loader");
 
 const plugins = [
-    // Generate skeleton HTML file
-    new webpack.optimize.CommonsChunkPlugin({
-        async: true
+    new VueLoaderPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+        tslint: true,
+        vue: true,
+        colors: false
     }),
+    // Generate skeleton HTML file
     new HtmlWebpackPlugin({
         inject: true,
         template: "src/index.html",
         xhtml: true
     }),
-    new AutoDllWebpackPlugin({
-        inject: true, // will inject the DLL bundles to index.html
-        filename: "[name].dll.js",
-        entry: {
-            vendor: ["vue", "moment", "lodash"]
-        }
-    }),
     // manifest for fanciness
-    new WebpackPWAManifest({
-        name: "Rain Institute Library",
-        short_name: "RI Library",
-        start_url: ".",
-        display: "fullscreen",
-        background_color: "#eee",
-        description: "The official app of the Rain Institute Library.",
-        theme_color: "#eee",
-        icons: [
-            {
-                src: path.resolve(__dirname, "src/res/img/logo-lg.png"),
-                sizes: [96, 128, 192, 256, 384, 512]
-            }
-        ]
-    }),
+    // new WebpackPWAManifest({
+    //     name: "Rain Institute Library",
+    //     short_name: "RI Library",
+    //     start_url: ".",
+    //     display: "fullscreen",
+    //     background_color: "#eee",
+    //     description: "The official app of the Rain Institute Library.",
+    //     theme_color: "#eee",
+    //     icons: [
+    //         {
+    //             src: path.resolve(__dirname, "src/res/img/logo-lg.png"),
+    //             sizes: [96, 128, 192, 256, 384, 512]
+    //         }
+    //     ]
+    // }),
     // offline caching!
-    new WorkboxWebpackPlugin({
+    new WorkboxWebpackPlugin.GenerateSW({
         clientsClaim: true,
         skipWaiting: true
     }),
     new CleanWebpackPlugin(["dist"], {
         verbose: false,
-        exclude: ["vue", "moment", "lodash"]
-            .map(j => [j + ".dll.js", j + ".json"])
-            .reduce((p, c) => p.concat(c))
+        exclude: ["vendor-bundles"]
     }),
     new HardSourceWebpackPlugin()
 ];
@@ -60,9 +55,15 @@ module.exports = {
     context: __dirname,
     plugins,
     output: {
-        path: require("./config").output,
+        path: config.output,
         publicPath: "/",
         filename: "bundle.js"
+    },
+    optimization: {
+        runtimeChunk: false,
+        splitChunks: {
+            chunks: "all", //Taken from https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+        }
     },
     module: {
         rules: [
@@ -70,7 +71,7 @@ module.exports = {
                 test: /\.ts$/,
                 use: {
                     loader: "ts-loader",
-                    options: { appendTsSuffixTo: [/\.vue$/], silent: true }
+                    options: { appendTsSuffixTo: [/\.vue$/], silent: false, transpileOnly: true }
                 },
                 exclude: /node_modules/
             },
