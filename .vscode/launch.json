@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "chrome",
-            "name": "Client",
+            "name": "HTTP",
             "request": "launch",
             "url": "http://localhost:8000/",
             "webRoot": "${workspaceFolder}/dist",
@@ -16,7 +16,7 @@
         },
         {
             "type": "chrome",
-            "name": "Client (HTTPS)",
+            "name": "HTTPS",
             "request": "launch",
             "url": "https://localhost:8001/",
             "webRoot": "${workspaceFolder}/dist",
