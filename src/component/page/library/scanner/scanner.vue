@@ -94,7 +94,7 @@ export default class ScannerPage extends Vue {
                         this.prompt = `Detected: ${this.id}`;
                         quagga.stop();
 
-                        this.book = await Api.getBookById(this.id as string);
+                        this.book = await Api.Books.byId(this.id as string);
 
                         if (!this.book) {
                             quagga.start();

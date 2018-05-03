@@ -65,7 +65,7 @@ export default class AdminFineReportPage extends Vue {
     @vue.Lifecycle
     public mounted() {
         this.$emit("buttonupdate", [{ name: "Print", action: () => window.print(), type: "secondary" }]);
-        Api.getWeeklyFines()
+        Api.Fines.inDays(7)
             .then(result => this.fines = result ? sort(result, t => t.date) : this.fines)
             .catch(console.error);
     }

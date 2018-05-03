@@ -203,7 +203,7 @@ export default class HomePage extends Vue {
     @vue.Watch("user")
     public async onUserChanged(newVal: Person | null, oldVal: Person | null) {
         if (newVal) {
-            this.activities = await Api.getCurrentActivities() || [];
+            this.activities = await Api.People.currentActivities(newVal.id) || [];
         }
     }
 
@@ -211,7 +211,7 @@ export default class HomePage extends Vue {
         if (newVal) {
             const suggestions: Book[] = [];
             try {
-                const books = await Api.searchBooks(newVal, 7);
+                const books = await Api.Books.search(newVal, 7);
                 if (books) suggestions.push(...books);
             } catch {
                 // do nothing for now

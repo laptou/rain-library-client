@@ -47,7 +47,7 @@
                                 <td>IDs of Copies</td>
                                 <td class="text-secondary">
                                     <ul class="book-copy-list">
-                                        <router-link :tag="'li'" :key="copy" v-for="copy in book.copies" :to="`/checkout/${copy}`">
+                                        <router-link :key="copy" v-for="copy in book.copies" :tag="'li'" :to="`/checkout/${copy}`">
                                             <span class="text">{{ copy | segment }}</span>
                                             <span class="badge">Check out</span>
                                         </router-link>
@@ -109,12 +109,12 @@ export default class BookPage extends Vue {
 
     @vue.Lifecycle
     public async created() {
-        this.book = await Api.getBookByIsbn(this.$route.params.isbn);
+        this.book = await Api.Books.byIsbn(this.$route.params.isbn);
 
         if (this.book && this.user) {
             [this.holdCount, this.status] = await Promise.all([
-                Api.getHoldCountForBook(this.book.isbn),
-                Api.getStatusForBook(this.book.isbn)
+                Api.Holds.count(this.book.isbn),
+                Api.Me.statusForBook(this.book.isbn)
             ]);
         }
     }
@@ -145,14 +145,14 @@ export default class BookPage extends Vue {
     }
 
     public async placeHold() {
-        if (this.book && (await Api.placeHold(this.book.isbn))) {
-            this.status = await Api.getStatusForBook(this.book.isbn);
+        if (this.book && (await Api.Holds.place(this.book.isbn))) {
+            this.status = await Api.Me.statusForBook(this.book.isbn);
         }
     }
 
     public async cancelHold() {
-        if (this.book && (await Api.cancelHold(this.book.isbn))) {
-            this.status = await Api.getStatusForBook(this.book.isbn);
+        if (this.book && (await Api.Holds.remove(this.book.isbn))) {
+            this.status = await Api.Me.statusForBook(this.book.isbn);
         }
     }
 }

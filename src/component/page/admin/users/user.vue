@@ -210,14 +210,14 @@ export default class AdminUserPage extends Vue {
 
     @vue.Lifecycle
     public beforeRouteEnter(to: any, from: any, next: ((vm: Vue) => void) | (() => void)) {
-        Api.getPersonById(to.params.id)
+        Api.People.byId(to.params.id)
             .then(person => (next as any)((vm: AdminUserPage) => (vm.person = person)))
             .catch(console.error);
     }
 
     @vue.Lifecycle
     public beforeRouteUpdate(to: any, from: any, next: ((vm: Vue) => void) | (() => void)) {
-        Api.getPersonById(to.params.id)
+        Api.People.byId(to.params.id)
             .then(person => (next as any)((vm: AdminUserPage) => (vm.person = person)))
             .catch(console.error);
     }
@@ -225,11 +225,11 @@ export default class AdminUserPage extends Vue {
     @vue.Lifecycle
     public mounted() {
         if (!this.person)
-            Api.getPersonById(this.$route.params.id)
+            Api.People.byId(this.$route.params.id)
                 .then(person => this.person = person)
                 .catch(console.error);
         else
-            Api.getActivities(this.$route.params.id)
+            Api.People.activities(this.$route.params.id)
                 .then(activities => this.activities = activities)
                 .catch(console.error);
 
@@ -243,7 +243,7 @@ export default class AdminUserPage extends Vue {
 
         try {
             this.person =
-                (await Api.setPersonById(this.person.id, this.person)) ||
+                (await Api.People.byId(this.person.id, this.person)) ||
                 this.person;
             this.message = "User saved.";
             setTimeout(() => this.message = null, 2000);

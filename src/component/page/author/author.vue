@@ -81,8 +81,8 @@ export default class AuthorPage extends Vue {
     @vue.Lifecycle
     public created() {
         Promise.all([
-            Api.getPersonById(this.$route.params.id),
-            Api.getBooksByAuthor(this.$route.params.id)
+            Api.People.byId(this.$route.params.id),
+            Api.Books.byAuthor(this.$route.params.id)
         ])
             .then(res => [this.author, this.books] = res)
             .catch(console.error);

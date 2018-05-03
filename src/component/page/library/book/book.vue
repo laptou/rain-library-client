@@ -115,7 +115,7 @@ export default class LibraryBookPage extends Page {
 
         try {
             const id = this.$route.params.id;
-            this.checkout = await Api.getCheckoutForBook(id);
+            this.checkout = await Api.Checkouts.forBook(id);
 
             if (this.checkout) {
                 this.book = this.checkout.book as Book;
@@ -128,10 +128,10 @@ export default class LibraryBookPage extends Page {
                 }]);
             }
             else {
-                this.book = await Api.getBookById(id);
+                this.book = await Api.Books.byId(id);
 
                 if (this.book) {
-                    const holds = await Api.getHoldsForBook(this.book.isbn);
+                    const holds = await Api.Holds.forBook(this.book.isbn);
 
                     this.hold = (holds && holds.length) ? holds[0] : null;
                 }
@@ -169,7 +169,7 @@ export default class LibraryBookPage extends Page {
         const id = this.$route.params.id;
 
         try {
-            if (await Api.checkIn(id)) {
+            if (await Api.Books.checkIn(id)) {
                 await this.init();
             }
         }
@@ -185,11 +185,11 @@ export default class LibraryBookPage extends Page {
         try {
             const id = this.$route.params.id;
 
-            const person = await Api.getPersonByUsername(this.username as string);
+            const person = await Api.People.byUsername(this.username as string);
 
             if (!person) return;
 
-            if (!await Api.checkOut(id, person.id, this.due as number)) return;
+            if (!await Api.Books.checkOut(id, { user: person.id, length: this.due || undefined })) return;
 
             await this.init();
         }

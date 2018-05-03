@@ -33,7 +33,7 @@ export default class AdminUsersPage extends Vue {
 
     @vue.Watch("query")
     public onQueryChanged(newVal: string, oldVal: string) {
-        Api.searchPeople(newVal)
+        Api.People.search(newVal)
             .then(result => this.results = result || this.results)
             .catch(console.error);
     }
