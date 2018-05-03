@@ -1,36 +1,41 @@
+@import "mixin";
+@import "theme";
+
+
+
 input[type="text"], input[type="search"], input[type="password"], input[type="number"]
 {
     display: block;
 
     padding: 0.5em;
 
-    transition-duration: 0.15s;
+    transition-duration: $transition-normal;
     transition-property: background-color;
 
     border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    border-bottom: $line;
     outline: none;
     background: transparent;
-
-    &:focus
+@include placeholder()
     {
-        border: none;
-        background-color: white;
-        box-shadow: 0 0 4pt 0 rgba(0, 0, 0, 0.25);
-
-        &::placeholder
-        {
-            opacity: 0;
-        }
-    }
-
-    &::placeholder
-    {
-        transition-duration: 0.15s;
+        transition-duration: $transition-normal;
         text-overflow: ellipsis;
 
         opacity: 0.7;
         color: currentColor;
+    }
+
+    &:focus
+    {
+        border: none;
+        background-color: $bg-light;
+
+@include elevation(1);
+
+@include placeholder()
+        {
+            opacity: 0;
+        }
     }
 
     &.inline

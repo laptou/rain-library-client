@@ -9,9 +9,9 @@
                     <div id="title-wrapper">
                         <h1 class="title">{{ book.name }}</h1>
                         <rl-see-more class="subtitle" :inline="true">
-                            <router-link tag="span" v-for="author in book.authors" :to="`/author/${author._id}`" :key="author._id">
+                            <router-link tag="span" v-for="(author, index) in book.authors" :to="`/author/${author._id}`" :key="author._id">
                                 <a>{{ author.name | name }}</a>
-                                <span v-if="author._id != book.authors[book.authors.length - 1]._id">,&#32;<wbr/></span>
+                                <span v-if="index < book.authors.length - 1">,&#32;<wbr/></span>
                             </router-link>
                         </rl-see-more>
                     </div>
@@ -46,7 +46,12 @@
                             <tr>
                                 <td>IDs of Copies</td>
                                 <td class="text-secondary">
-                                    <span :key="copy" v-for="copy in book.copies">{{ copy }}<br/></span>
+                                    <ul class="book-copy-list">
+                                        <router-link :tag="'li'" :key="copy" v-for="copy in book.copies" :to="`/checkout/${copy}`">
+                                            <span class="text">{{ copy | segment }}</span>
+                                            <span class="badge">Check out</span>
+                                        </router-link>
+                                    </ul>
                                 </td>
                             </tr>
                         </table>
@@ -92,10 +97,11 @@
 
 <script lang="ts">
 import { Api, Book, BookStatus, Status, Person } from "@lib/api";
+import BookItem from "@control/book-item/index.vue";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-@vue.Component
+@vue.Component({ components: { BookItem } })
 export default class BookPage extends Vue {
     public book: Book | null = null;
     public holdCount: number | null = null;
@@ -152,6 +158,64 @@ export default class BookPage extends Vue {
 }
 </script>
 
-<style scoped src="../page.scss" lang="scss">
+<style scoped src="@page/page.scss" lang="scss">
+
+</style>
+
+<style lang="scss">
+@import "~@res/style/theme";
+@import "~@res/style/mixin";
+
+.book-copy-list
+{
+    li
+    {
+        display: flex;
+        flex-flow: horizontal;
+
+        cursor: pointer;
+
+        &:hover, &:active
+        {
+            margin: -0.5em;
+            padding: 0.5em 0 0.5em 0.5em;
+
+            transition-property: box-shadow;
+
+            border-radius: $round-small;
+            background: $bg-light;
+
+@include elevation(1);
+
+            .badge
+            {
+                opacity: 1;
+            }
+        }
+
+        .text
+        {
+            flex-grow: 1;
+
+            color: $text-colorful;
+        }
+
+        .badge
+        {
+            font: $font-action;
+
+            margin: -0.5em 0 -0.5em 0.5em;
+            padding: 0.5em;
+
+            text-align: left;
+            text-transform: uppercase;
+
+            opacity: 0;
+            color: $text-light;
+            border-radius: 0 $round-small $round-small 0;
+            background: $accent-secondary;
+        }
+    }
+}
 
 </style>

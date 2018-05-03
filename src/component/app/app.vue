@@ -1,16 +1,12 @@
 <template>
     <div id="app-root">
         <transition :duration="1500" name="fade">
-            <div class="background"
-                 :style="{ 'background-image': urls.back }"
-                 v-show="bg === 'back'">
+            <div class="background" :style="{ 'background-image': backgroundUrls.back }" v-show="backgroundFace === 'back'">
             </div>
         </transition>
 
         <transition :duration="1500" name="fade">
-            <div class="background"
-                 :style="{ 'background-image': urls.front }"
-                 v-show="bg === 'front'">
+            <div class="background" :style="{ 'background-image': backgroundUrls.front }" v-show="backgroundFace === 'front'">
             </div>
         </transition>
 
@@ -38,23 +34,23 @@ export default class App extends Vue {
         return this.$store.getters["ui/background/css-url"];
     }
 
-    public urls: { front: string | null; back: string | null } = {
+    public backgroundUrls: { front: string | null; back: string | null } = {
         front: null,
         back: null
     };
-    public bg: "front" | "back" = "front";
+    public backgroundFace: "front" | "back" = "front";
 
     @vue.Watch("background")
     public backgroundChanged(current: string, old: string) {
-        this.bg = "front";
-        this.urls.front = old;
-        this.urls.back = current;
-        this.bg = "back";
+        this.backgroundFace = "front";
+        this.backgroundUrls.front = old;
+        this.backgroundUrls.back = current;
+        this.backgroundFace = "back";
     }
 
     @vue.Lifecycle
     public created() {
-        this.urls = { front: this.background, back: null };
+        this.backgroundUrls = { front: this.background, back: null };
 
         setTimeout(() => this.$store.dispatch("ui/background/refresh"), 0);
     }

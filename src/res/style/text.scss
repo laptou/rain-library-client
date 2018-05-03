@@ -26,7 +26,7 @@ a
 {
     text-overflow: ellipsis;
 
-    opacity: 0.6;
+    color: opacify($color: $text-dark, $amount: 0.4);
 }
 
 .text-accent

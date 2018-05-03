@@ -10,8 +10,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuebar from "vuebar";
 
-if (location.protocol !== 'https:') {
-    location.href = `https:${window.location.href.substring(window.location.protocol.length)}`;
+if (process.env.ssl_redirect) {
+    console.log("e");
+    if (location.protocol !== 'https:') {
+        location.href = `https:${window.location.href.substring(window.location.protocol.length)}`;
+    }
 }
 
 axios.defaults.headers["Accept"] = "application/json";
@@ -39,6 +42,23 @@ Vue.filter("status", (value: Api.Permission[]) => {
     if (value.indexOf("admin") !== -1) return "Administrator";
     if (value.indexOf("check_out") !== -1) return "Librarian";
     return "User";
+});
+
+Vue.filter("segment", (value: string, spacer: string = " ", ...segments: number[]) => {
+    if (segments.length === 0)
+        segments = [4];
+
+    let str = "";
+    let index = 0;
+
+    while (index < value.length) {
+        for (const l of segments) {
+            str += value.substr(index, l) + spacer;
+            index += l;
+        }
+    }
+
+    return str;
 });
 
 Vue.filter("relative-time", (time: string | Date) => {
@@ -85,15 +105,15 @@ const v = new Vue({
     }
 });
 
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker
-            .register("/sw.js")
-            .then(registration => {
-                console.log("SW registered: ", registration);
-            })
-            .catch(registrationError => {
-                console.log("SW registration failed: ", registrationError);
-            });
-    });
-}
+// if ("serviceWorker" in navigator) {
+//     window.addEventListener("load", () => {
+//         navigator.serviceWorker
+//             .register("/sw.js")
+//             .then(registration => {
+//                 console.log("SW registered: ", registration);
+//             })
+//             .catch(registrationError => {
+//                 console.log("SW registration failed: ", registrationError);
+//             });
+//     });
+// }
