@@ -7,7 +7,7 @@
                         <img id="logo" :src="require('@res/img/logo-sm.png')" />
                     </router-link>
                     <div id="title-wrapper">
-                        <h1 class="title">Check in/out</h1>
+                        <h1 class="title">Check {{ checkout ? "in" : "out" }} {{ book.title }}</h1>
                     </div>
                 </header>
                 <div class="page-content-scroll-wrapper" v-bar>
@@ -68,137 +68,14 @@
                         </section>
                     </div>
                 </div>
-                <section id="actions">
-                    <button @click="$router.back()" class="btn-auxilary btn-back">
-                        Back
-                    </button>
-                    <template v-for="(button, index) in buttons">
-                        <button @click="action(button, $event)" :key="index" :disabled="!('enabled' in button ? button.enabled() : true)" :class="[`btn-${button.type}`, `btn-${button.status}`]">{{ button.name }}</button>
-                    </template>
-                </section>
+                <page-actions :buttons="buttons" />
             </div>
         </rl-acrylic>
     </div>
 </template>
 
-<script lang="ts">
-import { Api, Book, Checkout, Hold } from "@lib/api";
-import { Page } from "@page/page";
+<script src="./book.ts" lang="ts">
 
-
-import * as vue from 'av-ts';
-import Vue from 'vue';
-
-@vue.Component
-export default class LibraryBookPage extends Page {
-    public book: Book | null = null;
-    public checkout: Checkout | null = null;
-    public hold: Hold | null = null;
-
-    public username: string | null = null;
-    public due: number | null = null;
-
-    public error: string | null = null;
-
-    @vue.Lifecycle
-    public mounted() {
-        this.init().catch(alert);
-    }
-
-    public setError(error: string) {
-        this.error = error;
-        setTimeout(() => this.error = null, 5000);
-    }
-
-    public async init() {
-        this.error = null;
-
-        try {
-            const id = this.$route.params.id;
-            this.checkout = await Api.Checkouts.forBook(id);
-
-            if (this.checkout) {
-                this.book = this.checkout.book as Book;
-
-                this.$emit("buttonupdate", [{
-                    name: "Check in",
-                    action: this.checkIn,
-                    status: null,
-                    type: "primary"
-                }]);
-            }
-            else {
-                this.book = await Api.Books.byId(id);
-
-                if (this.book) {
-                    const holds = await Api.Holds.forBook(this.book.isbn);
-
-                    this.hold = (holds && holds.length) ? holds[0] : null;
-                }
-
-                this.$emit("buttonupdate", [{
-                    name: "Check out",
-                    action: this.checkOut,
-                    type: "primary",
-                    status: null,
-                    enabled: () => !!this.username && !!this.due && this.due > 0
-                }]);
-            }
-        }
-        catch (err) {
-            this.setError(err.response.statusText);
-        }
-    }
-
-    get checkoutOverdue() {
-        if (this.checkout)
-            return Date.parse(this.checkout.due as string) < Date.now();
-    }
-
-    get checkoutPenalty() {
-        if (this.checkout) {
-            let days = (Date.now() - Date.parse(this.checkout.due as string)) / 86400000;
-            days = Math.ceil(days);
-            return `$${(days * this.checkout.penalty).toFixed(2)}`;
-        }
-    }
-
-    public async checkIn() {
-        this.error = null;
-
-        const id = this.$route.params.id;
-
-        try {
-            if (await Api.Books.checkIn(id)) {
-                await this.init();
-            }
-        }
-        catch (err) {
-            this.setError(err.response.statusText);
-            throw err;
-        }
-    }
-
-    public async checkOut() {
-        this.error = null;
-
-        try {
-            const id = this.$route.params.id;
-
-            const person = await Api.People.byUsername(this.username as string);
-
-            if (!person) return;
-
-            if (!await Api.Books.checkOut(id, { user: person.id, length: this.due || undefined })) return;
-
-            await this.init();
-        }
-        catch (err) {
-            this.setError(err.response.statusText);
-            throw err;
-        }
-    }
-}
 </script>
 
 <style src="@page/page.scss" lang="scss" scoped></style>

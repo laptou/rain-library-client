@@ -97,12 +97,12 @@
 
 <script lang="ts">
 import { Api, Book, BookStatus, Status, Person } from "@lib/api";
-import BookItem from "@control/book-item/index.vue";
+import { Page } from "@page/page";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-@vue.Component({ components: { BookItem } })
-export default class BookPage extends Vue {
+@vue.Component
+export default class BookPage extends Page {
     public book: Book | null = null;
     public holdCount: number | null = null;
     public status: Status | null = null;
@@ -166,56 +166,50 @@ export default class BookPage extends Vue {
 @import "~@res/style/theme";
 @import "~@res/style/mixin";
 
-.book-copy-list
-{
-    li
-    {
-        display: flex;
-        flex-flow: horizontal;
+.book-copy-list {
+  li {
+    display: flex;
+    flex-flow: horizontal;
 
-        cursor: pointer;
+    cursor: pointer;
 
-        &:hover, &:active
-        {
-            margin: -0.5em;
-            padding: 0.5em 0 0.5em 0.5em;
+    &:hover,
+    &:active {
+      margin: -0.5em;
+      padding: 0.5em 0 0.5em 0.5em;
 
-            transition-property: box-shadow;
+      transition-property: box-shadow;
 
-            border-radius: $round-small;
-            background: $bg-light;
+      border-radius: $round-small;
+      background: $bg-light;
 
-@include elevation(1);
+      @include elevation(1);
 
-            .badge
-            {
-                opacity: 1;
-            }
-        }
-
-        .text
-        {
-            flex-grow: 1;
-
-            color: $text-colorful;
-        }
-
-        .badge
-        {
-            font: $font-action;
-
-            margin: -0.5em 0 -0.5em 0.5em;
-            padding: 0.5em;
-
-            text-align: left;
-            text-transform: uppercase;
-
-            opacity: 0;
-            color: $text-light;
-            border-radius: 0 $round-small $round-small 0;
-            background: $accent-secondary;
-        }
+      .badge {
+        opacity: 1;
+      }
     }
-}
 
+    .text {
+      flex-grow: 1;
+
+      color: $text-colorful;
+    }
+
+    .badge {
+      font: $font-action;
+
+      margin: -0.5em 0 -0.5em 0.5em;
+      padding: 0.5em;
+
+      text-align: left;
+      text-transform: uppercase;
+
+      opacity: 0;
+      color: $text-light;
+      border-radius: 0 $round-small $round-small 0;
+      background: $accent-secondary;
+    }
+  }
+}
 </style>

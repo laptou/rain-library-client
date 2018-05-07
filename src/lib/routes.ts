@@ -81,7 +81,7 @@ const router = new VueRouter({
         },
         {
             path: "/library/book/:id",
-            component: () => import(/* webpackChunkName: "library" */ "@page/library/book/book.vue")
+            component: () => import(/* webpackChunkName: "library" */ "@page/library/book/book")
         },
     ],
     mode: process.env.NODE_ENV === "development" ? "hash" : "history"

@@ -4,6 +4,7 @@ import Permission from "@component/control/permission/permission.vue";
 import SeeMore from "@component/control/see-more/see-more.vue";
 import * as Api from "@lib/api";
 import store from "@lib/state";
+import PageActions from "@page/page-actions.vue";
 import axios from "axios";
 import moment from "moment";
 import Vue from "vue";
@@ -24,6 +25,8 @@ Vue.use(VueRouter);
 Vue.component("rl-acrylic", Acrylic);
 Vue.component("rl-permission", Permission);
 Vue.component("rl-see-more", SeeMore);
+
+Vue.component("rl-page-actions", PageActions);
 
 type Name = string | { first: string; last: string };
 const nameFormatter = (value: Name) => {

@@ -1,10 +1,10 @@
 <template>
     <div id="root">
-        <rl-acrylic >
+        <rl-acrylic>
             <div id="wrapper">
                 <header>
                     <router-link to="/">
-                        <img id="logo" :src="require('@res/img/logo-sm.png')"/>
+                        <img id="logo" :src="require('@res/img/logo-sm.png')" />
                     </router-link>
                     <div id="title-wrapper">
                         <h1 class="title">Manage Library</h1>
@@ -13,25 +13,11 @@
                 <div class="page-content-scroll-wrapper" v-bar>
                     <div class="page-content-wrapper">
                         <transition name="page">
-                            <router-view class="page-content" @buttonupdate="onButtonsUpdated" />
+                            <router-view class="page-content" :buttons.sync="buttons" />
                         </transition>
                     </div>
                 </div>
-                <section id="actions">
-                    <button @click="$router.back()" class="btn-auxilary btn-back">
-                        Back
-                    </button>
-                    <template v-for="(button, index) in buttons">
-                        <router-link v-if="button.link" :key="index">
-                            <button :class="[`btn-${button.type}`, `btn-${button.status}`]">{{ button.name }}</button>
-                        </router-link>
-
-                        <button v-else 
-                            @click="action(button, $event)" 
-                            :key="index"
-                            :class="[`btn-${button.type}`, `btn-${button.status}`]">{{ button.name }}</button>
-                    </template>
-                </section>
+                <page-actions :buttons="buttons" />
             </div>
         </rl-acrylic>
     </div>
@@ -40,12 +26,20 @@
 <script lang="ts">
 import { Api, Person } from "@lib/api";
 import { Page } from "@page/page";
+import * as PageActions from "@page/page-actions.vue";
 import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class AdminPage extends Page{
-    get user(): Person    {
+export default class AdminPage extends Page {
+    @vue.Lifecycle
+    public mounted() {
+        this.$router.afterEach((to, from) => {
+
+        });
+    }
+
+    get user(): Person {
         return this.$store.state.auth.user;
     }
 }

@@ -17,7 +17,7 @@ export type Activity = (Checkout & { type: "checkout" }) | (Hold & { type: "hold
 
 function makeUri(segments: string[], query?: { [index: string]: any }) {
     // tslint:disable:prefer-template
-    let uri = `/api` + segments.join("/");
+    let uri = `/api/` + segments.join("/");
 
     if (query) {
         uri += "?";
@@ -68,7 +68,7 @@ export namespace Api {
     async function get<T>(segments: string[], query?: { [index: string]: any }): Promise<T | null> {
         try {
             const res = await axios.get(makeUri(segments, query));
-            return res.data || res.status === 200;
+            return res.data !== null ? res.data : res.status === 200;
         }
         catch (err) {
             const res = (err as AxiosError).response;
