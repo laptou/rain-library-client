@@ -2,6 +2,7 @@ import { Api, Book, Checkout, Hold } from "@lib/api";
 import { Page } from "@page/page";
 import * as vue from "av-ts";
 
+type NextFunc = (fn: (vm: vue.Vue) => void) => void;
 
 @vue.Component
 export default class LibraryBookPage extends Page {
@@ -11,6 +12,13 @@ export default class LibraryBookPage extends Page {
 
     public username: string | null = null;
     public due: number | null = null;
+
+    @vue.Lifecycle
+    public async beforeRouteEnter(to: any, from: any, n: any) {
+        const book = await Api.Books.byId(to.params.id);
+        const next = n as NextFunc;
+        next(vm => (vm as LibraryBookPage).book = book);
+    }
 
     @vue.Lifecycle
     public mounted() {

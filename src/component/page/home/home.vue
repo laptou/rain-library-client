@@ -23,7 +23,7 @@
         <div id="content-container">
 
             <div id="search-container">
-                <autocomplete :itemsSource="suggestions" :itemLabelSelector="label" :itemDescriptionSelector="describe" :itemTagSelector="() => null" :itemTemplateSelector="template" :placeholder="'search for books, authors, and more!'" @querychanged="onQueryChanged">
+                <autocomplete :itemsSource="results" :placeholder="'search for books, authors, and more!'" @querychanged="onQueryChanged">
 
                 </autocomplete>
             </div>
@@ -120,7 +120,6 @@
 
 <script lang="ts">
 import Autocomplete from "@control/autocomplete/autocomplete.vue";
-import LinkAutocompleteItem from "./link-autocomplete-item";
 
 import { Api, Book, Person, Hold, Checkout, Activity } from "@lib/api";
 import { Theme } from "@lib/ui";
@@ -132,9 +131,8 @@ export declare type NextFunc = ((vm: Vue) => void) | (() => void);
 
 @vue.Component({ components: { Autocomplete } })
 export default class HomePage extends Vue {
-    public suggestions: any[] = [];
+    public results: Book[] = [];
     public activities: Activity[] = [];
-    public menuOpen: boolean = false;
 
     get user(): Person | null {
         return this.$store.state.auth.user;
@@ -149,9 +147,9 @@ export default class HomePage extends Vue {
     }
 
     @vue.Lifecycle
-    public created() {
-        // this.$watch(() => this.user, this.onUserChanged);
-        // this.onUserChanged(this.user, null);
+    public async created() {
+        if(this.user)
+            this.activities = await Api.People.currentActivities(this.user.id) || [];
     }
 
     @vue.Watch("user")
@@ -164,6 +162,16 @@ export default class HomePage extends Vue {
     public async onQueryChanged(newVal: string) {
         if (newVal) {
             const suggestions: Book[] = [];
+
+            if (newVal.match(/[A-Za-z0-9\s]{24}/)) {
+                const id = newVal.replace(/[^A-Za-z0-9]+/g, "");
+                const book = await Api.Books.byId(id);
+                if (book) {
+                    book.copy = id;
+                    suggestions.push(book);
+                }
+            }
+
             try {
                 const books = await Api.Books.search(newVal, 7);
                 if (books) suggestions.push(...books);
@@ -171,33 +179,8 @@ export default class HomePage extends Vue {
                 // do nothing for now
             }
 
-            this.suggestions = suggestions;
-        } else this.suggestions = [];
-    }
-
-    public label(item: any): string {
-        if (item.title) return item.title;
-        if (typeof item.name === "string") return item.name;
-        return `${item.name.first} ${item.name.last}`;
-    }
-
-    public describe(item: any): string {
-        if (item.authors) {
-            const book = item as Book;
-            const authors = book.authors as Person[];
-            let info = authors
-                .map((a: Person) => `${a.name.first} ${a.name.last}`)
-                .join(", ");
-            info += " | ";
-            info += book.genre.join(", ");
-            return info;
-        }
-
-        return "";
-    }
-
-    public template(item: any) {
-        return LinkAutocompleteItem;
+            this.results = suggestions;
+        } else this.results = [];
     }
 }
 </script>

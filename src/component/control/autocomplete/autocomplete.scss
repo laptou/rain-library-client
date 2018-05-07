@@ -60,6 +60,9 @@
         {
             font-size: 1.25rem;
 
+            display: flex;
+            align-content: center;
+
             padding: 0.75em;
 
             cursor: pointer;
@@ -67,16 +70,27 @@
             transition-property: background-color;
             text-align: left;
 
+            .autocomplete-item-label
+            {
+                font: $font-decor;
+            }
+
             .autocomplete-item-desc
             {
                 font-size: 0.7em;
 
+                flex-grow: 1;
+
+                margin: 0.5em;
+
                 opacity: 0.7;
             }
 
-            .autocomplete-item-label
+            .autocomplete-item-action
             {
-                font: "Noto Serif";
+                margin: -0.75em -0.75em -0.75em 0;
+
+                text-align: right;
             }
 
             &:hover

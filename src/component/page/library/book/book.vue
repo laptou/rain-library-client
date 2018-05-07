@@ -7,7 +7,11 @@
                         <img id="logo" :src="require('@res/img/logo-sm.png')" />
                     </router-link>
                     <div id="title-wrapper">
-                        <h1 class="title">Check {{ checkout ? "in" : "out" }} {{ book.title }}</h1>
+                        <h1 class="title">
+                            <router-link v-if="book" :to="`/book/${book.isbn}`">
+                                {{ book.name }}
+                            </router-link>
+                        </h1>
                     </div>
                 </header>
                 <div class="page-content-scroll-wrapper" v-bar>
@@ -44,12 +48,6 @@
                                 </table>
                             </template>
                             <template v-else>
-                                <h2>
-                                    <router-link v-if="book" :to="`/book/${book.isbn}`">
-                                        {{ book.name }}
-                                    </router-link> is not currently checked out.</h2>
-                                <br/>
-                                <h3>Information</h3>
                                 <div>
                                     <template v-if="hold">
                                         {{ hold.person.name | name }} ({{hold.person.username}}) currently has a hold on this book.
@@ -68,7 +66,7 @@
                         </section>
                     </div>
                 </div>
-                <page-actions :buttons="buttons" />
+                <rl-page-actions :buttons="buttons" />
             </div>
         </rl-acrylic>
     </div>

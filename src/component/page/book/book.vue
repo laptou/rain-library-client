@@ -47,10 +47,11 @@
                                 <td>IDs of Copies</td>
                                 <td class="text-secondary">
                                     <ul class="book-copy-list">
-                                        <router-link :key="copy" v-for="copy in book.copies" :tag="'li'" :to="`/checkout/${copy}`">
-                                            <span class="text">{{ copy | segment }}</span>
-                                            <span class="badge">Check out</span>
-                                        </router-link>
+                                        <li :key="copy" v-for="copy in book.copies">
+                                            <router-link :to="`/library/book/${copy}`">
+                                                <span class="text">{{ copy | segment }}</span>
+                                            </router-link>
+                                        </li>
                                     </ul>
                                 </td>
                             </tr>
@@ -160,56 +161,4 @@ export default class BookPage extends Page {
 
 <style scoped src="@page/page.scss" lang="scss">
 
-</style>
-
-<style lang="scss">
-@import "~@res/style/theme";
-@import "~@res/style/mixin";
-
-.book-copy-list {
-  li {
-    display: flex;
-    flex-flow: horizontal;
-
-    cursor: pointer;
-
-    &:hover,
-    &:active {
-      margin: -0.5em;
-      padding: 0.5em 0 0.5em 0.5em;
-
-      transition-property: box-shadow;
-
-      border-radius: $round-small;
-      background: $bg-light;
-
-      @include elevation(1);
-
-      .badge {
-        opacity: 1;
-      }
-    }
-
-    .text {
-      flex-grow: 1;
-
-      color: $text-colorful;
-    }
-
-    .badge {
-      font: $font-action;
-
-      margin: -0.5em 0 -0.5em 0.5em;
-      padding: 0.5em;
-
-      text-align: left;
-      text-transform: uppercase;
-
-      opacity: 0;
-      color: $text-light;
-      border-radius: 0 $round-small $round-small 0;
-      background: $accent-secondary;
-    }
-  }
-}
 </style>
