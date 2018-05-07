@@ -12,87 +12,7 @@
     padding: 0;
 }
 
-#menu-button
-{
-    font-weight: bold;
 
-    width: 100%;
-    height: 100%;
-
-    background: transparent;
-}
-
-#menu-container
-{
-    z-index: 199;
-
-    width: auto;
-    max-width: 100vw;
-    height: 3.2em;
-
-    .acrylic
-    {
-        width: 3.2em;
-        height: 3.2em;
-
-        transition-duration: 0.15s;
-        transition-property: width;
-    }
-
-    ul
-    {
-        z-index: 199;
-
-        visibility: collapse;
-
-        width: 100%;
-        margin: 0;
-
-        list-style: none;
-
-        transition-duration: 0.15s;
-        transition-property: transform;
-        transform: translateY(-100%);
-
-        opacity: 0;
-
-        li, button
-        {
-            width: 100%;
-            margin-bottom: 1pt;
-        }
-
-        button a
-        {
-            color: white;
-        }
-    }
-
-    &.menu-open
-    {
-        width: 100%;
-        height: auto;
-
-        .acrylic
-        {
-            width: 100%;
-        }
-
-        #menu-button
-        {
-            width: 100%;
-        }
-
-        ul
-        {
-            visibility: visible;
-
-            transform: translateY(0);
-
-            opacity: 1;
-        }
-    }
-}
 
 
 footer
@@ -114,35 +34,6 @@ footer
 
 @media #{$screen-lg}
 {
-    #menu-container
-    {
-        position: absolute;
-        top: 0;
-        right: 0;
-
-        display: box;
-
-        width: auto;
-        padding: 1em;
-
-        .acrylic
-        {
-            display: none;
-        }
-
-        ul
-        {
-            position: relative;
-            z-index: 199;
-
-            visibility: visible;
-
-            transform: none;
-
-            opacity: 1;
-        }
-    }
-
     #attribution-container
     {
         max-width: 32em;

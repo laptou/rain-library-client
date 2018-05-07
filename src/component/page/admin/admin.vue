@@ -17,7 +17,7 @@
                         </transition>
                     </div>
                 </div>
-                <page-actions :buttons="buttons" />
+                <rl-page-actions :buttons="buttons" />
             </div>
         </rl-acrylic>
     </div>

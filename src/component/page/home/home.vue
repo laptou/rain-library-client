@@ -1,52 +1,6 @@
 <template>
     <div id="root">
-        <div id="menu-container" :class="{ 'menu-open': menuOpen }">
-            <rl-acrylic>
-                <button id="menu-button" @click="menuOpen = !menuOpen" aria-hidden>
-                    &#x2630;
-                </button>
-            </rl-acrylic>
-
-            <ul>
-                <li v-if="user">
-                    <button class="btn-fake">
-                        Welcome, {{ user.name.first + " " + user.name.last }}
-                    </button>
-                </li>
-
-                <rl-permission tag="li" permissions="admin">
-                    <router-link to="/admin">
-                        <button class="btn-primary">
-                            Manage Library
-                        </button>
-                    </router-link>
-                </rl-permission>
-
-                <rl-permission tag="li" permissions="check_out">
-                    <router-link to="/library">
-                        <button class="btn-primary">
-                            Manage Checkouts
-                        </button>
-                    </router-link>
-                </rl-permission>
-
-                <li v-if="user">
-                    <a href="javascript:void(0)" @click="$store.dispatch('auth/logout')">
-                        <button class="btn-auxilary">
-                            Log Out
-                        </button>
-                    </a>
-                </li>
-
-                <router-link v-else to="/login" tag="li">
-                    <a>
-                        <button class="btn-auxilary">
-                            Log In
-                        </button>
-                    </a>
-                </router-link>
-            </ul>
-        </div>
+        <rl-nav :open="false" />
 
         <div id="logo-container">
             <div id="logo-box">

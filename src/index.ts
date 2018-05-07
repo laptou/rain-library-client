@@ -2,6 +2,7 @@ import App from "@component/app/app.vue";
 import Acrylic from "@component/control/acrylic/acrylic.vue";
 import Permission from "@component/control/permission/permission.vue";
 import SeeMore from "@component/control/see-more/see-more.vue";
+import SiteNav from "@component/control/site-nav/site-nav.vue";
 import * as Api from "@lib/api";
 import store from "@lib/state";
 import PageActions from "@page/page-actions.vue";
@@ -27,6 +28,7 @@ Vue.component("rl-permission", Permission);
 Vue.component("rl-see-more", SeeMore);
 
 Vue.component("rl-page-actions", PageActions);
+Vue.component("rl-nav", SiteNav);
 
 type Name = string | { first: string; last: string };
 const nameFormatter = (value: Name) => {

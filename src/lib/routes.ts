@@ -71,11 +71,6 @@ const router = new VueRouter({
                 import(/* webpackChunkName: "info" */ "@page/author/author.vue")
         },
         {
-            path: "/library",
-            component: () =>
-                import(/* webpackChunkName: "library" */ "@page/library/library.vue")
-        },
-        {
             path: "/library/scanner",
             component: () => import(/* webpackChunkName: "library" */ "@page/library/scanner/scanner.vue")
         },
