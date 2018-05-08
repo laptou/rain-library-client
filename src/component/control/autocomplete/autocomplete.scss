@@ -11,23 +11,6 @@
         border-radius: 4pt;
     }
 
-    .autocomplete-input
-    {
-        font-size: 20pt;
-
-        box-sizing: border-box;
-        width: 100%;
-        height: 2.5em;
-
-        text-align: center;
-
-        border: none;
-        border-bottom: 1px solid grey;
-        border-radius: 4pt;
-        outline: none;
-        background: transparent linear-gradient(to top, hsla(0, 0%, 93%, 0.8), hsla(0, 0%, 100%, 0.8));
-    }
-
     .autocomplete-suggestions-container
     {
         position: relative;
@@ -37,6 +20,8 @@
 
     .autocomplete-suggestions
     {
+        position: absolute;
+
         overflow: auto;
 
         width: 100%;
@@ -47,7 +32,6 @@
         transition-duration: 0.15s;
 
         border-radius: 4pt;
-        background: $bg-light-textured;
 
         &.focused
         {
@@ -62,7 +46,9 @@
 
             display: flex;
             align-content: center;
+            flex-direction: column;
 
+            max-width: 100%;
             padding: 0.75em;
 
             cursor: pointer;
@@ -70,27 +56,40 @@
             transition-property: background-color;
             text-align: left;
 
+            border-bottom: $line-secondary;
+
             .autocomplete-item-label
             {
                 font: $font-decor;
+
+                flex-shrink: 0;
             }
 
             .autocomplete-item-desc
             {
                 font-size: 0.7em;
 
+                overflow: hidden;
                 flex-grow: 1;
 
-                margin: 0.5em;
+                margin: 0.5em 0;
+
+                white-space: nowrap;
+                text-overflow: ellipsis;
 
                 opacity: 0.7;
             }
 
             .autocomplete-item-action
             {
+                display: none;
+
                 margin: -0.75em -0.75em -0.75em 0;
 
-                text-align: right;
+                &:hover
+                {
+                    border-left: $line-secondary;
+                }
             }
 
             &:hover
@@ -138,6 +137,32 @@
             .vb-dragger-styler
             {
                 background-color: rgba(0, 0, 0, 0.5);
+            }
+        }
+    }
+}
+
+@media #{$screen-md}
+{
+    .autocomplete
+    {
+        .autocomplete-suggestions
+        {
+            .autocomplete-item
+            {
+                flex-direction: row;
+
+                .autocomplete-item-desc
+                {
+                    flex-grow: 1;
+
+                    margin: 0.5em;
+                }
+
+                .autocomplete-item-action
+                {
+                    display: block;
+                }
             }
         }
     }

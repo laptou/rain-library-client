@@ -16,6 +16,7 @@ input[type="text"], input[type="search"], input[type="password"], input[type="nu
     border-bottom: $line;
     outline: none;
     background: transparent;
+
 @include placeholder()
     {
         transition-duration: $transition-normal;
@@ -118,9 +119,10 @@ button
     cursor: pointer;
     transition-duration: 0.15s;
     transition-property: background-color;
+    white-space: nowrap;
     text-transform: uppercase;
 
-    color: white;
+    color: $text-light;
     border: none;
     outline: none;
     background-color: $bg-dark;
@@ -157,6 +159,17 @@ button
         margin: 1.5em;
 
         box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.25);
+    }
+
+    &.btn-subtle
+    {
+        color: $text-dark;
+        background: transparent;
+    }
+
+    &:hover
+    {
+        color: $text-light;
     }
 
     &::after

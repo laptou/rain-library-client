@@ -225,9 +225,31 @@
     }
 }
 
-.autocomplete .autocomplete-item-label
+.autocomplete /deep/ 
 {
-    font: $font-decor;
+    .autocomplete-input
+    {
+        font-size: 20pt;
+
+        box-sizing: border-box;
+        width: 100%;
+        height: 2.5em;
+
+        text-align: center;
+
+        border: none;
+        border-bottom: 1px solid grey;
+        border-radius: 4pt;
+        outline: none;
+        background: $bg-light-textured;
+    }
+
+    .autocomplete-suggestions
+    {
+        position: static;
+
+        background: $bg-light-textured;
+    }
 }
 
 @media #{$screen-md}

@@ -3,9 +3,9 @@
         <span class="autocomplete-item-label">{{ label }}</span>
         <span class="autocomplete-item-desc">{{ description }}</span>
 
-        <rl-permission permissions="check_out" tag="span" v-if="content.copy">
-            <router-link :to="`/library/book/${content.copy}`"
-                tag="button" class="autocomplete-item-action btn-primary">
+        <rl-permission permissions="check_out" tag="span" v-if="copy">
+            <router-link :to="`/library/book/${copy}`"
+                tag="button" class="autocomplete-item-action btn-primary btn-subtle">
                 Check out
             </router-link>
         </rl-permission>
@@ -22,5 +22,11 @@ export default class BookAutocompleteItem extends Vue {
     @vue.Prop public label: string | undefined = vue.p({ type: String, required: true });
     @vue.Prop public description: string | undefined = vue.p({ type: String });
     @vue.Prop public tags: any[] | undefined = vue.p({ type: Array });
+
+    get copy() { 
+        if(this.content.copy) return this.content.copy;
+        if(this.content.copies.length === 1) return this.content.copies[0];
+        return null;
+    }
 }
 </script>
