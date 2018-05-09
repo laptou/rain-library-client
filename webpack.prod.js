@@ -36,31 +36,6 @@ module.exports = merge(common, {
             test: /\.js$|\.css$/,
             threshold: 10240,
             minRatio: 0.8
-        }),
-        new HappyPack({
-            loaders: [
-                "cache-loader",
-                {
-                    loader: "vue-loader",
-                    options: {
-                        loaders: {
-                            scss: ExtractTextPlugin.extract({
-                                use: [
-                                    "cache-loader",
-                                    {
-                                        loader: "css-loader",
-                                        options: { minimize: true }
-                                    },
-                                    "sass-loader"
-                                ],
-                                fallback: "vue-style-loader"
-                            })
-                        },
-                        extractCSS: true
-                    }
-                }
-            ],
-            verbose: false
         })
     ],
     module: {
