@@ -41,12 +41,12 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class CheckoutReportPage extends Vue {
+export default class CheckoutReportPage extends Page {
     public checkouts: Checkout[] = [];
 
     @vue.Lifecycle
     public mounted() {
-        this.buttons = [{ name: "Print", action: () => window.print(), type: "secondary" }];
+        this.buttons = [{ name: "Print", action: () => window.print(), type: "secondary", status: null }];
 
         Api.Checkouts.inDays(7)
             .then(result =>

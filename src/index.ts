@@ -72,13 +72,13 @@ Vue.filter("segment", (value: string, spacer: string = " ", ...segments: number[
     return str;
 });
 
-Vue.filter("relative-time", (time: string | Date) => {
+Vue.filter("relative-time", (time: string | Date | moment.Moment) => {
     if (!time) return "";
 
     return moment(time).fromNow(true);
 });
 
-Vue.filter("relative-time-verbose", (time: string | Date) => {
+Vue.filter("relative-time-verbose", (time: string | Date | moment.Moment) => {
     if (!time) return "";
 
     return moment(time).fromNow(false);
@@ -89,6 +89,9 @@ Vue.filter("time", (time: string | Date) => {
 
     return moment(time).toLocaleString();
 });
+
+Vue.filter("moment", moment);
+Vue.filter("humanize", (m: moment.Duration, suffix?: boolean) => m.humanize(suffix));
 
 if (module.hot) {
     module.hot.accept(["./lib/state"], () => {

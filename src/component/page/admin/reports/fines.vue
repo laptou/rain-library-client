@@ -70,7 +70,7 @@ export default class FineReportPage extends Page {
 
     @vue.Lifecycle
     public mounted() {
-        this.buttons = [{ name: "Print", action: () => window.print(), type: "secondary" }];
+        this.buttons = [{ name: "Print", action: () => window.print(), type: "secondary", status: null }];
         Api.Fines.inDays(7)
             .then(result => this.fines = result ? sort(result, t => t.date) : this.fines)
             .catch(console.error);
