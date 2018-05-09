@@ -35,7 +35,15 @@ export default class CheckoutPage extends Page {
     // get data relevant to this page
     public async fetch() {
         const id = this.$route.params.id;
-        this.checkout = await Api.Checkouts.forBook(id);
+
+        try {
+            this.checkout = await Api.Checkouts.forBook(id);
+        } catch (err) {
+            if (err.response.status !== 404)
+                throw err;
+
+            this.checkout = null;
+        }
 
         if (this.checkout) {
             this.book = this.checkout.book as Book;

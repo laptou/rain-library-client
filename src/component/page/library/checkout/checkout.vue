@@ -30,6 +30,14 @@
                         <td>{{ checkout.start | relative-time-verbose }} ({{ checkout.start | time }})</td>
                     </tr>
                     <tr>
+                        <td>Borrowed by</td>
+                        <td>
+                            <router-link :to="`/checkout/${checkout.person.id}`">
+                                {{ checkout.person.name | name }} (@{{ checkout.person.username }})
+                            </router-link>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Due</td>
                         <td>{{ checkout.due | relative-time-verbose }} ({{ checkout.start | time }})</td>
                     </tr>

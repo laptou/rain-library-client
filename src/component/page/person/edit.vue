@@ -1,25 +1,34 @@
 <template>
     <rl-page-layout :page="this">
         <template slot="header">
-            egg
+            <h1>
+                {{ person.name | name }}
+            </h1>
         </template>
         <template slot="body">
             <form v-if="person">
-                <h2>Name</h2>
                 <label>First Name</label>
                 <input type="text" v-model="person.name.first" />
 
+                <br />
+
                 <label>Last Name</label>
                 <input type="text" v-model="person.name.last" />
+
+                <br />
 
                 <label>Username</label>
                 <input type="text" v-model="person.username" v-if="person.permissions.indexOf('user') !== -1" />
                 <input type="text" v-model="person.username" disabled="disabled" placeholder="Must be a user to have a username" v-else />
 
+                <br />
+
                 <label>Password</label>
                 <input type="password" v-model="person.password" v-if="person.permissions.indexOf('user') !== -1" />
                 <input type="password" v-model="person.password" disabled="disabled" placeholder="Must be a user to have a password" v-else
                 />
+
+                <br />
 
                 <h2>Permissions</h2>
 
@@ -109,86 +118,90 @@
                     </rl-permission>
                 </ul>
 
+                <br/>
+
                 <h2>Activity</h2>
-                <template v-if="activities.some(a =>  a.type === 'hold')">
-                    <h3>On hold</h3>
+                <template v-if="activities">
+                    <template v-if="activities.some(a =>  a.type === 'hold')">
+                        <h3>On hold</h3>
 
-                    <ul class="tile-list" v-if="activities">
-                        <li v-for="hold in activities.filter(a =>  a.type === 'hold')" :key="hold.id">
-                            <h4>
-                                <router-link :to="`/book/${hold.book.isbn}`">{{ hold.book.name }}</router-link>
-                            </h4>
-                            <table class="info">
-                                <tr>
-                                    <td>Hold placed</td>
-                                    <td>{{ hold.date | time }}</td>
-                                </tr>
-                            </table>
-                        </li>
-                    </ul>
-                </template>
+                        <ul class="tile-list" v-if="activities">
+                            <li v-for="hold in activities.filter(a =>  a.type === 'hold')" :key="hold.id">
+                                <h4>
+                                    <router-link :to="`/book/${hold.book.isbn}`">{{ hold.book.name }}</router-link>
+                                </h4>
+                                <table class="info">
+                                    <tr>
+                                        <td>Hold placed</td>
+                                        <td>{{ hold.date | time }}</td>
+                                    </tr>
+                                </table>
+                            </li>
+                        </ul>
+                    </template>
 
-                <template v-if="activities.some(a =>  a.type === 'checkout' && !a.completed)">
-                    <h3>Checked out</h3>
+                    <template v-if="activities.some(a =>  a.type === 'checkout' && !a.completed)">
+                        <h3>Checked out</h3>
 
-                    <ul class="tile-list" v-if="activities">
-                        <li v-for="checkout in activities.filter(a =>  a.type === 'checkout' && !a.completed)" :key="checkout.id">
-                            <h4>
-                                <router-link :to="`/book/${checkout.book.isbn}`">{{ checkout.book.name }}</router-link>
-                            </h4>
-                            <table class="info">
-                                <tr>
-                                    <td>Checked out</td>
-                                    <td>{{ checkout.start | time }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Due</td>
-                                    <td>{{ checkout.due | time }}</td>
-                                </tr>
-                                <tr v-if="checkout.penalty !== 1">
-                                    <td>Fine Multiplier</td>
-                                    <td>{{ checkout.penalty }}</td>
-                                </tr>
-                            </table>
-                        </li>
-                    </ul>
-                </template>
+                        <ul class="tile-list" v-if="activities">
+                            <li v-for="checkout in activities.filter(a =>  a.type === 'checkout' && !a.completed)" :key="checkout.id">
+                                <h4>
+                                    <router-link :to="`/book/${checkout.book.isbn}`">{{ checkout.book.name }}</router-link>
+                                </h4>
+                                <table class="info">
+                                    <tr>
+                                        <td>Checked out</td>
+                                        <td>{{ checkout.start | time }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Due</td>
+                                        <td>{{ checkout.due | time }}</td>
+                                    </tr>
+                                    <tr v-if="checkout.penalty !== 1">
+                                        <td>Fine Multiplier</td>
+                                        <td>{{ checkout.penalty }}</td>
+                                    </tr>
+                                </table>
+                            </li>
+                        </ul>
+                    </template>
 
-                <template v-if="activities.some(a =>  a.type === 'checkout' && a.completed)">
-                    <h3>Returned</h3>
-                    <ul class="tile-list" v-if="activities">
-                        <li v-for="checkout in activities.filter(a => a.type === 'checkout' && a.completed)" :key="checkout.id">
-                            <h4>
-                                <router-link :to="`/book/${checkout.book.isbn}`">{{ checkout.book.name }}</router-link>
-                            </h4>
-                            <table class="info">
-                                <tr>
-                                    <td>Checked out</td>
-                                    <td>{{ checkout.start | time }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Due</td>
-                                    <td>{{ checkout.due | time }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Checked in</td>
-                                    <td>{{ checkout.end | time }}</td>
-                                </tr>
-                                <tr v-if="checkout.penalty !== 1">
-                                    <td>Fine Multiplier</td>
-                                    <td>{{ checkout.penalty }}</td>
-                                </tr>
-                                <tr v-if="checkout.fine">
-                                    <td>Fine Amount</td>
-                                    <td>{{ checkout.fine.amount }}</td>
-                                </tr>
-                            </table>
-                        </li>
-                    </ul>
-                </template>
+                    <template v-if="activities.some(a =>  a.type === 'checkout' && a.completed)">
+                        <h3>Returned</h3>
+                        <ul class="tile-list" v-if="activities">
+                            <li v-for="checkout in activities.filter(a => a.type === 'checkout' && a.completed)" :key="checkout.id">
+                                <h4>
+                                    <router-link :to="`/book/${checkout.book.isbn}`">{{ checkout.book.name }}</router-link>
+                                </h4>
+                                <table class="info">
+                                    <tr>
+                                        <td>Checked out</td>
+                                        <td>{{ checkout.start | time }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Due</td>
+                                        <td>{{ checkout.due | time }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Checked in</td>
+                                        <td>{{ checkout.end | time }}</td>
+                                    </tr>
+                                    <tr v-if="checkout.penalty !== 1">
+                                        <td>Fine Multiplier</td>
+                                        <td>{{ checkout.penalty }}</td>
+                                    </tr>
+                                    <tr v-if="checkout.fine">
+                                        <td>Fine Amount</td>
+                                        <td>{{ checkout.fine.amount }}</td>
+                                    </tr>
+                                </table>
+                            </li>
+                        </ul>
+                    </template>
 
-                <template v-if="activities.length === 0">
-                    This user has never checked out any books or placed any holds.
+                    <template v-if="activities.length === 0">
+                        This user has never checked out any books or placed any holds.
+                    </template>
                 </template>
             </form>
         </template>
@@ -212,24 +225,27 @@ export default class EditPersonPage extends Page {
 
     @vue.Lifecycle
     public async beforeRouteUpdate(to: any, from: any, next: ((vm: Vue) => void) | (() => void)) {
-        await fetch(this.$route.params.id);
+        await this.fetch(this.$route.params.id);
     }
 
     @vue.Lifecycle
     public async created() {
-        await fetch(this.$route.params.id);
+        await this.fetch(this.$route.params.id);
         this.buttons = [{ name: "Save", action: this.save, type: "primary", status: null }];
     }
 
     public async save() {
         if (!this.person) return;
+        const id = this.$route.params.id;
 
         try {
+            await Api.People.byId(id, this.person);
             await this.fetch(this.person.id);
             this.post({ text: "User saved.", type: "success" });
         }
         catch (err) {
             this.post({ text: err.response.statusText, type: "error" });
+            throw err;
         }
     }
 

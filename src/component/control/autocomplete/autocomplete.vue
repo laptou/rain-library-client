@@ -5,7 +5,7 @@
             <div>
                 <ul class="autocomplete-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
                     <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)" :description="itemDescriptionSelector(item)"
-                        :tabindex="index" :key="index" @click.prevent="onItemClick($event)">
+                        :tabindex="index" :key="index" @click.capture="onItemClick($event, item)">
                     </li>
                 </ul>
             </div>

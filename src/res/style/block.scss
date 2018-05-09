@@ -352,9 +352,17 @@ ul.link-list
     background-color: transparentize($accent-primary, 0.1);
 }
 
+.banner-success
+{
+    color: $text-light;
+    background-color: transparentize(#28a428, 0.1);
+}
+
 .banner-top
 {
     position: absolute;
+    position: sticky;
+    z-index: 200;
     top: 1em;
     right: 1em;
     left: 1em;
