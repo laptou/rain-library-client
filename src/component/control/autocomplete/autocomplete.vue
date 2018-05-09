@@ -1,11 +1,11 @@
 <template>
     <div class="autocomplete" @focusin="onFocus" @focusout="onBlur">
-        <input class="autocomplete-input" title="title" type="autocomplete" :placeholder="getPlaceholder()" v-model="query" ref="input" />
+        <input class="autocomplete-input" title="title" type="search" :placeholder="placeholder" v-model="query" ref="input" />
         <div class="autocomplete-suggestions-container">
             <div>
                 <ul class="autocomplete-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
                     <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)" :description="itemDescriptionSelector(item)"
-                        :tabindex="index" :key="index" @click.capture="onItemClick($event, item)">
+                        :tabindex="index" :key="index" @click="onItemClick($event, item)">
                     </li>
                 </ul>
             </div>
@@ -99,6 +99,7 @@ export default class autocomplete extends Vue {
 </script>
 
 <style lang="scss" src="./autocomplete.scss">
+
 
 
 

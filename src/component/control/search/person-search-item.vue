@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Person } from "@lib/api";
 import * as vue from "av-ts";
-import searchItem from "./search-item";
+import SearchItem from "./search-item";
 
 @vue.Component
 export default class PersonSearchItem extends SearchItem<Person> {

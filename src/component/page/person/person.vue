@@ -4,7 +4,7 @@
             <h1>{{ person.name | name }}</h1>
             <span class="subtitle">
                 <template v-if="person.username">@{{person.username}} &bullet;</template>
-                {{ person.permissions | list }}
+                {{ person.permissions.filter(f => f && ["author", "user"].includes(f)) | list }}
             </span>
         </template>
         <template slot="body">

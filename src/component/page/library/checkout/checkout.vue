@@ -32,7 +32,7 @@
                     <tr>
                         <td>Borrowed by</td>
                         <td>
-                            <router-link :to="`/checkout/${checkout.person.id}`">
+                            <router-link :to="`/person/${checkout.person.id}`">
                                 {{ checkout.person.name | name }} (@{{ checkout.person.username }})
                             </router-link>
                         </td>
@@ -68,8 +68,8 @@
                 <div class="control-grid">
                     <div class="control-grid-row">
                         <label>User:&ensp;</label>
-                        <rl-search v-model="username" placeholder="Check out to..." :select-mode="true" :items-source="userCandidates" :item-template-selector="userTemplateSelector"
-                        />
+                        <rl-autocomplete v-model="username" placeholder="Check out to..." :items-source="userCandidates" :item-template-selector="userTemplateSelector"
+                        @itemclicked="onItemClicked"/>
                     </div>
                 </div>
                 <label>Due in:&ensp;<input class="inline" type="number" min="1" v-model.number="due" />&ensp;days</label><br/>

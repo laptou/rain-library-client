@@ -68,14 +68,7 @@ export default class search extends Vue {
     public onBlur(evt: FocusEvent) {
         this.focused = false;
     }
-
-    public onItemClick(evt: MouseEvent) {
-        if (this.selectMode) {
-            evt.stopPropagation();
-            this.$emit("itemclicked", evt);
-        }
-    }
-
+    
     public scrollTo() {
         const elem = this.$refs.input as Element;
 
@@ -97,6 +90,8 @@ export default class search extends Vue {
 </script>
 
 <style lang="scss" src="./search.scss">
+
+
 
 
 

@@ -4,7 +4,7 @@ import { Page } from "@page/page";
 import * as vue from "av-ts";
 
 type NextFunc = (fn: (vm: vue.Vue) => void) => void;
-const UserSearchItem = require("@control/search/user-search-item.vue").default;
+const PersonAutocompleteItem = require("@control/autocomplete/person-autocomplete-item.vue").default;
 
 @vue.Component
 export default class CheckoutPage extends Page {
@@ -105,7 +105,11 @@ export default class CheckoutPage extends Page {
     }
 
     public userTemplateSelector() {
-        return UserSearchItem;
+        return PersonAutocompleteItem;
+    }
+
+    public onItemClicked(event: MouseEvent, item: Person) {
+        this.username = item.username as string;
     }
 
     get copy() {
