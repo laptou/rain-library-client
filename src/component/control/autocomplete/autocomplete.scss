@@ -1,0 +1,181 @@
+@import "~@res/base.scss";
+@import "~@res/style/block.scss";
+
+.autocomplete
+{
+    font: $font-body;
+
+    border-radius: $round-small;
+
+    .autocomplete-input
+    {
+        width: 100%;
+    }
+
+    .autocomplete-suggestions-container
+    {
+        position: relative;
+
+        margin-top: 4pt;
+    }
+
+    .autocomplete-suggestions
+    {
+        overflow: auto;
+
+        width: 100%;
+        max-height: 0;
+        margin: 0;
+        padding: 0;
+
+        transition-duration: 0.15s;
+
+        background: $bg-light-textured;
+
+        &.focused
+        {
+            overflow: auto;
+
+            max-height: 30em;
+        }
+
+        .autocomplete-item
+        {
+            display: flex;
+            align-content: center;
+            flex-direction: column;
+
+            max-width: 100%;
+            padding: 0.75em;
+
+            cursor: pointer;
+            transition-duration: 0.15s;
+            transition-property: background-color;
+            text-align: left;
+
+            border-bottom: $line-secondary;
+
+            .autocomplete-item-label
+            {
+                font: $font-decor;
+
+                flex-shrink: 0;
+            }
+
+            .autocomplete-item-desc
+            {
+                font-size: 0.7em;
+
+                overflow: hidden;
+                flex-grow: 1;
+
+                margin: 0.5em 0;
+
+                white-space: nowrap;
+                text-overflow: ellipsis;
+
+                opacity: 0.7;
+            }
+
+            .autocomplete-item-action
+            {
+                font-size: 0.8em;
+
+                display: none;
+
+                margin: 0;
+                padding: 0.4em 0.8em;
+
+                border-radius: $round-small;
+            }
+
+            &:hover
+            {
+                outline: none;
+                background-color: transparentize(white, 0.5);
+            }
+
+            &:active, &:focus
+            {
+                outline: none;
+                background-color: transparentize(white, 0.25);
+            }
+        }
+    }
+
+    .vb
+    {
+        .vb-dragger
+        {
+            z-index: 5;
+            right: 0;
+
+            width: 12px;
+
+            .vb-dragger-styler
+            {
+                display: block;
+
+                height: calc(100% - 10px);
+                margin: 5px 5px 5px 0;
+
+                transition-duration: 0.15s;
+                transition-property: background-color;
+
+                border-radius: 20px;
+                background-color: rgba(0, 0, 0, 0.1);
+
+                mix-blend-mode: exclusion;
+            }
+        }
+
+        &.vb-scrolling-phantom, &.vb-dragging
+        {
+            .vb-dragger-styler
+            {
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+        }
+    }
+}
+
+@media #{$screen-md}
+{
+    .autocomplete
+    {
+        .autocomplete-input
+        {
+            &:focus
+            {
+                border-radius: $round-small;
+            }
+        }
+
+        .autocomplete-suggestions
+        {
+            border-radius: $round-small;
+
+            .autocomplete-item
+            {
+                flex-direction: row;
+
+                .autocomplete-item-desc
+                {
+                    flex-grow: 1;
+
+                    margin: 0.5em;
+                }
+
+                .autocomplete-item-action
+                {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    &.inline
+    {
+        display: inline-block;
+    }
+}

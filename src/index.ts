@@ -1,5 +1,6 @@
 import App from "@component/app/app.vue";
 import Acrylic from "@component/control/acrylic/acrylic.vue";
+import Autocomplete from "@component/control/autocomplete/autocomplete.vue";
 import Permission from "@component/control/permission/permission";
 import Search from "@component/control/search/search.vue";
 import SeeMore from "@component/control/see-more/see-more.vue";
@@ -27,6 +28,7 @@ Vue.use(Vuebar);
 Vue.use(VueRouter);
 Vue.component("rl-acrylic", Acrylic);
 Vue.component("rl-search", Search);
+Vue.component("rl-autocomplete", Autocomplete);
 Vue.component("rl-permission", Permission);
 Vue.component("rl-see-more", SeeMore);
 
