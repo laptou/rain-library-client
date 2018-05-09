@@ -1,70 +1,62 @@
 <template>
-    <div v-if="person" id="root">
-        <rl-acrylic>
-            <div id="wrapper">
-                <header>
-                    <router-link to="/">
-                        <img id="logo" :src="require('@res/img/logo-sm.png')" />
-                    </router-link>
-                    <div id="title-wrapper">
-                        <h1>{{ person.name | name }}</h1>
-                        <span class="subtitle">Author</span>
-                    </div>
-                </header>
-                <div class="page-content-scroll-wrapper" v-bar>
-                    <div class="page-content-wrapper">
-                        <section class="page-content">
-                            <table class="info">
-                                <tr v-if="person.bio">
-                                    <td>Bio</td>
-                                    <td class="text-secondary">
-                                        <p>
-                                            {{ person.bio }}
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr v-if="person.wiki">
-                                    <td>Wiki</td>
-                                    <td class="text-secondary">
-                                        <a :href="person.wiki">Wikipedia</a>
-                                    </td>
-                                </tr>
-                            </table>
+    <rl-page-layout v-if="person">
+        <slot name="header">
+            <h1>{{ person.name | name }}</h1>
+            <span class="subtitle">Author</span>
+        </slot>
+        <slot name="body">
+            <table class="info">
+                <tr v-if="person.bio">
+                    <td>Bio</td>
+                    <td class="text-secondary">
+                        <p>
+                            {{ person.bio }}
+                        </p>
+                    </td>
+                </tr>
+                <tr v-if="person.wiki">
+                    <td>Wiki</td>
+                    <td class="text-secondary">
+                        <a :href="person.wiki">Wikipedia</a>
+                    </td>
+                </tr>
+            </table>
 
-                            <h2>Books</h2>
+            <h2>Books</h2>
 
-                            <ul v-if="books" class="tile-list tile-small">
-                                <router-link tag="li" class="tile-link" :to="`/book/${book.isbn}`" :key="book._id" v-for="book in sortedBooks">
-                                    {{ book.name }}
-                                    <span class="subtitle" v-if="book.persons.length > 1">
-                                        + {{ book.persons.length - 1 }} {{ book.persons.length > 2 ? "persons" : "person" }}
-                                    </span>
-                                    <span class="subtitle">
-                                        <br/> {{ book.year }} &nbsp;&bullet;&nbsp; {{ book.genre.join(", ") }}
-                                    </span>
-                                </router-link>
-                            </ul>
+            <ul v-if="books"
+                class="tile-list tile-small">
+                <router-link tag="li"
+                             class="tile-link"
+                             :to="`/book/${book.isbn}`"
+                             :key="book._id"
+                             v-for="book in sortedBooks">
+                    {{ book.name }}
+                    <span class="subtitle"
+                          v-if="book.authors.length > 1">
+                        + {{ book.authors.length - 1 }} {{ book.authors.length > 2 ? "authors" : "author" }}
+                    </span>
+                    <span class="subtitle">
+                        <br/> {{ book.year }} &nbsp;&bullet;&nbsp; {{ book.genre.join(", ") }}
+                    </span>
+                </router-link>
+            </ul>
 
-                        </section>
-                    </div>
-                </div>
-                <section id="actions">
-                    <button class="btn-back btn-auxilary" @click="$router.back()">
-                        Back
-                    </button>
-                </section>
-            </div>
-        </rl-acrylic>
-    </div>
+        </slot>
+    </rl-page-layout>
 </template>
 
 <script lang="ts">
+import { hasPermission } from "@lib/auth";
 import { Api, Book, Person } from "@lib/api";
+import { Page } from "@page/page";
 import * as vue from "av-ts";
 import Vue from "vue";
 
+type NextFunc = (fn: (vm: PersonPage) => void) => void;
+
 @vue.Component
-export default class PersonPage extends Vue {
+export default class PersonPage extends Page {
     public person: Person | null = null;
     public books: Book[] | null = [];
 
@@ -79,13 +71,43 @@ export default class PersonPage extends Vue {
     }
 
     @vue.Lifecycle
+    public async beforeRouteUpdate(to: any, from: any, n: any) {
+        try {
+            await fetch(to.params.id);
+        } catch (err) {
+            this.post({ text: err, type: "error" });
+        }
+    }
+
+    @vue.Lifecycle
     public created() {
-        Promise.all([
-            Api.People.byId(this.$route.params.id),
-            Api.Books.byAuthor(this.$route.params.id)
-        ])
-            .then(res => [this.person, this.books] = res)
-            .catch(console.error);
+        // try to retrieve the data relevant to this page, and post an
+        // error banner if it doesn't work
+        this.fetch(this.$route.params.id)
+            .catch(err => this.post({ text: err, type: "error" }));
+    }
+
+    @vue.Lifecycle
+    public mounted() {
+        const user = this.$store.state.auth.user;
+        const id = this.$route.params.id;
+
+        if (user && hasPermission(user, "modify_person")) {
+            this.buttons = [{
+                name: "Edit",
+                type: "secondary",
+                status: null,
+                action: () => this.$router.push(`/person/${id}/edit`)
+            }];
+        }
+    }
+
+    private async fetch(id: string) {
+        const [person, books] = await Promise.all([
+            Api.People.byId(id),
+            Api.Books.byAuthor(id)
+        ]);
+        [this.person, this.books] = [person, books];
     }
 }
 </script>

@@ -26,12 +26,13 @@ export default class CheckoutPage extends Page {
 
     @vue.Lifecycle
     public mounted() {
-        this.init().catch(err => {
+        this.fetch().catch(err => {
             this.post({ text: err, type: "error" });
         });
     }
 
-    public async init() {
+    // get data relevant to this page
+    public async fetch() {
         const id = this.$route.params.id;
         this.checkout = await Api.Checkouts.forBook(id);
 
@@ -69,7 +70,7 @@ export default class CheckoutPage extends Page {
 
         try {
             if (await Api.Books.checkIn(id)) {
-                await this.init();
+                await this.fetch();
             }
         }
         catch (err) {
@@ -87,7 +88,7 @@ export default class CheckoutPage extends Page {
 
             if (!await Api.Books.checkOut(id, { user: person.id, length: this.due || undefined })) return;
 
-            await this.init();
+            await this.fetch();
         }
         catch (err) {
             this.post({ text: err.response.statusText, type: "error" });

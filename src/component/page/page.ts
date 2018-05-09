@@ -19,38 +19,13 @@ export interface Message {
 @vue.Component
 export class Page extends Vue {
     public buttons: Button[] = [];
-    public data: any = {};
     public message: Message | null = null;
 
     @vue.Lifecycle
     public created() {
     }
 
-    public async action(btn: Button, evt: Event) {
-        if (!btn.action) return;
 
-        btn.status = "working";
-
-        const p = btn.action(evt);
-
-        try {
-            if (p instanceof Promise) {
-                await p;
-            }
-
-            btn.status = "success";
-
-            setTimeout(() => {
-                btn.status = null;
-            }, 2000);
-        } catch {
-            btn.status = "error";
-
-            setTimeout(() => {
-                btn.status = null;
-            }, 2000);
-        }
-    }
 
     public post(message: Message) {
         this.message = message;

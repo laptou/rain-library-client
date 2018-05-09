@@ -1,27 +1,37 @@
 <template>
-    <rl-page-layout>
-        <template name="header">
+    <rl-page-layout v-if="book">
+        <template slot="header">
             <h1 class="title">
                 Check out
             </h1>
         </template>
-        <template name="body">
-            <template v-if="checkout">
-                <h2>
-                    Book
-                </h2>
+        <template slot="body">
+            <h2>Book</h2>
+            <table>
+                <tr>
+                    <td>Title</td>
+                    <td>
+                        <router-link :to="`/book/${book.isbn}`">{{ book.name }}</router-link>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Copy ID</td>
+                    <td>{{ copy | segment }}</td>
+                </tr>
+            </table>
 
-                <h3>Information</h3>
-                <h4>Checkout</h4>
+            <template v-if="checkout">
+                <br/>
+                <h3>Checkout</h3>
 
                 <table>
                     <tr>
                         <td>Borrowed</td>
-                        <td>{{ checkout.start | relative-time-verbose }}</td>
+                        <td>{{ checkout.start | relative-time-verbose }} ({{ checkout.start | time }})</td>
                     </tr>
                     <tr>
                         <td>Due</td>
-                        <td>{{ checkout.due | relative-time-verbose }}</td>
+                        <td>{{ checkout.due | relative-time-verbose }} ({{ checkout.start | time }})</td>
                     </tr>
                     <tr v-if="checkoutOverdue">
                         <td>Fine</td>
@@ -30,21 +40,9 @@
                 </table>
             </template>
             <template v-else>
-                <h2>Book</h2>
-                <table>
-                    <tr>
-                        <td>Title</td>
-                        <td>
-                            <router-link :to="`/book/${book.isbn}`">{{ book.name }}</router-link>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Copy ID</td>
-                        <td>{{ copy | segment }}</td>
-                    </tr>
-                </table>
 
                 <template v-if="hold">
+                    <br/>
                     <h3>Hold</h3>
                     <table>
                         <tr>
@@ -59,8 +57,14 @@
                 </template>
                 <br/>
                 <h3>Check out</h3>
-                <rl-autocomplete v-model="username" placeholder="Check out to..." :items-source="userCandidates" :item-template-selector="userTemplateSelector" @itemselected="onUserSelected" />
-                <label>Due in:&ensp;<input class="inline" type="number" min="1" v-model.number="due" />&ensp;days</label><br/>
+                <rl-autocomplete v-model="username"
+                                 placeholder="Check out to..."
+                                 :items-source="userCandidates"
+                                 :item-template-selector="userTemplateSelector" />
+                <label>Due in:&ensp;<input class="inline"
+                           type="number"
+                           min="1"
+                           v-model.number="due" />&ensp;days</label><br/>
             </template>
 
         </template>

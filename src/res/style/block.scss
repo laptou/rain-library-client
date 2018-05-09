@@ -160,7 +160,7 @@ button
         background: transparent;
     }
 
-    &:hover
+    &:hover:not(.btn-fake)
     {
         color: $text-light;
     }

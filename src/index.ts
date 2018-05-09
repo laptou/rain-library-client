@@ -1,7 +1,7 @@
 import App from "@component/app/app.vue";
 import Acrylic from "@component/control/acrylic/acrylic.vue";
 import Autocomplete from "@component/control/autocomplete/autocomplete.vue";
-import Permission from "@component/control/permission/permission.vue";
+import Permission from "@component/control/permission/permission";
 import SeeMore from "@component/control/see-more/see-more.vue";
 import SiteNav from "@component/control/site-nav/site-nav.vue";
 import * as Api from "@lib/api";

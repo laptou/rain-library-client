@@ -1,7 +1,16 @@
-import { Person } from "@lib/api";
+import { Permission, Person } from "@lib/api";
 import axios from "axios";
 import Vue from "vue";
 import * as Vuex from "vuex";
+
+export function hasPermission(person: Person, permission: Permission) {
+    if (person) {
+        if (person.permissions.indexOf("admin") !== -1) return true;
+        if (person.permissions.indexOf("user") === -1) return false;
+        return person.permissions.indexOf(permission) !== -1;
+    }
+    return false;
+}
 
 async function getCurrentUser(): Promise<Person | null> {
     try {

@@ -165,23 +165,7 @@ header
     }
 }
 
-#actions
-{
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    justify-content: flex-end;
 
-    width: 100%;
-    margin-top: 1em;
-
-    button
-    {
-        font-size: 1.25em;
-
-        padding: 1em;
-    }
-}
 
 @media #{$screen-md}
 {
@@ -243,18 +227,6 @@ header
         }
     }
 
-    #actions
-    {
-        flex-direction: row;
-
-        .btn-back
-        {
-            order: -1;
-
-            border-top-left-radius: 4pt;
-        }
-    }
-
     .page-narrow
     {
         .page-content
@@ -308,11 +280,6 @@ header
             max-width: none;
             height: auto;
             max-height: none;
-        }
-
-        #actions
-        {
-            display: none;
         }
 
         header

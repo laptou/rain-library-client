@@ -10,7 +10,7 @@ export enum BookStatus {
 
 type NoneStatus = { status: BookStatus.None };
 type HoldStatus = { status: BookStatus.OnHold; hold: Hold; position: number };
-type CheckoutStatus = { status: BookStatus.CheckedOut; checkout: Checkout };
+type CheckoutStatus = { status: BookStatus.CheckedOut | BookStatus.Overdue; checkout: Checkout };
 export type Status = CheckoutStatus | HoldStatus | NoneStatus;
 export type Activity = (Checkout & { type: "checkout" }) | (Hold & { type: "hold" });
 
