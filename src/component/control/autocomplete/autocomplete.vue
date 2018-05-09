@@ -4,7 +4,8 @@
         <div class="autocomplete-suggestions-container">
             <div>
                 <ul class="autocomplete-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
-                    <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)" :description="itemDescriptionSelector(item)" :tabindex="index" :key="index">
+                    <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)" :description="itemDescriptionSelector(item)"
+                        :tabindex="index" :key="index" @click.prevent="onItemClick($event)">
                     </li>
                 </ul>
             </div>
@@ -27,9 +28,13 @@ export default class Autocomplete extends Vue {
     // appearance
     @vue.Prop public placeholder = vue.p(String);
 
-    // templating
+    // data
     @vue.Prop public itemsSource = vue.p(Array);
 
+    // behaviour
+    @vue.Prop public selectMode = vue.p(Boolean);
+
+    //templating
     @vue.Prop
     public itemTemplateSelector = vue.p({
         type: Function,
@@ -65,6 +70,13 @@ export default class Autocomplete extends Vue {
 
     public onBlur(evt: FocusEvent) {
         this.focused = false;
+    }
+
+    public onItemClick(evt: MouseEvent) {
+        if (this.selectMode) {
+            evt.stopPropagation();
+            this.$emit("itemclicked", evt);
+        }
     }
 
     public scrollTo() {

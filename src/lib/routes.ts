@@ -1,4 +1,5 @@
 import { Permission, Person } from "@lib/api";
+import { hasPermission } from "@lib/auth";
 import store from "@lib/state";
 import VueRouter from "vue-router";
 
@@ -7,8 +8,7 @@ const router = new VueRouter({
         { path: "/", component: () => import("@page/home/home.vue") },
         {
             path: "/login",
-            component: () =>
-                import(/* webpackChunkName: "auth" */ "@page/login/login.vue")
+            component: () => import(/* webpackChunkName: "auth" */ "@page/login/login.vue")
         },
         {
             path: "/admin",
@@ -62,16 +62,14 @@ const router = new VueRouter({
         },
         {
             path: "/book/:isbn",
-            component: () =>
-                import(/* webpackChunkName: "info" */ "@page/book/book.vue")
+            component: () => import(/* webpackChunkName: "info" */ "@page/book/book.vue")
         },
         {
             path: "/person/:id",
-            component: () =>
-                import(/* webpackChunkName: "info" */ "@page/person/person.vue")
+            component: () => import(/* webpackChunkName: "info" */ "@page/person/person.vue")
         },
         {
-            path: "/person/:id/edit",
+            path: "/person/edit/:id",
             meta: { permissions: ["modify_person"] },
             component: () => import(/* webpackChunkName: "library" */ "@page/person/edit.vue")
         },
@@ -115,15 +113,7 @@ router.beforeEach(async (to, from, next) => {
             );
         });
 
-    const user: Person = state.auth.user;
-    if (!user) next("/login");
-    else if (
-        !to.meta.permissions.every(
-            (p: Permission) => user.permissions.indexOf(p) !== -1
-        )
-    )
-        next("/");
-    else next();
+    to.meta.permissions.every((p: Permission) => hasPermission(state.auth.user as Person, p)) ? next() : next("/");
 });
 
 export default router;

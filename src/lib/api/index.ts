@@ -215,7 +215,7 @@ export declare type Permission =
     | "user"
     | "test";
 
-export declare interface Person extends Document {
+export interface Person extends Document {
     username: string | null;
     wiki?: string;
     bio?: string;
@@ -224,7 +224,7 @@ export declare interface Person extends Document {
     limits?: { days: number; books: number };
 }
 
-export declare interface Book extends Document {
+export interface Book extends Document {
     name: string;
     copy?: string;
     edition: { version: number; publisher: string };

@@ -1,11 +1,13 @@
 <template>
-    <rl-page-layout v-if="person"
-                    :page="this">
-        <slot name="header">
+    <rl-page-layout v-if="person" :page="this">
+        <template slot="header">
             <h1>{{ person.name | name }}</h1>
-            <span class="subtitle">Author</span>
-        </slot>
-        <slot name="body">
+            <span class="subtitle">
+                <template v-if="person.username">@{{person.username}} &bullet;</template>
+                {{ person.permissions | list }}
+            </span>
+        </template>
+        <template slot="body">
             <table class="info">
                 <tr v-if="person.bio">
                     <td>Bio</td>
@@ -25,16 +27,10 @@
 
             <h2>Books</h2>
 
-            <ul v-if="books"
-                class="tile-list tile-small">
-                <router-link tag="li"
-                             class="tile-link"
-                             :to="`/book/${book.isbn}`"
-                             :key="book._id"
-                             v-for="book in sortedBooks">
+            <ul v-if="books && books.length" class="tile-list tile-small">
+                <router-link tag="li" class="tile-link" :to="`/book/${book.isbn}`" :key="book._id" v-for="book in sortedBooks">
                     {{ book.name }}
-                    <span class="subtitle"
-                          v-if="book.authors.length > 1">
+                    <span class="subtitle" v-if="book.authors.length > 1">
                         + {{ book.authors.length - 1 }} {{ book.authors.length > 2 ? "authors" : "author" }}
                     </span>
                     <span class="subtitle">
@@ -43,7 +39,11 @@
                 </router-link>
             </ul>
 
-        </slot>
+            <span v-else>
+                This user has not authored any books.
+            </span>
+
+        </template>
     </rl-page-layout>
 </template>
 
@@ -98,7 +98,7 @@ export default class PersonPage extends Page {
                 name: "Edit",
                 type: "secondary",
                 status: null,
-                action: () => this.$router.push(`/person/${id}/edit`)
+                action: () => this.$router.push(`/person/edit/${id}`)
             }];
         }
     }
