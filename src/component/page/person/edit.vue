@@ -1,5 +1,8 @@
 <template>
     <rl-page-layout :page="this">
+        <template slot="header">
+            egg
+        </template>
         <template slot="body">
             <form v-if="person">
                 <h2>Name</h2>

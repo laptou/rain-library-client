@@ -1,53 +1,51 @@
 <template>
-    <div id="root" class="page-narrow">
-        <rl-acrylic >
-            <form id="wrapper" method="post" @submit.prevent="onSubmit">
-                <header>
-                    <router-link to="/">
-                        <img id="logo" :src="require('@res/img/logo-sm.png')"/>
-                    </router-link>
-                    <div id="title-wrapper">
-                        <h1>
-                            Log in
-                        </h1>
-                    </div>
-                </header>
-                <section class="page-content">
-                    <form>
-                        <label for="input-username" id="label-username">Username </label>
-                        <input name="username" id="input-username" type="text" v-model="username"/>
+    <rl-page-layout :page="this" class="page-narrow">
+        <template slot="header">
+            <h1>
+                Log in
+            </h1>
+        </template>
+        <template slot="body">
+            <form>
+                <label for="input-username" id="label-username">Username </label>
+                <input name="username" id="input-username" type="text" v-model="username" />
 
-                        <label for="input-password" id="label-password">Password </label>
-                        <input name="password" id="input-password" type="password" v-model="password"/>
+                <label for="input-password" id="label-password">Password </label>
+                <input name="password" id="input-password" type="password" v-model="password" />
 
-                        <span id="error" v-if="error">
-                            {{ error }}
-                        </span>
-                    </form>
-                </section>
-                <section id="actions">
-                    <button id="btn-login" class="btn-primary">Log in</button>
-                    <button @click.prevent="$router.back()" class="btn-back btn-auxilary">Back</button>
-                </section>
+                <span id="error" v-if="error">
+                    {{ error }}
+                </span>
             </form>
-        </rl-acrylic>
-    </div>
+        </template>
+    </rl-page-layout>
 </template>
 
 <script lang="ts">
 import * as vue from "av-ts";
 import Vue from "vue";
+import { Page } from "@page/page";
 
 @vue.Component
-export default class LoginPage extends Vue{
+export default class LoginPage extends Page {
     public username: string = "";
     public password: string = "";
     public error: string | null = null;
 
-    public async onSubmit()    {
-        if (!this.username || !this.password)        {
-            this.error = "You need a username and password.";
-            return;
+    @vue.Lifecycle
+    public created() {
+        this.buttons = [{
+            name: "Log in",
+            action: this.onSubmit,
+            type: "primary",
+            status: null
+        }];
+    }
+
+    public async onSubmit() {
+        if (!this.username || !this.password) {
+            this.post({ text: "You need a username and password.", type: "error" });
+            throw null; // this is probably not a good idea, but ending with a throw indicates that the function failed
         }
 
         const response = await this.$store.dispatch("auth/login", {
@@ -55,18 +53,19 @@ export default class LoginPage extends Vue{
             password: this.password
         });
 
-        switch (response)        {
+        switch (response) {
             case 200:
                 this.$router.back();
-                break;
+                return;
             case 401:
-                this.error = "The username or password is wrong.";
+                this.post({ text: "The username or password is wrong.", type: "error" });
                 break;
             default:
-                this.error =
-                    "Something went wrong... Check your internet connection.";
+                this.post({ text: "Something went wrong. Please check your internet connection.", type: "error" });
                 break;
         }
+
+        throw response;
     }
 }
 </script>

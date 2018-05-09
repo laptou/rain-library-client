@@ -358,6 +358,10 @@ ul.link-list
     top: 1em;
     right: 1em;
     left: 1em;
+
+    padding: 1em;
+
+@include elevation(2);
 }
 
 .control-grid

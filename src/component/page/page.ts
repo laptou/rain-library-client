@@ -21,14 +21,14 @@ export class Page extends Vue {
     public buttons: Button[] = [];
     public message: Message | null = null;
 
-    @vue.Lifecycle
-    public created() {
-    }
-
-
+    private messageTimer?: NodeJS.Timer;
 
     public post(message: Message) {
         this.message = message;
-        setTimeout(() => this.message = null);
+        if (this.messageTimer) clearTimeout(this.messageTimer);
+        this.messageTimer = setTimeout(() => {
+            this.message = null;
+            delete this.messageTimer;
+        }, 5000);
     }
 }

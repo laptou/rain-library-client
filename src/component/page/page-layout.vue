@@ -4,17 +4,20 @@
             <div id="wrapper">
                 <header>
                     <router-link to="/">
-                        <img id="logo"
-                             :src="require('@res/img/logo-sm.png')" />
+                        <img id="logo" :src="require('@res/img/logo-sm.png')" />
                     </router-link>
                     <div id="title-wrapper">
                         <slot name="header" />
                     </div>
                 </header>
-                <div class="page-content-scroll-wrapper"
-                     v-bar>
+                <div class="page-content-scroll-wrapper" v-bar>
                     <div class="page-content-wrapper">
                         <section class="page-content">
+                            <transition name="fade">
+                                <div class="banner-top" :class="['banner-' + page.message.type]" v-if="page.message">
+                                    {{ page.message.text }}
+                                </div>
+                            </transition>
                             <slot name="body" />
                         </section>
                     </div>
