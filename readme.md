@@ -6,7 +6,7 @@ This application employs [Vue.js](http://vuejs.org) for displaying the interface
 
 ## An If-Then Sequence that saves the user time
 
-Here's an example from `src/component/control/autocomplete/book-autocomplete-item.vue`:
+Here's an example from [`book-autocomplete-item.vue`](https://github.com/laptou/rain-library-client/blob/master/src/component/control/autocomplete/book-autocomplete-item.vue):
 
 ```vue
 <rl-permission permissions="check_out"
