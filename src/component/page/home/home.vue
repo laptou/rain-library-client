@@ -6,7 +6,8 @@
             <div id="logo-box">
                 <rl-acrylic>
                     <div id="logo-wrapper">
-                        <div id="logo-border" :class="`logo-${theme}`">
+                        <div id="logo-border"
+                             :class="`logo-${theme}`">
                             <div id="title-container">
                                 <h1 id="title">
                                     RAIN
@@ -23,14 +24,21 @@
         <div id="content-container">
 
             <div id="search-container">
-                <rl-autocomplete :items-source="results" :placeholder="'search for books, authors, and more!'" v-model="query" />
+                <rl-autocomplete :items-source="results"
+                                 placeholder='search for books!'
+                                 v-model="query" />
             </div>
 
             <div id="info-container">
-                <section id="info-fines" v-if="user && activities.some(a => a.type === 'fine')">
+                <section id="info-fines"
+                         v-if="user && activities.some(a => a.type === 'fine')">
                     <h2>Fines</h2>
                     <ul>
-                        <router-link tag="li" v-for="fine in activities.filter(a => a.type === 'fine')" :key="fine.id" :to="`/book/${fine.book.isbn}`" class="fine">
+                        <router-link tag="li"
+                                     v-for="fine in activities.filter(a => a.type === 'fine')"
+                                     :key="fine.id"
+                                     :to="`/book/${fine.book.isbn}`"
+                                     class="fine">
                             <div class="content">
                                 <span class="book-name">{{ fine.book.name }}</span>
                                 <span class="book-info text-secondary">
@@ -47,10 +55,16 @@
                     </ul>
                 </section>
 
-                <section id="info-checkout" v-if="user">
+                <section id="info-checkout"
+                         v-if="user">
                     <h2>Checked out</h2>
                     <ul v-if="activities && activities.some(a => a.type === 'checkout')">
-                        <router-link tag="li" v-for="checkout in activities.filter(a => a.type === 'checkout')" :key="checkout._id" :to="`/book/${checkout.book.isbn}`" class="checkout" :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
+                        <router-link tag="li"
+                                     v-for="checkout in activities.filter(a => a.type === 'checkout')"
+                                     :key="checkout._id"
+                                     :to="`/book/${checkout.book.isbn}`"
+                                     class="checkout"
+                                     :class="{ overdue: Date.parse(checkout.due) <= new Date() }">
                             <div class="content">
                                 <span class="book-name">{{ checkout.book.name }}</span>
                                 <span class="book-info no-wrap">
@@ -60,31 +74,39 @@
                                     {{ checkout.book.genre | list }}
                                 </span>
                             </div>
-                            <span class="tag tag-info" v-if="Date.parse(checkout.due) > new Date()">
+                            <span class="tag tag-info"
+                                  v-if="Date.parse(checkout.due) > new Date()">
                                 <span>{{ checkout.due | relative-time }}</span>
                                 <span class="subtitle">remaining</span>
                             </span>
-                            <span class="tag tag-danger" v-else>
+                            <span class="tag tag-danger"
+                                  v-else>
                                 overdue
                             </span>
                         </router-link>
                     </ul>
-                    <span class="empty-message" v-else>
+                    <span class="empty-message"
+                          v-else>
                         Go to the library to check out some books!
                     </span>
                 </section>
 
-                <section id="info-trending" v-if="false">
+                <section id="info-trending"
+                         v-if="false">
                     <h2>Trending</h2>
                     <span class="empty-message">
                         This feature hasn't been implemented yet.
                     </span>
                 </section>
 
-                <section id="info-holds" v-if="user">
+                <section id="info-holds"
+                         v-if="user">
                     <h2>Holds</h2>
                     <ul v-if="activities && activities.some(a => a.type === 'hold')">
-                        <router-link tag="li" v-for="hold in activities.filter(a => a.type === 'hold')" :key="hold._id" :to="`/book/${hold.book.isbn}`">
+                        <router-link tag="li"
+                                     v-for="hold in activities.filter(a => a.type === 'hold')"
+                                     :key="hold._id"
+                                     :to="`/book/${hold.book.isbn}`">
                             <div class="content">
                                 <span class="book-name">{{ hold.book.name }}</span>
                                 <span class="book-info no-wrap">
@@ -94,12 +116,14 @@
                                     {{ hold.book.genre | list }}
                                 </span>
                             </div>
-                            <span class="tag tag-primary" v-if="hold.ready">
+                            <span class="tag tag-primary"
+                                  v-if="hold.ready">
                                 ready for pickup
                             </span>
                         </router-link>
                     </ul>
-                    <span class="empty-message" v-else>
+                    <span class="empty-message"
+                          v-else>
                         You don't have any books on hold.
                     </span>
                 </section>

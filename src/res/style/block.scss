@@ -359,3 +359,24 @@ ul.link-list
     right: 1em;
     left: 1em;
 }
+
+.control-grid
+{
+    .control-grid-row
+    {
+        display: flex;
+        flex-direction: row;
+
+        & > *
+        {
+            flex-grow: 1;
+        }
+
+        label
+        {
+            line-height: 2.5em;
+
+            flex-grow: 0;
+        }
+    }
+}

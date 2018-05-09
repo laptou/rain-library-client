@@ -1,4 +1,5 @@
 import { Api, Book, Checkout, Hold, Person } from "@lib/api";
+import { hasPermission } from "@lib/auth";
 import { Page } from "@page/page";
 import * as vue from "av-ts";
 
@@ -122,11 +123,13 @@ export default class CheckoutPage extends Page {
             if (newVal) {
                 // query the API
                 const results = await Api.People.search(newVal);
-                this.userCandidates = results || [];
+
+                if (results) {
+                    this.userCandidates = results.filter(person => hasPermission(person, "check_out"));
+                    return;
+                }
             }
-            else {
-                this.userCandidates = [];
-            }
+            this.userCandidates = [];
         }
         catch
         {

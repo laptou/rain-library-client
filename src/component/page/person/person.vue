@@ -1,5 +1,6 @@
 <template>
-    <rl-page-layout v-if="person">
+    <rl-page-layout v-if="person"
+                    :page="this">
         <slot name="header">
             <h1>{{ person.name | name }}</h1>
             <span class="subtitle">Author</span>

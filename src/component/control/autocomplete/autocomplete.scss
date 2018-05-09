@@ -79,14 +79,14 @@
 
             .autocomplete-item-action
             {
+                font-size: 0.8em;
+
                 display: none;
 
-                margin: -0.75em -0.75em -0.75em 0;
+                margin: 0;
+                padding: 0.4em 0.8em;
 
-                &:hover
-                {
-                    border-left: $line-secondary;
-                }
+                border-radius: $round-small;
             }
 
             &:hover

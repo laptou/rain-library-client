@@ -1,5 +1,6 @@
 <template>
-    <rl-page-layout v-if="book">
+    <rl-page-layout v-if="book"
+                    :page="this">
         <template slot="header">
             <h1 class="title">
                 Check out
@@ -57,10 +58,15 @@
                 </template>
                 <br/>
                 <h3>Check out</h3>
-                <rl-autocomplete v-model="username"
-                                 placeholder="Check out to..."
-                                 :items-source="userCandidates"
-                                 :item-template-selector="userTemplateSelector" />
+                <div class="control-grid">
+                    <div class="control-grid-row">
+                        <label>User:&ensp;</label>
+                        <rl-autocomplete v-model="username"
+                                         placeholder="Check out to..."
+                                         :items-source="userCandidates"
+                                         :item-template-selector="userTemplateSelector" />
+                    </div>
+                </div>
                 <label>Due in:&ensp;<input class="inline"
                            type="number"
                            min="1"

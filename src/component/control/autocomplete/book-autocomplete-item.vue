@@ -8,7 +8,7 @@
         <rl-permission permissions="check_out"
                        tag="span"
                        v-if="copy">
-            <router-link :to="`/library/book/${copy}`"
+            <router-link :to="`/library/checkout/${copy}`"
                          tag="button"
                          class="autocomplete-item-action btn-primary btn-subtle">
                 Check out
