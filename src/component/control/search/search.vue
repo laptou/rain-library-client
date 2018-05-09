@@ -5,7 +5,7 @@
             <div>
                 <ul class="search-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
                     <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)" :description="itemDescriptionSelector(item)"
-                        :tabindex="index" :key="index" @click.capture="onItemClick($event, item)">
+                        :tabindex="index" :key="index">
                     </li>
                 </ul>
             </div>
@@ -30,9 +30,6 @@ export default class search extends Vue {
 
     // data
     @vue.Prop public itemsSource = vue.p(Array);
-
-    // behaviour
-    @vue.Prop public selectMode = vue.p(Boolean);
 
     //templating
     @vue.Prop
@@ -100,6 +97,7 @@ export default class search extends Vue {
 </script>
 
 <style lang="scss" src="./search.scss">
+
 
 
 </style>

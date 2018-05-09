@@ -1,6 +1,6 @@
 <template>
     <div class="autocomplete" @focusin="onFocus" @focusout="onBlur">
-        <input class="autocomplete-input" title="title" type="autocomplete" :placeholder="placeholder" v-model="query" ref="input" />
+        <input class="autocomplete-input" title="title" type="autocomplete" :placeholder="getPlaceholder()" v-model="query" ref="input" />
         <div class="autocomplete-suggestions-container">
             <div>
                 <ul class="autocomplete-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
@@ -72,11 +72,10 @@ export default class autocomplete extends Vue {
         this.focused = false;
     }
 
-    public onItemClick(evt: MouseEvent) {
-        if (this.selectMode) {
+    public onItemClick(evt: MouseEvent, item: any) {
             evt.stopPropagation();
-            this.$emit("itemclicked", evt);
-        }
+            this.$emit("itemclicked", evt, item);
+            this.query = this.itemDescriptionSelector(item);
     }
 
     public scrollTo() {
@@ -100,6 +99,7 @@ export default class autocomplete extends Vue {
 </script>
 
 <style lang="scss" src="./autocomplete.scss">
+
 
 
 
