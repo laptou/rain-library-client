@@ -1,6 +1,10 @@
 <template>
-    <div>
+    <rl-page-layout :page="this">
+        <template slot="header">
         <h2>Fines in the past week</h2>
+        </template>
+        <template slot="body">
+
         <ul class="tile-list">
             <li :key="fine.id" v-for="fine in fines">
                 <h3>
@@ -49,25 +53,32 @@
                 </table>
             </li>
         </ul>
-    </div>
+        </template>
+    </rl-page-layout>
 </template>
 
 <script lang="ts">
 import { Api, Fine } from "@lib/api";
 import { sort } from "@lib/util";
+import { Page } from "@page/page";
 import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class AdminFineReportPage extends Vue {
+export default class FineReportPage extends Page {
     public fines: Fine[] = [];
 
     @vue.Lifecycle
     public mounted() {
-        this.$emit("buttonupdate", [{ name: "Print", action: () => window.print(), type: "secondary" }]);
+        this.buttons = [{ name: "Print", action: () => window.print(), type: "secondary" }];
         Api.Fines.inDays(7)
             .then(result => this.fines = result ? sort(result, t => t.date) : this.fines)
             .catch(console.error);
     }
 }
 </script>
+
+
+<style src="@page/page.scss" lang="scss" scoped>
+
+</style>

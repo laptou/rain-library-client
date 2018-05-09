@@ -1,6 +1,9 @@
 <template>
-    <div>
+    <rl-page-layout :page="this">
+        <template slot='header'>
         <h2>Checkouts in the past week</h2>
+        </template>
+        <template slot="body">
         <ul class="tile-list">
             <li :key="checkout.id" v-for="checkout in checkouts">
                 <router-link :to="`/book/${checkout.book.isbn}`">
@@ -27,21 +30,23 @@
                 </table>
             </li>
         </ul>
-    </div>
+        </template>
+    </rl-page-layout>
 </template>
 
 <script lang="ts">
 import { Api, Checkout } from "@lib/api";
+import { Page } from "@page/page";
 import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class AdminCheckoutReportPage extends Vue {
+export default class CheckoutReportPage extends Vue {
     public checkouts: Checkout[] = [];
 
     @vue.Lifecycle
     public mounted() {
-        this.$emit("buttonupdate", [{ name: "Print", action: () => window.print(), type: "secondary" }]);
+        this.buttons = [{ name: "Print", action: () => window.print(), type: "secondary" }];
 
         Api.Checkouts.inDays(7)
             .then(result =>

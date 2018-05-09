@@ -11,42 +11,16 @@ const router = new VueRouter({
             component: () => import(/* webpackChunkName: "auth" */ "@page/login/login.vue")
         },
         {
-            path: "/admin",
-            component: () =>
-                import(/* webpackChunkName: "admin" */ "@page/admin/admin.vue"),
+            path: "/admin/reports/checkouts",
             meta: { permissions: ["admin"] },
-            children: [
-                {
-                    path: "",
-                    meta: { permissions: ["admin"] },
-                    component: () =>
-                        import(/* webpackChunkName: "admin" */ "@page/admin/home/home.vue")
-                },
-                {
-                    path: "users",
-                    meta: { permissions: ["admin"] },
-                    component: () =>
-                        import(/* webpackChunkName: "admin" */ "@page/admin/users/users.vue")
-                },
-                {
-                    path: "user/:id",
-                    meta: { permissions: ["admin"] },
-                    component: () =>
-                        import(/* webpackChunkName: "admin" */ "@page/admin/users/user.vue")
-                },
-                {
-                    path: "reports/checkouts",
-                    meta: { permissions: ["admin"] },
-                    component: () =>
-                        import(/* webpackChunkName: "admin" */ "@page/admin/reports/checkouts.vue")
-                },
-                {
-                    path: "reports/fines",
-                    meta: { permissions: ["admin"] },
-                    component: () =>
-                        import(/* webpackChunkName: "admin" */ "@page/admin/reports/fines.vue")
-                }
-            ]
+            component: () =>
+                import(/* webpackChunkName: "admin" */ "@page/admin/reports/checkouts.vue")
+        },
+        {
+            path: "/admin/reports/fines",
+            meta: { permissions: ["admin"] },
+            component: () =>
+                import(/* webpackChunkName: "admin" */ "@page/admin/reports/fines.vue")
         },
         {
             path: "/book/:isbn",
