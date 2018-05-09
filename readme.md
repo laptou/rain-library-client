@@ -21,4 +21,4 @@ Here's an example from `src/component/control/autocomplete/book-autocomplete-ite
 ```
 If there is only one copy of a given book, then the user is presented with a button to take them directly to the checkout page.
 
-![shortcut-screenshot][https://1drv.ms/u/s!ArxIZJX6JnbQjWtehh_a19_h_4Xj]
+![shortcut-screenshot](https://pasteboard.co/images/HkoK0dk.png/download)
