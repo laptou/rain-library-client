@@ -244,11 +244,9 @@
         background: $bg-light-textured;
     }
 
-    .autocomplete-suggestions
+    .autocomplete-item
     {
-        position: static;
-
-        background: $bg-light-textured;
+        font-size: 1.25rem;
     }
 }
 

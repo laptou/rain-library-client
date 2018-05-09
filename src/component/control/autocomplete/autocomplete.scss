@@ -1,14 +1,15 @@
 @import "~@res/base.scss";
+@import "~@res/style/block.scss";
 
 .autocomplete
 {
     font: $font-body;
 
-    border-radius: 4pt;
+    border-radius: $round-small;
 
-    .acrylic
+    .autocomplete-input
     {
-        border-radius: 4pt;
+        width: 100%;
     }
 
     .autocomplete-suggestions-container
@@ -20,8 +21,6 @@
 
     .autocomplete-suggestions
     {
-        position: absolute;
-
         overflow: auto;
 
         width: 100%;
@@ -31,7 +30,7 @@
 
         transition-duration: 0.15s;
 
-        border-radius: 4pt;
+        background: $bg-light-textured;
 
         &.focused
         {
@@ -42,8 +41,6 @@
 
         .autocomplete-item
         {
-            font-size: 1.25rem;
-
             display: flex;
             align-content: center;
             flex-direction: column;
@@ -146,8 +143,18 @@
 {
     .autocomplete
     {
+        .autocomplete-input
+        {
+            &:focus
+            {
+                border-radius: $round-small;
+            }
+        }
+
         .autocomplete-suggestions
         {
+            border-radius: $round-small;
+
             .autocomplete-item
             {
                 flex-direction: row;
@@ -165,5 +172,10 @@
                 }
             }
         }
+    }
+
+    &.inline
+    {
+        display: inline-block;
     }
 }

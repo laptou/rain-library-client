@@ -1,11 +1,13 @@
 import App from "@component/app/app.vue";
 import Acrylic from "@component/control/acrylic/acrylic.vue";
+import Autocomplete from "@component/control/autocomplete/autocomplete.vue";
 import Permission from "@component/control/permission/permission.vue";
 import SeeMore from "@component/control/see-more/see-more.vue";
 import SiteNav from "@component/control/site-nav/site-nav.vue";
 import * as Api from "@lib/api";
 import store from "@lib/state";
 import PageActions from "@page/page-actions.vue";
+import PageLayout from "@page/page-layout.vue";
 import axios from "axios";
 import moment from "moment";
 import Vue from "vue";
@@ -24,9 +26,11 @@ axios.defaults.headers["Accept"] = "application/json";
 Vue.use(Vuebar);
 Vue.use(VueRouter);
 Vue.component("rl-acrylic", Acrylic);
+Vue.component("rl-autocomplete", Autocomplete);
 Vue.component("rl-permission", Permission);
 Vue.component("rl-see-more", SeeMore);
 
+Vue.component("rl-page-layout", PageLayout);
 Vue.component("rl-page-actions", PageActions);
 Vue.component("rl-nav", SiteNav);
 

@@ -1,8 +1,6 @@
 <template>
     <div class="autocomplete" @focusin="onFocus" @focusout="onBlur">
-        <rl-acrylic>
-            <input class="autocomplete-input" title="title" type="search" :placeholder="placeholder" v-model="query" ref="input" />
-        </rl-acrylic>
+        <input class="autocomplete-input" title="title" type="search" :placeholder="placeholder" v-model="query" ref="input" />
         <div class="autocomplete-suggestions-container">
             <div>
                 <ul class="autocomplete-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
@@ -21,7 +19,7 @@ import Vue from "vue";
 
 const BookAutoCompleteItem = require("./book-autocomplete-item.vue").default;
 
-@vue.Component
+@vue.Component({ model: { prop: "query", event: "querychanged" } })
 export default class Autocomplete extends Vue {
     public query = "";
     public focused = false;
@@ -80,32 +78,15 @@ export default class Autocomplete extends Vue {
     }
 
     private selectLabel(item: any) {
-        return item.name;
+        return this.itemTemplateSelector(item).selectLabel(item);
     }
 
     private selectDescription(item: any) {
-        if (item.authors) {
-            const book = item as Book;
-            const authors = book.authors as Person[];
-            let info = authors
-                .map((a: Person) => `${a.name.first} ${a.name.last}`)
-                .join(", ");
-            info += " | ";
-            info += book.genre.join(", ");
-            return info;
-        }
-
-        return "";
+        return this.itemTemplateSelector(item).selectDescription(item);
     }
 }
 </script>
 
 <style lang="scss" src="./autocomplete.scss">
-
-
-
-
-
-
 
 </style>

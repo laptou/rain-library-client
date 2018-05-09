@@ -1,23 +1,27 @@
-import { Api, Book, Checkout, Hold } from "@lib/api";
+import { Api, Book, Checkout, Hold, Person } from "@lib/api";
 import { Page } from "@page/page";
 import * as vue from "av-ts";
 
 type NextFunc = (fn: (vm: vue.Vue) => void) => void;
+const UserAutocompleteItem = require("@control/autocomplete/user-autocomplete-item.vue").default;
 
 @vue.Component
-export default class LibraryBookPage extends Page {
+export default class CheckoutPage extends Page {
     public book: Book | null = null;
     public checkout: Checkout | null = null;
     public hold: Hold | null = null;
 
-    public username: string | null = null;
+    public username: string = "";
     public due: number | null = null;
+
+    // autocomplete for users
+    public userCandidates: Person[] = [];
 
     @vue.Lifecycle
     public async beforeRouteEnter(to: any, from: any, n: any) {
         const book = await Api.Books.byId(to.params.id);
         const next = n as NextFunc;
-        next(vm => (vm as LibraryBookPage).book = book);
+        next(vm => (vm as CheckoutPage).book = book);
     }
 
     @vue.Lifecycle
@@ -60,19 +64,6 @@ export default class LibraryBookPage extends Page {
         }
     }
 
-    get checkoutOverdue() {
-        if (this.checkout)
-            return Date.parse(this.checkout.due as string) < Date.now();
-    }
-
-    get checkoutPenalty() {
-        if (this.checkout) {
-            let days = (Date.now() - Date.parse(this.checkout.due as string)) / 86400000;
-            days = Math.ceil(days);
-            return `$${(days * this.checkout.penalty).toFixed(2)}`;
-        }
-    }
-
     public async checkIn() {
         const id = this.$route.params.id;
 
@@ -100,6 +91,45 @@ export default class LibraryBookPage extends Page {
         }
         catch (err) {
             this.post({ text: err.response.statusText, type: "error" });
+        }
+    }
+
+    public userTemplateSelector() {
+        return UserAutocompleteItem;
+    }
+
+    get copy() {
+        return this.$route.params.id;
+    }
+
+    get checkoutOverdue() {
+        if (this.checkout)
+            return Date.parse(this.checkout.due as string) < Date.now();
+    }
+
+    get checkoutPenalty() {
+        if (this.checkout) {
+            let days = (Date.now() - Date.parse(this.checkout.due as string)) / 86400000;
+            days = Math.ceil(days);
+            return `$${(days * this.checkout.penalty).toFixed(2)}`;
+        }
+    }
+
+    @vue.Watch("username")
+    private async usernameChanged(newVal: string) {
+        try {
+            if (newVal) {
+                // query the API
+                const results = await Api.People.search(newVal);
+                this.userCandidates = results || [];
+            }
+            else {
+                this.userCandidates = [];
+            }
+        }
+        catch
+        {
+            this.userCandidates = [];
         }
     }
 }

@@ -66,17 +66,22 @@ const router = new VueRouter({
                 import(/* webpackChunkName: "info" */ "@page/book/book.vue")
         },
         {
-            path: "/author/:id",
+            path: "/person/:id",
             component: () =>
-                import(/* webpackChunkName: "info" */ "@page/author/author.vue")
+                import(/* webpackChunkName: "info" */ "@page/person/person.vue")
+        },
+        {
+            path: "/person/:id/edit",
+            meta: { permissions: ["modify_person"] },
+            component: () => import(/* webpackChunkName: "library" */ "@page/person/edit.vue")
         },
         {
             path: "/library/scanner",
             component: () => import(/* webpackChunkName: "library" */ "@page/library/scanner/scanner.vue")
         },
         {
-            path: "/library/book/:id",
-            component: () => import(/* webpackChunkName: "library" */ "@page/library/book/book")
+            path: "/library/checkout/:id",
+            component: () => import(/* webpackChunkName: "library" */ "@page/library/checkout/checkout")
         },
     ],
     mode: process.env.NODE_ENV === "development" ? "hash" : "history"

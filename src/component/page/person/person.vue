@@ -1,5 +1,5 @@
 <template>
-    <div v-if="author" id="root">
+    <div v-if="person" id="root">
         <rl-acrylic>
             <div id="wrapper">
                 <header>
@@ -7,7 +7,7 @@
                         <img id="logo" :src="require('@res/img/logo-sm.png')" />
                     </router-link>
                     <div id="title-wrapper">
-                        <h1>{{ author.name | name }}</h1>
+                        <h1>{{ person.name | name }}</h1>
                         <span class="subtitle">Author</span>
                     </div>
                 </header>
@@ -15,18 +15,18 @@
                     <div class="page-content-wrapper">
                         <section class="page-content">
                             <table class="info">
-                                <tr v-if="author.bio">
+                                <tr v-if="person.bio">
                                     <td>Bio</td>
                                     <td class="text-secondary">
                                         <p>
-                                            {{ author.bio }}
+                                            {{ person.bio }}
                                         </p>
                                     </td>
                                 </tr>
-                                <tr v-if="author.wiki">
+                                <tr v-if="person.wiki">
                                     <td>Wiki</td>
                                     <td class="text-secondary">
-                                        <a :href="author.wiki">Wikipedia</a>
+                                        <a :href="person.wiki">Wikipedia</a>
                                     </td>
                                 </tr>
                             </table>
@@ -36,8 +36,8 @@
                             <ul v-if="books" class="tile-list tile-small">
                                 <router-link tag="li" class="tile-link" :to="`/book/${book.isbn}`" :key="book._id" v-for="book in sortedBooks">
                                     {{ book.name }}
-                                    <span class="subtitle" v-if="book.authors.length > 1">
-                                        + {{ book.authors.length - 1 }} {{ book.authors.length > 2 ? "authors" : "author" }}
+                                    <span class="subtitle" v-if="book.persons.length > 1">
+                                        + {{ book.persons.length - 1 }} {{ book.persons.length > 2 ? "persons" : "person" }}
                                     </span>
                                     <span class="subtitle">
                                         <br/> {{ book.year }} &nbsp;&bullet;&nbsp; {{ book.genre.join(", ") }}
@@ -64,8 +64,8 @@ import * as vue from "av-ts";
 import Vue from "vue";
 
 @vue.Component
-export default class AuthorPage extends Vue {
-    public author: Person | null = null;
+export default class PersonPage extends Vue {
+    public person: Person | null = null;
     public books: Book[] | null = [];
 
     get sortedBooks(): Book[] | null {
@@ -84,7 +84,7 @@ export default class AuthorPage extends Vue {
             Api.People.byId(this.$route.params.id),
             Api.Books.byAuthor(this.$route.params.id)
         ])
-            .then(res => [this.author, this.books] = res)
+            .then(res => [this.person, this.books] = res)
             .catch(console.error);
     }
 }

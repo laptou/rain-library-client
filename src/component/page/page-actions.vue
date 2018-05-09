@@ -16,6 +16,6 @@ import { Button } from '@component/page/page';
 
 @vue.Component
 export default class PageActions extends Vue {
-    @vue.Prop public buttons: Button[] = [];
+    @vue.Prop public buttons?: Button[] = vue.p<Button[]>({ type: Array });
 }
 </script>

@@ -23,10 +23,9 @@
         <div id="content-container">
 
             <div id="search-container">
-                <autocomplete :itemsSource="results" :placeholder="'search for books, authors, and more!'" @querychanged="onQueryChanged">
-
-                </autocomplete>
+                <rl-autocomplete :items-source="results" :placeholder="'search for books, authors, and more!'" v-model="query" />
             </div>
+
             <div id="info-container">
                 <section id="info-fines" v-if="user && activities.some(a => a.type === 'fine')">
                     <h2>Fines</h2>
@@ -129,10 +128,12 @@ import Vue from "vue";
 
 export declare type NextFunc = ((vm: Vue) => void) | (() => void);
 
-@vue.Component({ components: { Autocomplete } })
+@vue.Component
 export default class HomePage extends Vue {
     public results: Book[] = [];
     public activities: Activity[] = [];
+    public query: string = "";
+
 
     get user(): Person | null {
         return this.$store.state.auth.user;
@@ -148,7 +149,7 @@ export default class HomePage extends Vue {
 
     @vue.Lifecycle
     public async created() {
-        if(this.user)
+        if (this.user)
             this.activities = await Api.People.currentActivities(this.user.id) || [];
     }
 
@@ -159,6 +160,7 @@ export default class HomePage extends Vue {
         }
     }
 
+    @vue.Watch("query")
     public async onQueryChanged(newVal: string) {
         if (newVal) {
             const suggestions: Book[] = [];
