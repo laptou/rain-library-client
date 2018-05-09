@@ -6,7 +6,7 @@ This application employs [Vue.js](http://vuejs.org) for displaying the interface
 
 ## An If-Then Sequence that saves the user time
 
-Here's an example from [`book-autocomplete-item.vue`](https://github.com/laptou/rain-library-client/blob/master/src/component/control/autocomplete/book-autocomplete-item.vue):
+Here's an example from [`book-search-item.vue`](https://github.com/laptou/rain-library-client/blob/master/src/component/control/search/book-search-item.vue):
 
 ```vue
 <rl-permission permissions="check_out"
@@ -14,7 +14,7 @@ Here's an example from [`book-autocomplete-item.vue`](https://github.com/laptou/
                 v-if="copy">
     <router-link :to="`/library/checkout/${copy}`"
                     tag="button"
-                    class="autocomplete-item-action btn-primary btn-subtle">
+                    class="search-item-action btn-primary btn-subtle">
         Check out
     </router-link>
 </rl-permission>

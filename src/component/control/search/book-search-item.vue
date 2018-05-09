@@ -1,16 +1,16 @@
 <template>
     <router-link tag="li"
-                 class="autocomplete-item"
+                 class="search-item"
                  :to="`/book/${content.isbn}`">
-        <span class="autocomplete-item-label">{{ label }}</span>
-        <span class="autocomplete-item-desc">{{ description }}</span>
+        <span class="search-item-label">{{ label }}</span>
+        <span class="search-item-desc">{{ description }}</span>
 
         <rl-permission permissions="check_out"
                        tag="span"
                        v-if="copy">
             <router-link :to="`/library/checkout/${copy}`"
                          tag="button"
-                         class="autocomplete-item-action btn-primary btn-subtle">
+                         class="search-item-action btn-primary btn-subtle">
                 Check out
             </router-link>
         </rl-permission>
@@ -20,10 +20,10 @@
 <script lang="ts">
 import { Book, Person } from "@lib/api";
 import * as vue from "av-ts";
-import AutocompleteItem from "./autocomplete-item";
+import SearchItem from "./search-item";
 
 @vue.Component
-export default class BookAutocompleteItem extends AutocompleteItem<Book> {
+export default class BookSearchItem extends SearchItem<Book> {
     get copy() {
         if (!this.content) return null;
         if (this.content.copy) return this.content.copy;

@@ -74,7 +74,7 @@
 {
     text-align: center;
 
-    .autocomplete
+    .search
     {
         margin-bottom: 5em;
     }
@@ -225,9 +225,9 @@
     }
 }
 
-.autocomplete /deep/ 
+.search /deep/ 
 {
-    .autocomplete-input
+    .search-input
     {
         font-size: 20pt;
 
@@ -244,7 +244,7 @@
         background: $bg-light-textured;
     }
 
-    .autocomplete-item
+    .search-item
     {
         font-size: 1.25rem;
     }

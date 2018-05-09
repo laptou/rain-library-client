@@ -1,9 +1,9 @@
 <template>
-    <div class="autocomplete" @focusin="onFocus" @focusout="onBlur">
-        <input class="autocomplete-input" title="title" type="search" :placeholder="placeholder" v-model="query" ref="input" />
-        <div class="autocomplete-suggestions-container">
+    <div class="search" @focusin="onFocus" @focusout="onBlur">
+        <input class="search-input" title="title" type="search" :placeholder="placeholder" v-model="query" ref="input" />
+        <div class="search-suggestions-container">
             <div>
-                <ul class="autocomplete-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
+                <ul class="search-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
                     <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)" :description="itemDescriptionSelector(item)"
                         :tabindex="index" :key="index" @click.capture="onItemClick($event, item)">
                     </li>
@@ -18,10 +18,10 @@ import { Api, Book, Person, Hold, Checkout, Activity } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-const BookAutoCompleteItem = require("./book-autocomplete-item.vue").default;
+const BooksearchItem = require("./book-search-item.vue").default;
 
 @vue.Component({ model: { prop: "query", event: "querychanged" } })
-export default class Autocomplete extends Vue {
+export default class search extends Vue {
     public query = "";
     public focused = false;
 
@@ -86,7 +86,7 @@ export default class Autocomplete extends Vue {
     }
 
     private selectTemplate(item: any) {
-        return BookAutoCompleteItem;
+        return BooksearchItem;
     }
 
     private selectLabel(item: any) {
@@ -99,6 +99,7 @@ export default class Autocomplete extends Vue {
 }
 </script>
 
-<style lang="scss" src="./autocomplete.scss">
+<style lang="scss" src="./search.scss">
+
 
 </style>

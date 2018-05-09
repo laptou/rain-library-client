@@ -1,17 +1,17 @@
 <template>
-    <router-link tag="li" class="autocomplete-item" :to="`/person/${content.id}`">
-        <span class="autocomplete-item-label">{{ label }}</span>
-        <span class="autocomplete-item-desc">{{ description }}</span>
+    <router-link tag="li" class="search-item" :to="`/person/${content.id}`">
+        <span class="search-item-label">{{ label }}</span>
+        <span class="search-item-desc">{{ description }}</span>
     </router-link>
 </template>
 
 <script lang="ts">
 import { Person } from "@lib/api";
 import * as vue from "av-ts";
-import AutocompleteItem from "./autocomplete-item";
+import searchItem from "./search-item";
 
 @vue.Component
-export default class PersonAutocompleteItem extends AutocompleteItem<Person> {
+export default class PersonSearchItem extends SearchItem<Person> {
     // default label selection function
     public static selectLabel(item: Person) {
         // disable tslint rule b/c this is simple concatenation

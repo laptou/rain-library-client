@@ -23,7 +23,7 @@
         <div id="content-container">
 
             <div id="search-container">
-                <rl-autocomplete :items-source="results" placeholder='search for books!' v-model="query" />
+                <rl-search :items-source="results" placeholder='search for books!' v-model="query" />
             </div>
 
             <div id="info-container">
@@ -123,7 +123,7 @@
 </template>
 
 <script lang="ts">
-import Autocomplete from "@control/autocomplete/autocomplete.vue";
+import Search from "@control/search/search.vue";
 
 import { Api, Book, Person, Hold, Checkout, Activity } from "@lib/api";
 import { Theme } from "@lib/ui";

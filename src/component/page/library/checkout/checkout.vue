@@ -68,7 +68,7 @@
                 <div class="control-grid">
                     <div class="control-grid-row">
                         <label>User:&ensp;</label>
-                        <rl-autocomplete v-model="username" placeholder="Check out to..." :select-mode="true" :items-source="userCandidates" :item-template-selector="userTemplateSelector"
+                        <rl-search v-model="username" placeholder="Check out to..." :select-mode="true" :items-source="userCandidates" :item-template-selector="userTemplateSelector"
                         />
                     </div>
                 </div>
