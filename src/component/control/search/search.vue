@@ -4,7 +4,7 @@
         <div class="search-suggestions-container">
             <div>
                 <ul class="search-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
-                    <li :is="itemTemplateSelector()" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)" :description="itemDescriptionSelector(item)"
+                    <li :is="itemTemplateSelector(item)" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)" :description="itemDescriptionSelector(item)"
                         :tabindex="index" :key="index">
                     </li>
                 </ul>
@@ -18,7 +18,7 @@ import { Api, Book, Person, Hold, Checkout, Activity } from "@lib/api";
 import * as vue from "av-ts";
 import Vue from "vue";
 
-const BooksearchItem = require("./book-search-item.vue").default;
+const BookSearchItem = require("./book-search-item.vue").default;
 
 @vue.Component({ model: { prop: "query", event: "querychanged" } })
 export default class search extends Vue {
@@ -68,7 +68,7 @@ export default class search extends Vue {
     public onBlur(evt: FocusEvent) {
         this.focused = false;
     }
-    
+
     public scrollTo() {
         const elem = this.$refs.input as Element;
 
@@ -76,7 +76,7 @@ export default class search extends Vue {
     }
 
     private selectTemplate(item: any) {
-        return BooksearchItem;
+        return BookSearchItem;
     }
 
     private selectLabel(item: any) {
@@ -90,9 +90,5 @@ export default class search extends Vue {
 </script>
 
 <style lang="scss" src="./search.scss">
-
-
-
-
 
 </style>

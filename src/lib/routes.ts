@@ -35,18 +35,6 @@ const router = new VueRouter({
                         import(/* webpackChunkName: "admin" */ "@page/admin/users/user.vue")
                 },
                 {
-                    path: "books",
-                    meta: { permissions: ["admin"] },
-                    component: () =>
-                        import(/* webpackChunkName: "admin" */ "@page/admin/books/books.vue")
-                },
-                {
-                    path: "book/:isbn",
-                    meta: { permissions: ["admin"] },
-                    component: () =>
-                        import(/* webpackChunkName: "admin" */ "@page/admin/books/book.vue")
-                },
-                {
                     path: "reports/checkouts",
                     meta: { permissions: ["admin"] },
                     component: () =>

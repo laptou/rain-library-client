@@ -1,7 +1,7 @@
 <template>
     <rl-page-layout :page="this">
         <template slot="header">
-            <h1>
+            <h1 v-if="person">
                 {{ person.name | name }}
             </h1>
         </template>

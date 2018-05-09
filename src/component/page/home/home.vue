@@ -23,7 +23,8 @@
         <div id="content-container">
 
             <div id="search-container">
-                <rl-search :items-source="results" placeholder='search for books!' v-model="query" />
+                <rl-search :items-source="results" :item-template-selector="itemTemplateSelector" placeholder='search for books!' v-model="query"
+                />
             </div>
 
             <div id="info-container">
@@ -135,7 +136,7 @@ export declare type NextFunc = ((vm: Vue) => void) | (() => void);
 
 @vue.Component
 export default class HomePage extends Vue {
-    public results: Book[] = [];
+    public results: (Book | Person)[] = [];
     public activities: Activity[] = [];
     public query: string = "";
 
@@ -158,6 +159,15 @@ export default class HomePage extends Vue {
             this.activities = await Api.People.currentActivities(this.user.id) || [];
     }
 
+    public itemTemplateSelector(item: Book | Person) {
+        if (item && "isbn" in item) {
+            // then this is a book
+            return require("@control/search/book-search-item.vue").default;
+        }
+
+        return require("@control/search/person-search-item.vue").default;
+    }
+
     @vue.Watch("user")
     public async onUserChanged(newVal: Person | null, oldVal: Person | null) {
         if (newVal) {
@@ -168,7 +178,7 @@ export default class HomePage extends Vue {
     @vue.Watch("query")
     public async onQueryChanged(newVal: string) {
         if (newVal) {
-            const suggestions: Book[] = [];
+            const suggestions: (Book | Person)[] = [];
 
             if (newVal.match(/[A-Za-z0-9\s]{24}/)) {
                 const id = newVal.replace(/[^A-Za-z0-9]+/g, "");
@@ -180,8 +190,13 @@ export default class HomePage extends Vue {
             }
 
             try {
-                const books = await Api.Books.search(newVal, 7);
+                const [books, people] = await Promise.all([
+                    Api.Books.search(newVal, 7),
+                    Api.People.search(newVal, 7)
+                ]);
+
                 if (books) suggestions.push(...books);
+                if (people) suggestions.push(...people);
             } catch {
                 // do nothing for now
             }
