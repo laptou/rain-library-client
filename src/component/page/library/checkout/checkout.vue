@@ -55,7 +55,11 @@
                     <table>
                         <tr>
                             <td>Placed by</td>
-                            <td>{{ hold.person.name | name }} ({{hold.person.username}})</td>
+                            <td>
+                                <router-link :to="`/person/${hold.person.id}`">
+                                    {{ hold.person.name | name }} (@{{ hold.person.username }})
+                                </router-link>
+                            </td>
                         </tr>
                         <tr>
                             <td>Placed</td>
