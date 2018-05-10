@@ -78,6 +78,11 @@ module.exports = {
                 test: /\.(png|svg|jpg|gif)$/,
                 loader: "file-loader",
                 options: { name: "[path][name].[ext]", publicPath: "/" }
+            },
+
+            {
+                test: /\.vue$/,
+                loader: "vue-loader"
             }
         ]
     },

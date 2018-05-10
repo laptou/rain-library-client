@@ -4,6 +4,14 @@ This repository contains the code for the client of this application. It runs on
 
 This application employs [Vue.js](http://vuejs.org) for displaying the interface and uses [Sass](https://sass-lang.com/) for styling.
 
+## How to Use This Application
+
+Everything important in this application can be accessed either through the hamburger menu in the top right or through the search bar on the home screen.
+
+To find a book or a person (author, librarian, student), simply start typing into the search box.
+
+To find reports of recent checkouts and fines, click the hamburger menu 
+
 ## An If-Then Sequence that saves the user time
 
 Here's an example from [`book-search-item.vue`](https://github.com/laptou/rain-library-client/blob/master/src/component/control/search/book-search-item.vue):

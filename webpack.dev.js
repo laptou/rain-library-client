@@ -23,22 +23,19 @@ module.exports = merge(common, {
         }),
         new WriteFilePlugin(), // force webpack-dev-server to use filesystem instead of mem system
     ],
-    module: {
-        rules: [
-            {
-                test: /\.scss$/,
-                loaders: [
-                    "vue-style-loader",
-                    "cache-loader",
-                    "css-loader",
-                    "resolve-url-loader",
-                    "sass-loader"
-                ]
-            },
-            {
-                test: /\.vue$/,
-                loader: "vue-loader"
-            }
-        ]
-    }
+    module:
+        {
+            rules: [
+                {
+                    test: /\.scss$/,
+                    loaders: [
+                        "vue-style-loader",
+                        "cache-loader",
+                        "css-loader",
+                        "resolve-url-loader",
+                        "sass-loader"
+                    ]
+                },
+            ]
+        }
 });

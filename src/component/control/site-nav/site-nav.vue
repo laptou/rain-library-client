@@ -25,13 +25,19 @@
                         Fines
                     </button>
                 </router-link>
-
-                <router-link to="/admin/users">
-                    <button class="btn-primary">
-                        Users
-                    </button>
-                </router-link>
             </rl-permission>
+
+            <a href="https://github.com/laptou/rain-library-client">
+                <button class="btn-secondary">
+                    Client Documentation
+                </button>
+            </a>
+
+            <a href="https://github.com/laptou/rain-library-server/">
+                <button class="btn-secondary">
+                    Server Documentation
+                </button>
+            </a>
 
             <li v-if="user">
                 <a href="javascript:void(0)" @click="$store.dispatch('auth/logout')">

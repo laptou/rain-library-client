@@ -11,13 +11,7 @@ const HappyPack = require("happypack");
 const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 
 module.exports = merge(common, {
-    // entry: ["vue", "lodash"],
     plugins: [
-        // extract the CSS
-        new ExtractTextPlugin({
-            filename: "[name].css",
-            allChunks: true
-        }),
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("production")
         }),
@@ -42,16 +36,14 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.scss$/,
-                use: ExtractTextWebpackPlugin.extract([
-                    { loader: "css-loader", options: { minimize: true } },
+                loaders: [
+                    "vue-style-loader",
+                    "cache-loader",
+                    "css-loader",
                     "resolve-url-loader",
                     "sass-loader"
-                ])
+                ]
             },
-            {
-                test: /\.vue$/,
-                loader: "happypack/loader"
-            }
         ]
     }
 });
