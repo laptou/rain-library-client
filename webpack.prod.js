@@ -34,6 +34,7 @@ module.exports = merge(common, {
             minRatio: 0.8
         })
     ],
+    mode: "production",
     module: {
         rules: [
             {

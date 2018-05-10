@@ -1,14 +1,9 @@
 <template>
-    <rl-page-layout v-if="book"
-                    :page="this">
+    <rl-page-layout v-if="book" :page="this">
         <template slot="header">
             <h1 class="title">{{ book.name }}</h1>
-            <rl-see-more class="subtitle"
-                         :inline="true">
-                <router-link tag="span"
-                             v-for="(author, index) in book.authors"
-                             :to="`/person/${author._id}`"
-                             :key="author._id">
+            <rl-see-more class="subtitle" :inline="true">
+                <router-link tag="span" v-for="(author, index) in book.authors" :to="`/person/${author._id}`" :key="author._id">
                     <a>{{ author.name | name }}</a>
                     <span v-if="index < book.authors.length - 1">,&#32;<wbr/></span>
                 </router-link>
@@ -19,10 +14,8 @@
                 <tr>
                     <td>{{ book.genre.length === 1 ? "Genre" : "Genres" }}</td>
                     <td class="text-secondary">
-                        <ul id="genres"
-                            class="flat-list">
-                            <li v-for="genre in book.genre"
-                                :key="genre">{{ genre }}</li>
+                        <ul id="genres" class="flat-list">
+                            <li v-for="genre in book.genre" :key="genre">{{ genre }}</li>
                         </ul>
                     </td>
                 </tr>
@@ -46,8 +39,7 @@
                     <td>IDs of Copies</td>
                     <td class="text-secondary">
                         <ul class="book-copy-list">
-                            <li :key="copy"
-                                v-for="copy in book.copies">
+                            <li :key="copy" v-for="copy in book.copies">
                                 <router-link :to="`/library/checkout/${copy}`">
                                     <span class="text">{{ copy | segment }}</span>
                                 </router-link>
@@ -63,7 +55,7 @@
 <script lang="ts">
 import { Api, Book, BookStatus, Status, Person } from "@lib/api";
 import { hasPermission } from "@lib/auth";
-import { Page } from "@page/page";
+import { Page, Button } from "@page/page";
 import * as vue from "av-ts";
 import Vue from "vue";
 
@@ -109,6 +101,8 @@ export default class BookPage extends Page {
     }
 
     private update() {
+
+
         // determine which buttons to show
         if (!this.user) {
             // not logged in? please log in
@@ -121,6 +115,15 @@ export default class BookPage extends Page {
             return;
         }
 
+        let holdButton: Button | null = null;
+        const editButton: Button =
+            {
+                name: "Edit",
+                type: "secondary",
+                action: () => this.$router.push(`/book/edit/${this.$route.params.isbn}`),
+                status: null
+            };
+
         if (this.status) {
             switch (this.status.status) {
                 case null:
@@ -129,41 +132,45 @@ export default class BookPage extends Page {
                     // show the button to place one
                     if (hasPermission(this.user, "place_hold")) {
                         // if they have sufficient permissions
-                        this.buttons = [{
+                        holdButton = {
                             name: "Place hold",
                             action: this.placeHold,
                             type: "primary",
                             status: null
-                        }];
-                        return;
+                        };
                     }
                     break;
                 case BookStatus.OnHold:
                     if (this.status.position === 0) {
-                        this.buttons = [{
+                        holdButton = {
                             name: "Ready for Pickup",
                             type: "fake",
                             status: null
-                        }];
-                        return;
+                        };
+                        break;
                     }
 
-                    this.buttons = [{
+                    holdButton = {
                         name: "Cancel hold",
                         action: this.cancelHold,
                         type: "danger",
                         status: null
-                    }];
-                    return;
+                    };
+                    break;
 
                 case BookStatus.Overdue:
-                    this.buttons = [{
+                    holdButton = {
                         name: "Overdue",
                         type: "danger",
                         status: null
-                    }];
-                    return;
+                    };
+                    break;
             }
+
+            const buttons = [];
+            if (holdButton) buttons.push(holdButton);
+            if (hasPermission(this.user, "modify_book")) buttons.push(editButton);
+            this.buttons = buttons;
         }
     }
 }

@@ -5,7 +5,6 @@ const config = require("./config");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
 
@@ -46,7 +45,6 @@ const plugins = [
         verbose: false,
         exclude: ["vendor-bundles"]
     }),
-    new HardSourceWebpackPlugin()
 ];
 
 module.exports = {

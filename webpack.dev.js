@@ -5,6 +5,7 @@ const webpack = require("webpack");
 const happypack = require("happypack");
 const CompressionPlugin = require("compression-webpack-plugin");
 const WriteFilePlugin = require("write-file-webpack-plugin");
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 
 module.exports = merge(common, {
     devtool: "eval-source-map",
@@ -14,6 +15,7 @@ module.exports = merge(common, {
     },
     // entry: ["webpack-hot-middleware/client"],
     plugins: [
+        new HardSourceWebpackPlugin(),
 
         new webpack.optimize.OccurrenceOrderPlugin(false),
         new webpack.NoEmitOnErrorsPlugin(),

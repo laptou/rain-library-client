@@ -155,7 +155,7 @@
         {
             border-radius: $round-small;
 
-            .search-item
+            & /deep/ .search-item
             {
                 flex-direction: row;
 
