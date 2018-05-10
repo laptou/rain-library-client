@@ -40,10 +40,6 @@ const router = new VueRouter({
             component: () => import(/* webpackChunkName: "library" */ "@page/person/edit.vue")
         },
         {
-            path: "/library/scanner",
-            component: () => import(/* webpackChunkName: "library" */ "@page/library/scanner/scanner.vue")
-        },
-        {
             path: "/library/checkout/:id",
             component: () => import(/* webpackChunkName: "library" */ "@page/library/checkout/checkout")
         },

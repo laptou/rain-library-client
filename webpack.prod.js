@@ -5,13 +5,15 @@ const join = require("path").join;
 
 const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HappyPack = require("happypack");
-
-const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = merge(common, {
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        }),
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("production")
         }),
@@ -37,8 +39,7 @@ module.exports = merge(common, {
             {
                 test: /\.scss$/,
                 loaders: [
-                    "vue-style-loader",
-                    "cache-loader",
+                    MiniCssExtractPlugin.loader,
                     "css-loader",
                     "resolve-url-loader",
                     "sass-loader"
