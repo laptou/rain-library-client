@@ -27,6 +27,10 @@ const router = new VueRouter({
             component: () => import(/* webpackChunkName: "info" */ "@page/book/book.vue")
         },
         {
+            path: "/book/edit/:isbn",
+            component: () => import(/* webpackChunkName: "info" */ "@page/book/edit.vue")
+        },
+        {
             path: "/person/:id",
             component: () => import(/* webpackChunkName: "info" */ "@page/person/person.vue")
         },

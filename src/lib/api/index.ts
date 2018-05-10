@@ -58,7 +58,7 @@ export namespace Api {
         }
         catch (err) {
             const res = (err as AxiosError).response;
-            if (res && res.status in [404]) // 404 is the only acceptable rejection so far
+            if (res && res.status in [404, 400, 401, 403]) // 404 is the only acceptable rejection so far
                 return null;
 
             throw err;
@@ -118,7 +118,21 @@ export namespace Api {
             return get<Book[]>(["book", "author", authorId]);
         }
 
-        export function byIsbn(isbn: string) {
+        export function byIsbn(isbn: string, book?: Book) {
+            if (book) {
+                // has to be processed to fit into the schema
+                const data = { ...book };
+
+                // convert objects to ids
+                for (let i = 0; i < data.authors.length; i++) {
+                    const author = data.authors[i];
+
+                    // cast here to avoid compiler errors
+                    if (typeof author !== "string") (data.authors as string[]).splice(i, 1, author._id);
+                }
+
+                return post<Book>(book, ["book", isbn]);
+            }
             return get<Book>(["book", isbn]);
         }
 

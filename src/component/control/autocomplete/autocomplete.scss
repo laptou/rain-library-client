@@ -39,7 +39,7 @@
             max-height: 30em;
         }
 
-        .autocomplete-item
+        & /deep/ .autocomplete-item
         {
             display: flex;
             align-content: center;

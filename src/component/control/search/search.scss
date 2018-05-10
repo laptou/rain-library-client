@@ -39,7 +39,7 @@
             max-height: 30em;
         }
 
-        .search-item
+        & /deep/ .search-item
         {
             display: flex;
             align-content: center;

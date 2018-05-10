@@ -4,8 +4,8 @@
         <div class="search-suggestions-container">
             <div>
                 <ul class="search-suggestions" :class="{ focused: focused && itemsSource.length > 0 }">
-                    <li :is="itemTemplateSelector(item)" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)" :description="itemDescriptionSelector(item)"
-                        :tabindex="index" :key="index">
+                    <li :is="itemTemplateSelector(item)" v-for="(item, index) in itemsSource" :content="item" :label="itemLabelSelector(item)"
+                        :description="itemDescriptionSelector(item)" :tabindex="index" :key="index">
                     </li>
                 </ul>
             </div>
@@ -89,6 +89,7 @@ export default class search extends Vue {
 }
 </script>
 
-<style lang="scss" src="./search.scss">
+<style lang="scss" src="./search.scss" scoped>
+
 
 </style>

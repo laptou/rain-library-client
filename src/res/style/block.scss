@@ -7,15 +7,14 @@ input[type="text"], input[type="search"], input[type="password"], input[type="nu
 {
     display: block;
 
-    padding: 0.5em;
-
     width: 100%;
+    padding: 0.5em;
 
     transition-duration: $transition-normal;
     transition-property: background-color;
 
     border: none;
-    border-bottom: $line;
+    border-bottom: $line-secondary;
     outline: none;
     background: transparent;
 
@@ -24,8 +23,7 @@ input[type="text"], input[type="search"], input[type="password"], input[type="nu
         transition-duration: $transition-normal;
         text-overflow: ellipsis;
 
-        opacity: 0.7;
-        color: currentColor;
+        color: rgba(20, 20, 20, 1);
     }
 
     &:focus
@@ -41,10 +39,22 @@ input[type="text"], input[type="search"], input[type="password"], input[type="nu
         }
     }
 
+    &:invalid
+    {
+        border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+
+        &:focus
+        {
+            border: none;
+            background-color: rgba(255, 155, 155, 0.5);
+        }
+    }
+
     &.inline
     {
         display: inline-block;
 
+        width: auto;
         margin: 3pt;
     }
 }

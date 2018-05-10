@@ -1,5 +1,5 @@
 <template>
-    <li>
+    <li @click="$emit('click', $event)" class="autocomplete-item">
         <span class="autocomplete-item-label">{{ label }}</span>
         <span class="autocomplete-item-desc">{{ description }}</span>
     </li>

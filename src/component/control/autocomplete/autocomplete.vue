@@ -73,9 +73,9 @@ export default class autocomplete extends Vue {
     }
 
     public onItemClick(evt: MouseEvent, item: any) {
-            evt.stopPropagation();
-            this.$emit("itemclicked", evt, item);
-            this.query = this.itemDescriptionSelector(item);
+        evt.stopPropagation();
+        this.query = this.itemDescriptionSelector(item);
+        this.$emit("itemclick", evt, item);
     }
 
     public scrollTo() {
@@ -98,10 +98,7 @@ export default class autocomplete extends Vue {
 }
 </script>
 
-<style lang="scss" src="./autocomplete.scss">
-
-
-
+<style lang="scss" src="./autocomplete.scss" scoped>
 
 
 </style>

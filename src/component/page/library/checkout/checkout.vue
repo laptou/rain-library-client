@@ -69,7 +69,7 @@
                     <div class="control-grid-row">
                         <label>User:&ensp;</label>
                         <rl-autocomplete v-model="username" placeholder="Check out to..." :items-source="userCandidates" :item-template-selector="userTemplateSelector"
-                        @itemclicked="onItemClicked"/>
+                            @itemclick="onItemClicked" />
                     </div>
                 </div>
                 <label>Due in:&ensp;<input class="inline" type="number" min="1" v-model.number="due" />&ensp;days</label><br/>
